@@ -774,14 +774,25 @@
         $('pMsg').textContent = d.msg || ''; $('pDate').textContent = ''; box.style.display = 'block';
       } else box.style.display = 'none';
     }
-    let hideT = null;
+    let hideT = null, activeNode = null, isOverPop = false;
+    function scheduleHide() {
+      clearTimeout(hideT);
+      hideT = setTimeout(() => {
+        if (!activeNode && !isOverPop) {
+          hoverKey = null;
+          pop.classList.remove('on');
+        }
+      }, 200);
+    }
     function bindNodes() {
       document.querySelectorAll('.node').forEach(node => {
         const key = node.dataset.key, d = nodeMetadata[key];
         if (!d) return;
         node.classList.add('has-pop'); node.setAttribute('tabindex', '0');
         const show = () => {
-          clearTimeout(hideT); hoverKey = key;
+          activeNode = node;
+          clearTimeout(hideT);
+          hoverKey = key;
           $('pTitle').textContent = d.title; $('pOwner').textContent = 'Sorumlu: ' + d.owner; $('pRole').textContent = d.role;
           const sb = $('pStatusBox');
           if (d.status_note) { sb.textContent = d.status_note; sb.style.display = 'block'; } else sb.style.display = 'none';
@@ -795,18 +806,24 @@
           if (top + 320 > innerHeight) top = Math.max(10, r.top - 310);
           pop.style.top = top + 'px'; pop.style.left = left + 'px'; pop.classList.add('on');
         };
-        const hide = () => { hoverKey = null; hideT = setTimeout(() => pop.classList.remove('on'), 250); };
+        const hide = () => {
+          if (activeNode === node) activeNode = null;
+          scheduleHide();
+        };
         node.addEventListener('mouseenter', show); node.addEventListener('focus', show);
         node.addEventListener('mouseleave', hide); node.addEventListener('blur', hide);
       });
     }
-    pop.addEventListener('mouseenter', () => clearTimeout(hideT));
-    pop.addEventListener('mouseleave', () => { hideT = setTimeout(() => pop.classList.remove('on'), 200) });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') pop.classList.remove('on') });
+    pop.addEventListener('mouseenter', () => { isOverPop = true; clearTimeout(hideT); });
+    pop.addEventListener('mouseleave', () => { isOverPop = false; scheduleHide(); });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        activeNode = null; isOverPop = false; clearTimeout(hideT); pop.classList.remove('on');
+      }
+    });
 
     (async () => {
       await loadData();
-      bindNodes();
       liveCommits();
       setInterval(tickTimes, 60000);
     })();
