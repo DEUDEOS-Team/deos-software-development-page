@@ -229,9 +229,31 @@
     }
     .popover-role {
       color: #c9d1d9;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       line-height: 1.45;
       font-size: 12.5px;
+    }
+    .popover-status-box {
+      background: rgba(56, 139, 253, 0.1);
+      border: 1px solid rgba(56, 139, 253, 0.28);
+      border-left: 3px solid var(--primary);
+      border-radius: 6px;
+      padding: 7px 10px;
+      margin-bottom: 12px;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+    .popover-status-label {
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 3px;
+    }
+    .popover-status-text {
+      color: #f0f6fc;
+      font-weight: 500;
     }
     .popover-commit {
       background: rgba(13, 17, 23, 0.78);
@@ -660,6 +682,10 @@ graph TD
       <div id="popOwner" class="popover-owner-badge">Sorumlu: İsim</div>
     </div>
     <div id="popRole" class="popover-role">Açıklama</div>
+    <div id="popStatusContainer" class="popover-status-box" style="display:none;">
+      <div class="popover-status-label">Mevcut Durum</div>
+      <div id="popStatus" class="popover-status-text"></div>
+    </div>
     <div class="popover-commit">
       <div class="popover-commit-meta">
         <div><span id="popCommitHash" class="popover-commit-hash">#---</span></div>
@@ -735,6 +761,7 @@ graph TD
             owner: comp.owner,
             role_type: comp.role_type,
             role: comp.role,
+            status_note: comp.status_note || "",
             repo: comp.repo,
             path: comp.path,
             url: url,
@@ -758,6 +785,10 @@ graph TD
       tbody.innerHTML = components.map(comp => {
         const item = nodeMetadata[comp.id] || comp;
         const link = item.url ? `<a href="${item.url}" target="_blank">${item.title}</a>` : item.title;
+        const statusBadge = item.status_note ? `
+          <div style="margin-top:6px; font-size:12px; line-height:1.4; color:#79c0ff; background:rgba(56,139,253,0.1); border-left:2px solid #388bfd; padding:4px 8px; border-radius:4px;">
+            <strong style="color:#58a6ff;">Mevcut Durum:</strong> ${item.status_note}
+          </div>` : "";
         return `
           <tr>
             <td>${link}</td>
@@ -767,7 +798,10 @@ graph TD
               <span class="badge" style="color:var(--primary); font-weight:700;">#${item.hash}</span>
               <div style="color:#8b949e; font-size:12px; margin-top:2px;">${item.msg}</div>
             </td>
-            <td>${item.role}</td>
+            <td>
+              <div>${item.role}</div>
+              ${statusBadge}
+            </td>
           </tr>
         `;
       }).join("");
@@ -829,6 +863,8 @@ graph TD
       const popTitle = document.getElementById("popTitle");
       const popOwner = document.getElementById("popOwner");
       const popRole = document.getElementById("popRole");
+      const popStatusContainer = document.getElementById("popStatusContainer");
+      const popStatus = document.getElementById("popStatus");
       const popCommitHash = document.getElementById("popCommitHash");
       const popCommitAuthor = document.getElementById("popCommitAuthor");
       const popCommitMsg = document.getElementById("popCommitMsg");
@@ -877,6 +913,14 @@ graph TD
             popTitle.textContent = data.title;
             popOwner.textContent = "Sorumlu: " + data.owner;
             popRole.textContent = data.role;
+
+            if (data.status_note) {
+              popStatus.textContent = data.status_note;
+              popStatusContainer.style.display = "block";
+            } else {
+              popStatusContainer.style.display = "none";
+            }
+
             if (data.hash && !data.hash.includes(" ") && data.hash !== "ROS 2" && data.hash !== "—") {
               popCommitHash.textContent = "#" + data.hash;
             } else {
@@ -906,8 +950,8 @@ graph TD
 
             if (left < 10) left = 10;
             if (left + 380 > window.innerWidth) left = window.innerWidth - 390;
-            if (top + 260 > window.innerHeight) {
-              top = rect.top - 250;
+            if (top + 320 > window.innerHeight) {
+              top = Math.max(10, rect.top - 310);
             }
 
             popover.style.top = top + "px";
