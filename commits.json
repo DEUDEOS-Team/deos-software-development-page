@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-17T18:15:08.340361+00:00",
+  "generated_at": "2026-10-17T18:51:27.133336+00:00",
   "commits": {
     "FW": {
       "hash": "b7d90ae",
@@ -50,10 +50,16 @@
       "date": "2026-10-14T16:36:04Z"
     },
     "PORTAL": {
-      "hash": "dd0892c",
-      "author": "github-actions[bot]",
-      "msg": "chore(data): auto-update ecosystem commits.json [skip ci]",
-      "date": "2026-10-17T18:14:44Z"
+      "hash": "34b7089",
+      "author": "emirarkali",
+      "msg": "claude design",
+      "date": "2026-10-17T18:30:42Z"
+    },
+    "RPI": {
+      "hash": "54c78b0",
+      "author": "BurakSahin00",
+      "msg": "README Added",
+      "date": "2026-07-14T22:27:59Z"
     },
     "MAIN": {
       "hash": "49aa9d5",

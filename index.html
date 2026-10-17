@@ -579,7 +579,7 @@
       { id: 'BT', x: 250, y: 190, w: 170, h: 56, t: 'Bluetooth modülü', s: 'UART', k: 'rf' },
       { id: 'MAIN', x: 500, y: 100, w: 190, h: 130, t: 'Main STM32', s: 'Router · Nucleo-H563ZI', k: 'mcu' },
       { id: 'ROS', x: 500, y: 10, w: 190, h: 56, t: 'deos-ros2-bridge', s: 'Köprü', k: 'host' },
-      { id: 'RPI', x: 790, y: 10, w: 190, h: 56, t: 'Raspberry Pi', s: 'ROS 2 Humble', k: 'host' },
+      { id: 'RPI', x: 790, y: 10, w: 190, h: 56, t: 'Raspberry Pi', s: '', k: 'host' },
       { id: 'TRACTION', x: 40, y: 360, w: 210, h: 56, t: 'Traction', s: 'Motor / invertör', k: 'can' },
       { id: 'BRAKE', x: 270, y: 360, w: 210, h: 56, t: 'Brake', s: 'Fren', k: 'can' },
       { id: 'STEERING', x: 500, y: 360, w: 210, h: 56, t: 'Steering', s: 'Direksiyon', k: 'can' },
@@ -694,6 +694,15 @@
       }
       const comps = (await rr.value.json()).components || [];
       comps.forEach(c => {
+        // Şema kutucuklarının alt metin ve başlıklarını responsibilities.json üzerinden dinamik olarak güncelle:
+        [N1, N2].forEach(nodes => {
+          nodes.filter(n => n.id === c.id).forEach(n => {
+            if (c.subtitle !== undefined) n.s = c.subtitle;
+            else if (c.diagram_sub !== undefined) n.s = c.diagram_sub;
+            if (c.short_title !== undefined) n.t = c.short_title;
+          });
+        });
+
         let hash = '—', author = '', date = '', msg = c.role || '';
         if (cm[c.id]) { const x = cm[c.id]; hash = x.hash || '—'; author = x.author || ''; date = x.date || ''; msg = x.msg || c.role || ''; }
         else {
@@ -709,6 +718,10 @@
         }
         nodeMetadata[c.id] = { id: c.id, title: c.title, owner: c.owner, role_type: c.role_type, role: c.role, status_note: c.status_note || '', repo: c.repo, path: c.path, url, api, hash, author, date, msg };
       });
+      render('d1', N1, E1);
+      render('d2', N2, E2);
+      document.querySelectorAll('#d1 .edge').forEach(p => p.removeAttribute('marker-start'));
+      bindNodes();
       renderTable(comps);
     }
     function commitCell(i) {

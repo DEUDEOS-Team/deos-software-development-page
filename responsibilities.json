@@ -96,9 +96,10 @@
     {
       "id": "RPI",
       "title": "Raspberry Pi (ROS 2)",
+      "subtitle": "ROS 2 Humble",
       "role_type": "Otonomi Bilgisayarı",
       "owner": "Arda Efe Yılmaz",
-      "repo": null,
+      "repo": "DEUDEOS-Team/DEOS_MimariDev",
       "path": null,
       "role": "Otonom sürüş algoritmaları, sensör füzyonu ve ROS 2 paketleri.",
       "status_note": "Otonom sürüş ve algılama algoritmaları geliştirme aşamasında."
