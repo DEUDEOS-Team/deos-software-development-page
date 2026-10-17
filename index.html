@@ -728,6 +728,20 @@ graph TD
     // Düğüm Veri Sözlüğü: responsibilities.json dosyasından dinamik olarak inşa edilir
     const nodeMetadata = {};
 
+    function getCommitCache(key) {
+      try {
+        const raw = sessionStorage.getItem("deos_commit_" + key);
+        return raw ? JSON.parse(raw) : null;
+      } catch(e) { return null; }
+    }
+    function setCommitCache(key, val) {
+      try {
+        sessionStorage.setItem("deos_commit_" + key, JSON.stringify(val));
+      } catch(e) {}
+    }
+
+    let currentHoveredKey = null;
+
     async function loadResponsibilities() {
       try {
         const res = await fetch("responsibilities.json");
@@ -743,9 +757,21 @@ graph TD
           let date = "";
           let msg = comp.role || "";
 
-          if (comp.repo) {
+          const cached = getCommitCache(comp.id);
+          if (cached) {
+            hash = cached.hash;
+            author = cached.author;
+            date = cached.date;
+            msg = cached.msg;
+          } else if (comp.repo) {
             hash = "main";
-            msg = "Aktif Dal";
+            msg = "Canlı commit verisi çekiliyor...";
+          } else {
+            hash = comp.id === "GAMEPAD" || comp.id === "RPI" ? "Donanım" : "Bağlı repo yok";
+            msg = comp.role || "";
+          }
+
+          if (comp.repo) {
             if (comp.path) {
               url = `https://github.com/${comp.repo}/tree/main/${comp.path}`;
               apiEndpoint = `https://api.github.com/repos/${comp.repo}/commits?path=${comp.path}&per_page=1`;
@@ -753,11 +779,7 @@ graph TD
               url = `https://github.com/${comp.repo}`;
               apiEndpoint = `https://api.github.com/repos/${comp.repo}/commits?per_page=1`;
             }
-          } else {
-            hash = comp.id === "GAMEPAD" || comp.id === "RPI" ? "Donanım" : "Bağlı repo yok";
-            msg = comp.role || "";
           }
-
 
           nodeMetadata[comp.id] = {
             id: comp.id,
@@ -835,11 +857,12 @@ graph TD
             const msg = (c.commit?.message || "").split("\n")[0];
             const date = c.commit?.author?.date ? new Date(c.commit.author.date).toLocaleDateString("tr-TR") : "";
 
-            // Bellekteki veriyi güncelle
+            // Bellekteki ve oturumdaki veriyi güncelle
             item.hash = hash;
             item.author = author;
             item.msg = msg;
             item.date = date;
+            setCommitCache(key, { hash, author, msg, date });
 
             // Tablodaki ilgili hücreyi canlı güncelle
             const cell = document.getElementById(`commit-${key}`);
@@ -854,6 +877,21 @@ graph TD
                   ${msg}
                 </div>
               `;
+            }
+
+            // Eğer popover o an bu düğümün üzerinde açıksa onu da anında canlı güncelle!
+            if (currentHoveredKey === key) {
+              const popCommitContainer = document.getElementById("popCommitContainer");
+              const popCommitHash = document.getElementById("popCommitHash");
+              const popCommitAuthor = document.getElementById("popCommitAuthor");
+              const popCommitMsg = document.getElementById("popCommitMsg");
+              const popCommitDate = document.getElementById("popCommitDate");
+
+              if (popCommitHash) popCommitHash.textContent = "#" + hash;
+              if (popCommitAuthor) popCommitAuthor.textContent = `Son commit: ${author}`;
+              if (popCommitMsg) popCommitMsg.textContent = msg;
+              if (popCommitDate) popCommitDate.textContent = `Tarih: ${date}`;
+              if (popCommitContainer) popCommitContainer.style.display = "block";
             }
           }
         } catch (e) {
@@ -922,6 +960,7 @@ graph TD
 
           node.addEventListener("mouseenter", function(e) {
             clearTimeout(hideTimeout);
+            currentHoveredKey = key;
             popTitle.textContent = data.title;
             popOwner.textContent = "Sorumlu: " + data.owner;
             popRole.textContent = data.role;
@@ -938,6 +977,12 @@ graph TD
               popCommitAuthor.textContent = `Son commit: ${data.author}`;
               popCommitMsg.textContent = data.msg;
               popCommitDate.textContent = data.date ? `Tarih: ${data.date}` : "";
+              if (popCommitContainer) popCommitContainer.style.display = "block";
+            } else if (data.repo) {
+              popCommitHash.textContent = "#" + (data.hash || "main");
+              popCommitAuthor.textContent = "GitHub canlı sorgu...";
+              popCommitMsg.textContent = data.msg || "Canlı commit verisi çekiliyor...";
+              popCommitDate.textContent = "";
               if (popCommitContainer) popCommitContainer.style.display = "block";
             } else {
               if (popCommitContainer) popCommitContainer.style.display = "none";
@@ -973,6 +1018,7 @@ graph TD
           });
 
           node.addEventListener("mouseleave", function() {
+            currentHoveredKey = null;
             hideTimeout = setTimeout(() => {
               popover.classList.remove("active");
             }, 300);
