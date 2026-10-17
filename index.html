@@ -64,6 +64,60 @@
       font-size: 0.85rem;
       color: var(--text-muted);
     }
+    .header-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      background: rgba(35, 134, 54, 0.15);
+      border: 1px solid rgba(46, 160, 67, 0.4);
+      color: #3fb950;
+      font-size: 0.8rem;
+      font-weight: 500;
+      font-family: 'JetBrains Mono', monospace;
+      transition: all 0.2s ease;
+    }
+    .header-status-pill:hover {
+      background: rgba(35, 134, 54, 0.25);
+      border-color: rgba(46, 160, 67, 0.7);
+    }
+    .header-status-pill .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #3fb950;
+      box-shadow: 0 0 0 0 rgba(63, 185, 80, 0.7);
+      animation: pulse-green 2s infinite;
+      flex-shrink: 0;
+    }
+    @keyframes pulse-green {
+      0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(63, 185, 80, 0.7);
+      }
+      70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 6px rgba(63, 185, 80, 0);
+      }
+      100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(63, 185, 80, 0);
+      }
+    }
+    .commit-time-tag {
+      color: #8b949e;
+      font-size: 11px;
+      cursor: help;
+      display: inline-flex;
+      align-items: center;
+      transition: color 0.15s ease;
+    }
+    .commit-time-tag:hover {
+      color: #58a6ff;
+      text-decoration: underline dotted;
+    }
     .header-links {
       display: flex;
       gap: 10px;
@@ -382,6 +436,10 @@
       <div class="header-title">
         <h1>DEUDEOS Sistem ve Ağ Mimarisi</h1>
         <p>DEOS Firmware, Git Alt Modülleri ve Araç İçi Donanım Topolojisi</p>
+        <div id="latestEcosystemCommit" class="header-status-pill" style="display:none;" title="Ekosistemdeki en son commit aktivitesi">
+          <span class="pulse-dot"></span>
+          <span id="latestCommitText">Son commit kontrol ediliyor...</span>
+        </div>
       </div>
       <div class="header-links">
         <a href="https://github.com/DEUDEOS-Team/deos-ground-station" target="_blank" class="btn">
@@ -728,6 +786,113 @@ graph TD
     // Düğüm Veri Sözlüğü: responsibilities.json dosyasından dinamik olarak inşa edilir
     const nodeMetadata = {};
 
+    function parseDate(dateInput) {
+      if (!dateInput) return null;
+      if (dateInput instanceof Date) return isNaN(dateInput.getTime()) ? null : dateInput;
+      if (typeof dateInput === "string") {
+        const trimmed = dateInput.trim();
+        if (!trimmed) return null;
+        if (/^\d{2}\.\d{2}\.\d{4}$/.test(trimmed)) {
+          const p = trimmed.split(".");
+          return new Date(parseInt(p[2], 10), parseInt(p[1], 10) - 1, parseInt(p[0], 10));
+        }
+        const d = new Date(trimmed);
+        return isNaN(d.getTime()) ? null : d;
+      }
+      return null;
+    }
+
+    function getRelativeTimeString(dateInput) {
+      const d = parseDate(dateInput);
+      if (!d) return dateInput || "";
+
+      const now = new Date();
+      const diffMs = now.getTime() - d.getTime();
+      const diffSec = Math.floor(diffMs / 1000);
+
+      if (diffSec < 45) return "az önce";
+      const diffMin = Math.floor(diffSec / 60);
+      if (diffMin < 60) return `${diffMin} dk önce`;
+      const diffHour = Math.floor(diffMin / 60);
+      if (diffHour < 24) return `${diffHour} sa önce`;
+      const diffDay = Math.floor(diffHour / 24);
+      if (diffDay === 1) return "dün";
+      if (diffDay < 30) return `${diffDay} gün önce`;
+      const diffMonth = Math.floor(diffDay / 30);
+      if (diffMonth < 12) return `${diffMonth} ay önce`;
+      const diffYear = Math.floor(diffDay / 365);
+      return `${diffYear} yıl önce`;
+    }
+
+    function getFullDateTimeString(dateInput) {
+      const d = parseDate(dateInput);
+      if (!d) return dateInput || "";
+      return d.toLocaleString("tr-TR", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+    }
+
+    function getTimeString(dateInput) {
+      const d = parseDate(dateInput);
+      if (!d) return "";
+      if (typeof dateInput === "string" && !dateInput.includes("T") && !dateInput.includes(":") && !dateInput.includes("Z")) {
+        return "";
+      }
+      return d.toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" });
+    }
+
+    function renderCommitTimeHtml(dateStr) {
+      if (!dateStr) return "";
+      const rel = getRelativeTimeString(dateStr);
+      const time = getTimeString(dateStr);
+      const full = getFullDateTimeString(dateStr);
+      const display = time ? `• ${rel} (${time})` : `• ${rel}`;
+      return `<span class="commit-time-tag" data-date="${dateStr}" title="Son commit tarihi: ${full}">${display}</span>`;
+    }
+
+    function updateAllRelativeTimestamps() {
+      document.querySelectorAll(".commit-time-tag").forEach(el => {
+        const raw = el.getAttribute("data-date");
+        if (raw) {
+          const rel = getRelativeTimeString(raw);
+          const time = getTimeString(raw);
+          el.textContent = time ? `• ${rel} (${time})` : `• ${rel}`;
+        }
+      });
+      updateLatestCommitBanner();
+    }
+
+    function updateLatestCommitBanner() {
+      const bannerEl = document.getElementById("latestEcosystemCommit");
+      const textEl = document.getElementById("latestCommitText");
+      if (!bannerEl || !textEl) return;
+
+      let latestItem = null;
+      let latestTime = 0;
+
+      Object.values(nodeMetadata).forEach(item => {
+        if (!item.date || !item.hash || item.hash === "—" || item.hash === "Bağlı repo yok") return;
+        const d = parseDate(item.date);
+        if (d && d.getTime() > latestTime) {
+          latestTime = d.getTime();
+          latestItem = item;
+        }
+      });
+
+      if (latestItem) {
+        const rel = getRelativeTimeString(latestItem.date);
+        const time = getTimeString(latestItem.date);
+        const full = getFullDateTimeString(latestItem.date);
+        bannerEl.title = `Son commit: ${latestItem.title} - ${latestItem.msg} (${full})`;
+        textEl.innerHTML = `Son Commit: <strong>${rel}${time ? ` (${time})` : ''}</strong> &nbsp;·&nbsp; <span style="opacity:0.85;">${latestItem.title} (#${latestItem.hash} - ${latestItem.author})</span>`;
+        bannerEl.style.display = "inline-flex";
+      }
+    }
+
     function getCommitCache(key) {
       try {
         const raw = sessionStorage.getItem("deos_commit_" + key);
@@ -843,7 +1008,7 @@ graph TD
           <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-bottom:3px;">
             <span class="badge" style="color:var(--primary); font-weight:700;">#${item.hash}</span>
             ${item.author ? `<span style="color:#58a6ff; font-weight:600; font-size:12px;">${item.author}</span>` : ''}
-            ${item.date ? `<span style="color:#8b949e; font-size:11px;">(${item.date})</span>` : ''}
+            ${renderCommitTimeHtml(item.date)}
           </div>` : `
           <span class="badge" style="color:var(--primary); font-weight:700;">#${item.hash}</span>`;
         return `
@@ -862,6 +1027,7 @@ graph TD
           </tr>
         `;
       }).join("");
+      updateLatestCommitBanner();
     }
 
     // GitHub API ile Stale-While-Revalidate Canlı Doğrulama
@@ -880,9 +1046,9 @@ graph TD
             const hash = c.sha.substring(0, 7);
             const author = c.commit?.author?.name || c.author?.login || "Bilinmiyor";
             const msg = (c.commit?.message || "").split("\n")[0];
-            const date = c.commit?.author?.date ? new Date(c.commit.author.date).toLocaleDateString("tr-TR") : "";
+            const date = c.commit?.author?.date || "";
 
-            const isUpdated = item.hash !== hash || item.msg !== msg;
+            const isUpdated = item.hash !== hash || item.msg !== msg || item.date !== date;
             item.hash = hash;
             item.author = author;
             item.msg = msg;
@@ -897,7 +1063,7 @@ graph TD
                   <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
                     <span class="badge" style="color:var(--primary); font-weight:700;">#${hash}</span>
                     <span style="color:#58a6ff; font-weight:600; font-size:12px;">${author}</span>
-                    <span style="color:#8b949e; font-size:11px;">(${date})</span>
+                    ${renderCommitTimeHtml(date)}
                   </div>
                   <div style="color:#8b949e; font-size:12px; margin-top:2px; max-width:340px; white-space:normal; line-height:1.35;" title="${msg}">
                     ${msg}
@@ -915,9 +1081,12 @@ graph TD
                 if (popCommitHash) popCommitHash.textContent = "#" + hash;
                 if (popCommitAuthor) popCommitAuthor.textContent = `Son commit: ${author}`;
                 if (popCommitMsg) popCommitMsg.textContent = msg;
-                if (popCommitDate) popCommitDate.textContent = `Tarih: ${date}`;
+                if (popCommitDate) {
+                  popCommitDate.innerHTML = date ? `🕒 <strong>${getRelativeTimeString(date)}</strong> (${getFullDateTimeString(date)})` : "";
+                }
                 if (popCommitContainer) popCommitContainer.style.display = "block";
               }
+              updateLatestCommitBanner();
             }
           }
         } catch (e) {
@@ -933,6 +1102,9 @@ graph TD
 
       // 2. Dinamik commitleri GitHub'dan çek
       fetchLiveCommits();
+
+      // 3. Göreceli zaman damgalarını her 60 saniyede bir canlı güncelle (örn. "30 dk önce" -> "31 dk önce")
+      setInterval(updateAllRelativeTimestamps, 60000);
 
       const popover = document.getElementById("nodePopover");
       const popTitle = document.getElementById("popTitle");
@@ -1002,7 +1174,11 @@ graph TD
               popCommitHash.textContent = "#" + data.hash;
               popCommitAuthor.textContent = `Son commit: ${data.author}`;
               popCommitMsg.textContent = data.msg;
-              popCommitDate.textContent = data.date ? `Tarih: ${data.date}` : "";
+              if (data.date) {
+                popCommitDate.innerHTML = `🕒 <strong>${getRelativeTimeString(data.date)}</strong> (${getFullDateTimeString(data.date)})`;
+              } else {
+                popCommitDate.textContent = "";
+              }
               if (popCommitContainer) popCommitContainer.style.display = "block";
             } else if (data.repo) {
               popCommitHash.textContent = "#" + (data.hash || "main");

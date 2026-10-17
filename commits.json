@@ -1,101 +1,101 @@
 {
-  "generated_at": "2026-10-17T17:50:22.522876+00:00",
+  "generated_at": "2026-10-17T18:06:12.007822+00:00",
   "commits": {
     "FW": {
       "hash": "b7d90ae",
       "author": "emirarkali",
       "msg": "Revert \"feat: embed latest_commit data into responsibilities.json to avoid client-side API rate limits\"",
-      "date": "17.10.2026"
+      "date": "2026-10-17T17:33:22Z"
     },
     "CORE": {
       "hash": "a40b4d2",
       "author": "emirarkali",
       "msg": "Merge branch 'feature/protocol-decoupling' into main",
-      "date": "17.10.2026"
+      "date": "2026-10-17T17:12:00Z"
     },
     "PROTO": {
       "hash": "fc3ac4e",
       "author": "emirarkali",
       "msg": "chore: add .gitignore for python cache and build artifacts",
-      "date": "17.10.2026"
+      "date": "2026-10-17T12:01:20Z"
     },
     "CAN": {
       "hash": "56ef31e",
       "author": "emirarkali",
       "msg": "docs: move 29-bit CAN ID spec from deos_core to deos_transport_can and keep core media-agnostic",
-      "date": "16.10.2026"
+      "date": "2026-10-16T22:51:58Z"
     },
     "DOCS": {
       "hash": "590f922",
       "author": "emirarkali",
       "msg": "docs(icd): synchronize hardware types with deos_types.h",
-      "date": "16.10.2026"
+      "date": "2026-10-16T23:27:27Z"
     },
     "GCS": {
       "hash": "3f62e91",
       "author": "Alper Bora",
       "msg": "fix(web-ui): mount static files as volume and add cache busting",
-      "date": "15.10.2026"
+      "date": "2026-10-15T17:37:02Z"
     },
     "ROS": {
       "hash": "861f608",
       "author": "SepiJzadeh",
       "msg": "docs: add comprehensive README, gitignore, and benchmark suite",
-      "date": "14.10.2026"
+      "date": "2026-10-14T16:36:04Z"
     },
     "BRIDGE": {
       "hash": "861f608",
       "author": "SepiJzadeh",
       "msg": "docs: add comprehensive README, gitignore, and benchmark suite",
-      "date": "14.10.2026"
+      "date": "2026-10-14T16:36:04Z"
     },
     "PORTAL": {
-      "hash": "2a35447",
+      "hash": "3abc36e",
       "author": "emirarkali",
-      "msg": "feat: implement GitHub Actions commit updater workflow and commits.json caching",
-      "date": "17.10.2026"
+      "msg": "feat(ui): implement stale-while-revalidate for real-time commit freshness and 15-min cron",
+      "date": "2026-10-17T17:59:36Z"
     },
     "MAIN": {
       "hash": "49aa9d5",
       "author": "emirarkali",
       "msg": "refactor(protocol): rename deos_dispatcher to deos_registry for clearer separation of concerns",
-      "date": "17.10.2026"
+      "date": "2026-10-17T00:25:17Z"
     },
     "LORA": {
       "hash": "91f235a",
       "author": "emirarkali",
       "msg": "feat(fault): expand fault registry into specific subsystem categories (Router, CAN, LoRa, Ethernet, Dispatcher) with human-readable string mapping",
-      "date": "16.10.2026"
+      "date": "2026-10-16T22:20:45Z"
     },
     "CAN_BUS": {
       "hash": "56ef31e",
       "author": "emirarkali",
       "msg": "docs: move 29-bit CAN ID spec from deos_core to deos_transport_can and keep core media-agnostic",
-      "date": "16.10.2026"
+      "date": "2026-10-16T22:51:58Z"
     },
     "TRACTION": {
       "hash": "ba2df01",
       "author": "emirarkali",
       "msg": "feat(protocol): decouple portable deos_protocol layer with standalone dispatcher",
-      "date": "17.10.2026"
+      "date": "2026-10-17T00:06:10Z"
     },
     "BRAKE": {
       "hash": "1fed144",
       "author": "emirarkali",
       "msg": "refactor: apply standardized overlay architecture to all apps",
-      "date": "07.10.2026"
+      "date": "2026-10-07T12:18:59Z"
     },
     "STEERING": {
       "hash": "1fed144",
       "author": "emirarkali",
       "msg": "refactor: apply standardized overlay architecture to all apps",
-      "date": "07.10.2026"
+      "date": "2026-10-07T12:18:59Z"
     },
     "BMS_GW": {
       "hash": "ba2df01",
       "author": "emirarkali",
       "msg": "feat(protocol): decouple portable deos_protocol layer with standalone dispatcher",
-      "date": "17.10.2026"
+      "date": "2026-10-17T00:06:10Z"
     }
   }
 }

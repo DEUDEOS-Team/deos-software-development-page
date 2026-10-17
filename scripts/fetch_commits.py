@@ -46,18 +46,14 @@ for comp in resp_data.get("components", []):
                 author = (c.get("commit", {}).get("author", {}) or {}).get("name") or (c.get("author", {}) or {}).get("login") or "Bilinmiyor"
                 msg = (c.get("commit", {}).get("message") or "").split("\n")[0]
                 raw_date = (c.get("commit", {}).get("author", {}) or {}).get("date")
-                date_str = ""
-                if raw_date:
-                    dt = datetime.datetime.fromisoformat(raw_date.replace("Z", "+00:00"))
-                    date_str = dt.strftime("%d.%m.%Y")
                 
                 commits_map[comp_id] = {
                     "hash": sha,
                     "author": author,
                     "msg": msg,
-                    "date": date_str
+                    "date": raw_date or ""
                 }
-                print(f"[{comp_id}] {sha} ({author}): {msg}")
+                print(f"[{comp_id}] {sha} ({author}): {msg} @ {raw_date}")
     except Exception as e:
         print(f"[{comp_id}] Error fetching commit: {e}")
 
