@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-17T19:03:48.483697+00:00",
+  "generated_at": "2026-10-17T19:23:37.764166+00:00",
   "commits": {
     "FW": {
       "hash": "b7d90ae",
@@ -50,10 +50,10 @@
       "date": "2026-10-14T16:36:04Z"
     },
     "PORTAL": {
-      "hash": "d598734",
+      "hash": "e222f8a",
       "author": "emirarkali",
-      "msg": "feat(arch): drive all diagram box titles and subtitles dynamically from responsibilities.json",
-      "date": "2026-10-17T19:03:01Z"
+      "msg": "feat(arch): standardize schema with null fallbacks, bump to ROS 2 Jazzy, and add FTXUI node under RPI",
+      "date": "2026-10-17T19:23:13Z"
     },
     "RPI": {
       "hash": "54c78b0",
