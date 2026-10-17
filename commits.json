@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-17T18:51:27.133336+00:00",
+  "generated_at": "2026-10-17T18:51:54.014633+00:00",
   "commits": {
     "FW": {
       "hash": "b7d90ae",
@@ -50,10 +50,10 @@
       "date": "2026-10-14T16:36:04Z"
     },
     "PORTAL": {
-      "hash": "34b7089",
+      "hash": "231d312",
       "author": "emirarkali",
-      "msg": "claude design",
-      "date": "2026-10-17T18:30:42Z"
+      "msg": "feat(arch): make diagram node subtitles dynamic via responsibilities.json",
+      "date": "2026-10-17T18:51:38Z"
     },
     "RPI": {
       "hash": "54c78b0",
