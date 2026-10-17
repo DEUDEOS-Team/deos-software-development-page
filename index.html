@@ -744,9 +744,23 @@ graph TD
 
     async function loadResponsibilities() {
       try {
-        const res = await fetch("responsibilities.json");
-        if (!res.ok) throw new Error("responsibilities.json yüklenemedi: " + res.status);
-        const data = await res.json();
+        const [respRes, commitsRes] = await Promise.allSettled([
+          fetch("responsibilities.json"),
+          fetch("commits.json")
+        ]);
+
+        let commitsMap = {};
+        if (commitsRes.status === "fulfilled" && commitsRes.value.ok) {
+          try {
+            const commitsData = await commitsRes.value.json();
+            commitsMap = commitsData.commits || {};
+          } catch(e) {}
+        }
+
+        if (respRes.status !== "fulfilled" || !respRes.value.ok) {
+          throw new Error("responsibilities.json yüklenemedi");
+        }
+        const data = await respRes.value.json();
         const components = data.components || [];
 
         components.forEach(comp => {
@@ -757,18 +771,28 @@ graph TD
           let date = "";
           let msg = comp.role || "";
 
-          const cached = getCommitCache(comp.id);
-          if (cached) {
-            hash = cached.hash;
-            author = cached.author;
-            date = cached.date;
-            msg = cached.msg;
-          } else if (comp.repo) {
-            hash = "main";
-            msg = "Canlı commit verisi çekiliyor...";
+          // 1. Önce commits.json (GitHub Actions tarafından saatlik güncellenen 0-rate-limit dosya)
+          if (commitsMap[comp.id]) {
+            const c = commitsMap[comp.id];
+            hash = c.hash || "—";
+            author = c.author || "";
+            date = c.date || "";
+            msg = c.msg || comp.role || "";
           } else {
-            hash = comp.id === "GAMEPAD" || comp.id === "RPI" ? "Donanım" : "Bağlı repo yok";
-            msg = comp.role || "";
+            // 2. Yoksa oturum önbelleğinden
+            const cached = getCommitCache(comp.id);
+            if (cached) {
+              hash = cached.hash;
+              author = cached.author;
+              date = cached.date;
+              msg = cached.msg;
+            } else if (comp.repo) {
+              hash = "main";
+              msg = "Canlı commit verisi çekiliyor...";
+            } else {
+              hash = comp.id === "GAMEPAD" || comp.id === "RPI" ? "Donanım" : "Bağlı repo yok";
+              msg = comp.role || "";
+            }
           }
 
           if (comp.repo) {
@@ -840,9 +864,11 @@ graph TD
       }).join("");
     }
 
-    // GitHub API ile Her Uygulama ve Kütüphaneye Özel Gerçek Canlı Commit Verisini Çekme
+    // GitHub API ile Yalnızca Henüz Yüklenmemiş Düğümler İçin Canlı Commit Çekme
     async function fetchLiveCommits() {
-      const keys = Object.keys(nodeMetadata).filter(k => nodeMetadata[k].apiEndpoint);
+      // Eğer commits.json ile tüm commitler zaten yüklendiyse tarayıcı kotasını hiç harcama
+      const keys = Object.keys(nodeMetadata).filter(k => nodeMetadata[k].apiEndpoint && !nodeMetadata[k].author);
+      if (keys.length === 0) return;
 
       await Promise.allSettled(keys.map(async (key) => {
         try {

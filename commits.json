@@ -1,0 +1,101 @@
+{
+  "generated_at": "2026-10-17T17:48:37.191975+00:00",
+  "commits": {
+    "FW": {
+      "hash": "b7d90ae",
+      "author": "emirarkali",
+      "msg": "Revert \"feat: embed latest_commit data into responsibilities.json to avoid client-side API rate limits\"",
+      "date": "17.10.2026"
+    },
+    "CORE": {
+      "hash": "a40b4d2",
+      "author": "emirarkali",
+      "msg": "Merge branch 'feature/protocol-decoupling' into main",
+      "date": "17.10.2026"
+    },
+    "PROTO": {
+      "hash": "fc3ac4e",
+      "author": "emirarkali",
+      "msg": "chore: add .gitignore for python cache and build artifacts",
+      "date": "17.10.2026"
+    },
+    "CAN": {
+      "hash": "56ef31e",
+      "author": "emirarkali",
+      "msg": "docs: move 29-bit CAN ID spec from deos_core to deos_transport_can and keep core media-agnostic",
+      "date": "16.10.2026"
+    },
+    "DOCS": {
+      "hash": "590f922",
+      "author": "emirarkali",
+      "msg": "docs(icd): synchronize hardware types with deos_types.h",
+      "date": "16.10.2026"
+    },
+    "GCS": {
+      "hash": "3f62e91",
+      "author": "Alper Bora",
+      "msg": "fix(web-ui): mount static files as volume and add cache busting",
+      "date": "15.10.2026"
+    },
+    "ROS": {
+      "hash": "861f608",
+      "author": "SepiJzadeh",
+      "msg": "docs: add comprehensive README, gitignore, and benchmark suite",
+      "date": "14.10.2026"
+    },
+    "BRIDGE": {
+      "hash": "861f608",
+      "author": "SepiJzadeh",
+      "msg": "docs: add comprehensive README, gitignore, and benchmark suite",
+      "date": "14.10.2026"
+    },
+    "PORTAL": {
+      "hash": "0bd370b",
+      "author": "emirarkali",
+      "msg": "feat(ui): restore dynamic GitHub API live commit fetching with live popover updates and session cache",
+      "date": "17.10.2026"
+    },
+    "MAIN": {
+      "hash": "49aa9d5",
+      "author": "emirarkali",
+      "msg": "refactor(protocol): rename deos_dispatcher to deos_registry for clearer separation of concerns",
+      "date": "17.10.2026"
+    },
+    "LORA": {
+      "hash": "91f235a",
+      "author": "emirarkali",
+      "msg": "feat(fault): expand fault registry into specific subsystem categories (Router, CAN, LoRa, Ethernet, Dispatcher) with human-readable string mapping",
+      "date": "16.10.2026"
+    },
+    "CAN_BUS": {
+      "hash": "56ef31e",
+      "author": "emirarkali",
+      "msg": "docs: move 29-bit CAN ID spec from deos_core to deos_transport_can and keep core media-agnostic",
+      "date": "16.10.2026"
+    },
+    "TRACTION": {
+      "hash": "ba2df01",
+      "author": "emirarkali",
+      "msg": "feat(protocol): decouple portable deos_protocol layer with standalone dispatcher",
+      "date": "17.10.2026"
+    },
+    "BRAKE": {
+      "hash": "1fed144",
+      "author": "emirarkali",
+      "msg": "refactor: apply standardized overlay architecture to all apps",
+      "date": "07.10.2026"
+    },
+    "STEERING": {
+      "hash": "1fed144",
+      "author": "emirarkali",
+      "msg": "refactor: apply standardized overlay architecture to all apps",
+      "date": "07.10.2026"
+    },
+    "BMS_GW": {
+      "hash": "ba2df01",
+      "author": "emirarkali",
+      "msg": "feat(protocol): decouple portable deos_protocol layer with standalone dispatcher",
+      "date": "17.10.2026"
+    }
+  }
+}

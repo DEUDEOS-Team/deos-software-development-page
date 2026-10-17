@@ -1,0 +1,40 @@
+name: Update Ecosystem Commits
+
+on:
+  schedule:
+    - cron: '0 * * * *' # Her saat başı otomatik çalışır
+  push:
+    branches:
+      - main
+    paths:
+      - 'responsibilities.json'
+      - 'scripts/fetch_commits.py'
+  workflow_dispatch: # Actions sekmesinden manuel tek tıkla çalıştırma
+
+permissions:
+  contents: write
+
+jobs:
+  update-commits:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Fetch Latest Ecosystem Commits
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 scripts/fetch_commits.py
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add commits.json
+          git diff --staged --quiet || (git commit -m "chore(data): auto-update ecosystem commits.json [skip ci]" && git push)
