@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-10-17T19:37:16.484029+00:00",
+  "generated_at": "2026-10-17T19:51:26.887217+00:00",
   "commits": {
     "FW": {
-      "hash": "df03642",
+      "hash": "c848d63",
       "author": "emirarkali",
-      "msg": "docs(arch): standardize ecosystem schema, bump to ROS 2 Jazzy and add FTXUI node",
-      "date": "2026-10-17T19:32:09Z"
+      "msg": "responsibilties update",
+      "date": "2026-10-17T19:48:17Z"
     },
     "CORE": {
       "hash": "a40b4d2",
@@ -50,10 +50,10 @@
       "date": "2026-10-14T16:36:04Z"
     },
     "PORTAL": {
-      "hash": "4e0d90f",
+      "hash": "ca1b265",
       "author": "emirarkali",
-      "msg": "feat(sync): establish deos-firmware as single source of truth for responsibilities.json",
-      "date": "2026-10-17T19:36:39Z"
+      "msg": "fix(popover): resolve race condition and flickering when switching between diagram boxes",
+      "date": "2026-10-17T19:44:41Z"
     },
     "RPI": {
       "hash": "54c78b0",
@@ -98,6 +98,18 @@
       "date": "2026-10-07T12:18:59Z"
     },
     "BMS_GW": {
+      "hash": "ba2df01",
+      "author": "emirarkali",
+      "msg": "feat(protocol): decouple portable deos_protocol layer with standalone dispatcher",
+      "date": "2026-10-17T00:06:10Z"
+    },
+    "BMS1": {
+      "hash": "ba2df01",
+      "author": "emirarkali",
+      "msg": "feat(protocol): decouple portable deos_protocol layer with standalone dispatcher",
+      "date": "2026-10-17T00:06:10Z"
+    },
+    "BMS2": {
       "hash": "ba2df01",
       "author": "emirarkali",
       "msg": "feat(protocol): decouple portable deos_protocol layer with standalone dispatcher",
