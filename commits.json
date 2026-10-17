@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-17T18:14:44.417474+00:00",
+  "generated_at": "2026-10-17T18:15:08.340361+00:00",
   "commits": {
     "FW": {
       "hash": "b7d90ae",
@@ -50,10 +50,10 @@
       "date": "2026-10-14T16:36:04Z"
     },
     "PORTAL": {
-      "hash": "b3b1590",
-      "author": "emirarkali",
-      "msg": "tarih saat düzeltilmesi",
-      "date": "2026-10-17T18:14:26Z"
+      "hash": "dd0892c",
+      "author": "github-actions[bot]",
+      "msg": "chore(data): auto-update ecosystem commits.json [skip ci]",
+      "date": "2026-10-17T18:14:44Z"
     },
     "MAIN": {
       "hash": "49aa9d5",
