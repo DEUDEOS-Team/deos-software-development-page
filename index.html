@@ -686,12 +686,12 @@ graph TD
       <div class="popover-status-label">Mevcut Durum</div>
       <div id="popStatus" class="popover-status-text"></div>
     </div>
-    <div class="popover-commit">
+    <div id="popCommitContainer" class="popover-commit" style="display:none;">
       <div class="popover-commit-meta">
         <div><span id="popCommitHash" class="popover-commit-hash">#---</span></div>
         <div id="popCommitAuthor" class="popover-commit-author"></div>
       </div>
-      <div id="popCommitMsg" class="popover-commit-msg">Yükleniyor...</div>
+      <div id="popCommitMsg" class="popover-commit-msg"></div>
       <div id="popCommitDate" class="popover-commit-date"></div>
     </div>
     <a id="popBtn" href="#" target="_blank" class="popover-link-btn">Depoyu Aç ↗</a>
@@ -739,9 +739,13 @@ graph TD
           let url = "";
           let apiEndpoint = null;
           let hash = "—";
+          let author = "";
+          let date = "";
           let msg = comp.role || "";
 
           if (comp.repo) {
+            hash = "main";
+            msg = "Aktif Dal";
             if (comp.path) {
               url = `https://github.com/${comp.repo}/tree/main/${comp.path}`;
               apiEndpoint = `https://api.github.com/repos/${comp.repo}/commits?path=${comp.path}&per_page=1`;
@@ -749,11 +753,11 @@ graph TD
               url = `https://github.com/${comp.repo}`;
               apiEndpoint = `https://api.github.com/repos/${comp.repo}/commits?per_page=1`;
             }
-            hash = "Yükleniyor...";
-            msg = "Canlı commit verisi çekiliyor...";
           } else {
-            hash = comp.id === "GAMEPAD" || comp.id === "RPI" ? "Harici Donanım" : "Bağlı repo yok";
+            hash = comp.id === "GAMEPAD" || comp.id === "RPI" ? "Donanım" : "Bağlı repo yok";
+            msg = comp.role || "";
           }
+
 
           nodeMetadata[comp.id] = {
             id: comp.id,
@@ -767,8 +771,8 @@ graph TD
             url: url,
             apiEndpoint: apiEndpoint,
             hash: hash,
-            author: "",
-            date: "",
+            author: author,
+            date: date,
             msg: msg
           };
         });
@@ -789,14 +793,21 @@ graph TD
           <div style="margin-top:6px; font-size:12px; line-height:1.4; color:#79c0ff; background:rgba(56,139,253,0.1); border-left:2px solid #388bfd; padding:4px 8px; border-radius:4px;">
             <strong style="color:#58a6ff;">Mevcut Durum:</strong> ${item.status_note}
           </div>` : "";
+        const metaLine = (item.author || item.date) ? `
+          <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-bottom:3px;">
+            <span class="badge" style="color:var(--primary); font-weight:700;">#${item.hash}</span>
+            ${item.author ? `<span style="color:#58a6ff; font-weight:600; font-size:12px;">${item.author}</span>` : ''}
+            ${item.date ? `<span style="color:#8b949e; font-size:11px;">(${item.date})</span>` : ''}
+          </div>` : `
+          <span class="badge" style="color:var(--primary); font-weight:700;">#${item.hash}</span>`;
         return `
           <tr>
             <td>${link}</td>
             <td><span class="badge">${item.role_type || ''}</span></td>
             <td>${item.owner}</td>
             <td id="commit-${item.id}">
-              <span class="badge" style="color:var(--primary); font-weight:700;">#${item.hash}</span>
-              <div style="color:#8b949e; font-size:12px; margin-top:2px;">${item.msg}</div>
+              ${metaLine}
+              <div style="color:#8b949e; font-size:12px; margin-top:2px; max-width:340px; white-space:normal; line-height:1.35;" title="${item.msg}">${item.msg}</div>
             </td>
             <td>
               <div>${item.role}</div>
@@ -865,6 +876,7 @@ graph TD
       const popRole = document.getElementById("popRole");
       const popStatusContainer = document.getElementById("popStatusContainer");
       const popStatus = document.getElementById("popStatus");
+      const popCommitContainer = document.getElementById("popCommitContainer");
       const popCommitHash = document.getElementById("popCommitHash");
       const popCommitAuthor = document.getElementById("popCommitAuthor");
       const popCommitMsg = document.getElementById("popCommitMsg");
@@ -921,14 +933,15 @@ graph TD
               popStatusContainer.style.display = "none";
             }
 
-            if (data.hash && !data.hash.includes(" ") && data.hash !== "ROS 2" && data.hash !== "—") {
+            if (data.author) {
               popCommitHash.textContent = "#" + data.hash;
+              popCommitAuthor.textContent = `Son commit: ${data.author}`;
+              popCommitMsg.textContent = data.msg;
+              popCommitDate.textContent = data.date ? `Tarih: ${data.date}` : "";
+              if (popCommitContainer) popCommitContainer.style.display = "block";
             } else {
-              popCommitHash.textContent = data.hash || "—";
+              if (popCommitContainer) popCommitContainer.style.display = "none";
             }
-            popCommitAuthor.textContent = data.author ? `Son commit: ${data.author}` : "";
-            popCommitMsg.textContent = data.msg;
-            popCommitDate.textContent = data.date ? `Tarih: ${data.date}` : "";
 
             if (data.url) {
               popBtn.href = data.url;
