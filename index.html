@@ -8,1335 +8,792 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
     rel="stylesheet">
   <style>
     :root {
-      --bg: #0d1117;
-      --card-bg: #161b22;
-      --card-header: #21262d;
-      --border: #30363d;
-      --text: #c9d1d9;
-      --text-bright: #f0f6fc;
-      --text-muted: #8b949e;
-      --primary: #58a6ff;
-      --green: #238636;
-      --yellow: #d29922;
-      --purple: #bc8cff;
-      --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --paper: #e9ece7;
+      --panel: #f6f7f3;
+      --ink: #1b2428;
+      --muted: #66706f;
+      --line: #c8cec8;
+      --grid: #dde1db;
+      --blue: #1d4e6b;
+      --green: #2f6f58;
+      --rust: #a8571f;
+      --plum: #7a4a73;
+      --slate: #4a5559;
+      --sans: 'Schibsted Grotesk', system-ui, sans-serif;
+      --mono: 'JetBrains Mono', ui-monospace, monospace;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
-      padding: 0;
+      padding: 0
     }
 
     body {
-      background-color: var(--bg);
-      color: var(--text);
-      font-family: var(--font-main);
-      padding: 30px 20px 80px 20px;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
       line-height: 1.5;
+      padding: 48px 24px 80px
     }
 
-    .container {
-      max-width: 1300px;
-      margin: 0 auto;
+    .wrap {
+      max-width: 1240px;
+      margin: 0 auto
     }
 
-    /* Başlık */
-    .header {
+    a {
+      color: inherit
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 2px
+    }
+
+    header {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      padding-bottom: 24px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 32px;
+      align-items: flex-end;
+      gap: 24px;
       flex-wrap: wrap;
-      gap: 16px;
+      padding-bottom: 28px;
+      border-bottom: 2px solid var(--ink);
+      margin-bottom: 40px
     }
 
-    .header-title h1 {
-      font-size: 1.6rem;
+    h1 {
+      font-size: clamp(1.9rem, 4vw, 2.9rem);
       font-weight: 700;
-      color: var(--text-bright);
-      letter-spacing: -0.01em;
+      letter-spacing: -.03em;
+      line-height: 1.05
     }
 
-    .header-title p {
-      margin: 4px 0 0 0;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-
-    .header-status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+    header p {
+      color: var(--muted);
       margin-top: 10px;
-      padding: 5px 12px;
-      border-radius: 20px;
-      background: rgba(35, 134, 54, 0.15);
-      border: 1px solid rgba(46, 160, 67, 0.4);
-      color: #3fb950;
-      font-size: 0.8rem;
-      font-weight: 500;
-      font-family: 'JetBrains Mono', monospace;
-      transition: all 0.2s ease;
+      max-width: 52ch
     }
 
-    .header-status-pill:hover {
-      background: rgba(35, 134, 54, 0.25);
-      border-color: rgba(46, 160, 67, 0.7);
-    }
-
-    .header-status-pill .pulse-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #3fb950;
-      box-shadow: 0 0 0 0 rgba(63, 185, 80, 0.7);
-      animation: pulse-green 2s infinite;
-      flex-shrink: 0;
-    }
-
-    @keyframes pulse-green {
-      0% {
-        transform: scale(0.95);
-        box-shadow: 0 0 0 0 rgba(63, 185, 80, 0.7);
-      }
-
-      70% {
-        transform: scale(1);
-        box-shadow: 0 0 0 6px rgba(63, 185, 80, 0);
-      }
-
-      100% {
-        transform: scale(0.95);
-        box-shadow: 0 0 0 0 rgba(63, 185, 80, 0);
-      }
-    }
-
-    .commit-time-tag {
-      color: #8b949e;
-      font-size: 11px;
-      cursor: help;
+    .live {
       display: inline-flex;
       align-items: center;
-      transition: color 0.15s ease;
-    }
-
-    .commit-time-tag:hover {
-      color: #58a6ff;
-      text-decoration: underline dotted;
-    }
-
-    .header-links {
-      display: flex;
       gap: 10px;
+      margin-top: 18px;
+      padding: 6px 12px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 999px;
+      font-size: .8rem;
+      cursor: pointer
+    }
+
+    .live i {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: blink 2.4s ease-in-out infinite
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: .25
+      }
+    }
+
+    .links {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap
     }
 
     .btn {
-      display: inline-flex;
-      align-items: center;
-      padding: 6px 14px;
-      border-radius: 8px;
-      font-size: 0.8rem;
+      padding: 8px 16px;
+      border: 1px solid var(--ink);
+      border-radius: 6px;
+      font-size: .85rem;
       font-weight: 500;
       text-decoration: none;
-      border: 1px solid var(--border);
-      background: var(--card-bg);
-      color: var(--text-bright);
-      transition: background 0.15s, border-color 0.15s;
+      transition: background .15s, color .15s
     }
 
     .btn:hover {
-      background: #21262d;
-      border-color: #8b949e;
+      background: var(--ink);
+      color: var(--paper)
     }
 
-    /* Şema Panelleri */
-    .section-panel {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      margin-bottom: 36px;
-      overflow: visible;
+    section {
+      margin-bottom: 56px
     }
 
-    .section-header {
-      background: var(--card-header);
-      border-bottom: 1px solid var(--border);
-      border-radius: 12px 12px 0 0;
-      padding: 12px 18px;
+    .sec-head {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: baseline;
+      gap: 16px;
       flex-wrap: wrap;
-      gap: 10px;
+      margin-bottom: 14px
     }
 
-    .section-title {
+    h2 {
+      font-size: 1.25rem;
       font-weight: 600;
-      font-size: 0.95rem;
-      color: var(--text-bright);
+      letter-spacing: -.01em
     }
 
-    .section-desc {
-      font-size: 0.8rem;
-      color: var(--text-muted);
+    .sec-head p {
+      color: var(--muted);
+      font-size: .85rem
     }
 
-    .diagram-stage {
-      padding: 40px 24px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    .stage {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
       overflow-x: auto;
-      overflow-y: visible;
-      background: #0d1117;
-      position: relative;
+      background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: 28px 28px;
+      background-position: -1px -1px
     }
 
-    .mermaid {
-      display: flex;
-      justify-content: center;
-      overflow: visible !important;
-      width: 100%;
-    }
-
-    .mermaid svg {
-      max-width: 100% !important;
-      height: auto !important;
-      background: transparent !important;
-      overflow: visible !important;
-    }
-
-    .mermaid .node rect,
-    .mermaid .node polygon {
-      rx: 10px !important;
-      ry: 10px !important;
-      stroke-width: 1.5px !important;
-    }
-
-    .mermaid .node foreignObject {
-      overflow: visible !important;
-    }
-
-    .mermaid .node foreignObject div {
-      white-space: nowrap !important;
-      text-align: center !important;
-      padding: 4px 14px !important;
-      font-size: 13px !important;
-      line-height: 1.45 !important;
-      box-sizing: border-box !important;
-    }
-
-    .mermaid .nodeLabel {
-      white-space: nowrap !important;
-      text-align: center !important;
-    }
-
-    /* Düğümlere Hover Efekti (Tıklanabilir olanlar) */
-    .mermaid .node.has-popover {
-      cursor: pointer !important;
-      transition: filter 0.15s ease;
-    }
-
-    .mermaid .node.has-popover:hover {
-      filter: brightness(1.25) drop-shadow(0 0 8px rgba(88, 166, 255, 0.6)) !important;
-    }
-
-    .panel-footer {
-      background: var(--card-header);
-      border-top: 1px solid var(--border);
-      border-radius: 0 0 12px 12px;
-      padding: 10px 18px;
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    /* İnteraktif Popover (Hover Kartı - Saydam Glassmorphism & Ovalimsi) */
-    .node-popover {
-      position: fixed;
-      display: none;
-      z-index: 10000;
-      width: 370px;
-      background: rgba(22, 27, 34, 0.88);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(88, 166, 255, 0.28);
-      border-radius: 12px;
-      box-shadow: 0 20px 42px rgba(0, 0, 0, 0.75), 0 0 1px rgba(255, 255, 255, 0.15);
-      padding: 16px 18px;
-      pointer-events: auto;
-      transition: opacity 0.15s ease;
-      font-size: 13px;
-    }
-
-    .node-popover.active {
+    .stage svg {
       display: block;
+      width: 100%;
+      min-width: 820px;
+      height: auto
     }
 
-    .popover-header {
+    /* şema */
+    .node {
+      cursor: default
+    }
+
+    .node .nb {
+      fill: #fff;
+      stroke: var(--ink);
+      stroke-width: 1.2;
+      transition: fill .15s
+    }
+
+    .node.has-pop {
+      cursor: pointer
+    }
+
+    .node.has-pop:hover .nb,
+    .node.has-pop:focus .nb {
+      fill: #eef3f1
+    }
+
+    .node .nt {
+      font: 600 14px var(--sans);
+      fill: var(--ink)
+    }
+
+    .node .ns {
+      font: 400 11.5px var(--sans);
+      fill: var(--muted)
+    }
+
+    .edge {
+      fill: none;
+      stroke: var(--ink);
+      stroke-width: 1.4
+    }
+
+    .edge.dash {
+      stroke-dasharray: 5 5;
+      animation: flow 1.4s linear infinite
+    }
+
+    .edge.bus {
+      stroke: var(--blue);
+      stroke-width: 5;
+      stroke-linecap: round
+    }
+
+    .edge.stub {
+      stroke: var(--blue);
+      stroke-width: 2
+    }
+
+    @keyframes flow {
+      to {
+        stroke-dashoffset: -20
+      }
+    }
+
+    .elabel {
+      font: 500 11px var(--mono);
+      fill: var(--muted);
+      paint-order: stroke;
+      stroke: var(--panel);
+      stroke-width: 5px;
+      stroke-linejoin: round
+    }
+
+    .legend {
       display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 8px;
-      border-bottom: 1px solid rgba(48, 54, 61, 0.8);
-      padding-bottom: 8px;
-    }
-
-    .popover-title {
-      font-weight: 700;
-      color: #fff;
-      font-size: 14px;
-    }
-
-    .popover-owner-badge {
-      font-size: 11px;
-      font-weight: 600;
-      padding: 2px 8px;
-      border-radius: 6px;
-      background: rgba(188, 140, 255, 0.15);
-      border: 1px solid rgba(188, 140, 255, 0.35);
-      color: var(--purple);
-    }
-
-    .popover-role {
-      color: #c9d1d9;
-      margin-bottom: 10px;
-      line-height: 1.45;
-      font-size: 12.5px;
-    }
-
-    .popover-status-box {
-      background: rgba(56, 139, 253, 0.1);
-      border: 1px solid rgba(56, 139, 253, 0.28);
-      border-left: 3px solid var(--primary);
-      border-radius: 6px;
-      padding: 7px 10px;
-      margin-bottom: 12px;
-      font-size: 12px;
-      line-height: 1.4;
-    }
-
-    .popover-status-label {
-      color: var(--primary);
-      font-weight: 700;
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      margin-bottom: 3px;
-    }
-
-    .popover-status-text {
-      color: #f0f6fc;
-      font-weight: 500;
-    }
-
-    .popover-commit {
-      background: rgba(13, 17, 23, 0.78);
-      border: 1px solid rgba(48, 54, 61, 0.8);
-      border-radius: 8px;
-      padding: 10px 12px;
-      margin-bottom: 12px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-    }
-
-    .popover-commit-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 4px;
+      gap: 20px;
       flex-wrap: wrap;
-      gap: 4px;
+      padding: 12px 4px 0;
+      font-size: .8rem;
+      color: var(--muted)
     }
 
-    .popover-commit-hash {
-      color: var(--primary);
-      font-weight: 700;
-    }
-
-    .popover-commit-author {
-      color: #58a6ff;
-      font-weight: 600;
-      font-size: 11px;
-    }
-
-    .popover-commit-msg {
-      color: #e6edf3;
-      margin-top: 5px;
-      white-space: normal !important;
-      word-break: break-word !important;
-      line-height: 1.4;
-      font-size: 11px;
-    }
-
-    .popover-commit-date {
-      color: #8b949e;
-      font-size: 10px;
-      margin-top: 4px;
-    }
-
-    .popover-link-btn {
+    .legend span {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      width: 100%;
-      background: #238636;
-      color: #fff;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 12px;
-      padding: 8px 12px;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      transition: background 0.15s, transform 0.1s;
+      gap: 7px
     }
 
-    .popover-link-btn:hover {
-      background: #2ea043;
-      transform: translateY(-1px);
+    .legend b {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      display: inline-block
     }
 
-    /* Depo Tablosu */
-    .repo-table {
+    /* tablo */
+    .tbl {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      overflow-x: auto
+    }
+
+    table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.88rem;
+      font-size: .9rem;
+      min-width: 900px
     }
 
-    .repo-table th,
-    .repo-table td {
-      padding: 12px 18px;
+    th {
       text-align: left;
-      border-bottom: 1px solid var(--border);
-      vertical-align: middle;
-    }
-
-    .repo-table th {
-      background: var(--card-header);
-      color: var(--text-bright);
       font-weight: 600;
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
+      font-size: .82rem;
+      color: var(--muted);
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--ink)
     }
 
-    .repo-table tr:last-child td {
-      border-bottom: none;
+    td {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top
     }
 
-    .repo-table tr:hover td {
-      background: rgba(255, 255, 255, 0.02);
+    tr:last-child td {
+      border-bottom: none
     }
 
-    .repo-table a {
-      color: var(--primary);
+    tbody tr:hover td {
+      background: #eff1ec
+    }
+
+    td a {
+      font-weight: 600;
       text-decoration: none;
-      font-weight: 600;
+      border-bottom: 1px solid var(--line)
     }
 
-    .repo-table a:hover {
-      text-decoration: underline;
+    td a:hover {
+      border-color: var(--ink)
     }
 
-    .badge {
+    .tag {
       display: inline-block;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
-      font-weight: 600;
-      padding: 2px 7px;
+      font: 500 .75rem var(--mono);
+      padding: 2px 8px;
+      border: 1px solid var(--line);
       border-radius: 4px;
-      background: rgba(110, 118, 129, 0.15);
-      border: 1px solid var(--border);
-      color: #8b949e;
+      background: #fff;
+      color: var(--slate)
     }
 
-    /* Alt Bilgi */
-    .footer {
-      border-top: 1px solid var(--border);
-      padding-top: 24px;
+    .hash {
+      font: 500 .75rem var(--mono);
+      color: var(--blue)
+    }
+
+    .cmeta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 3px;
+      font-size: .78rem
+    }
+
+    .cmsg {
+      color: var(--muted);
+      font-size: .82rem;
+      max-width: 340px;
+      line-height: 1.4
+    }
+
+    .status {
+      margin-top: 8px;
+      padding: 5px 10px;
+      border-left: 2px solid var(--blue);
+      background: #e8eef0;
+      font-size: .8rem;
+      border-radius: 0 4px 4px 0
+    }
+
+    .commit-time-tag {
+      color: var(--muted);
+      cursor: help
+    }
+
+    footer {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      color: var(--text-muted);
-      font-size: 0.8rem;
+      border-top: 1px solid var(--line);
+      padding-top: 20px;
+      color: var(--muted);
+      font-size: .8rem
+    }
+
+    /* açılır kart */
+    .pop {
+      position: fixed;
+      display: none;
+      z-index: 50;
+      width: 360px;
+      background: #fff;
+      border: 1px solid var(--ink);
+      border-radius: 8px;
+      box-shadow: 6px 6px 0 rgba(27, 36, 40, .12);
+      padding: 16px 18px;
+      font-size: .85rem
+    }
+
+    .pop.on {
+      display: block
+    }
+
+    .pop-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: baseline;
+      padding-bottom: 8px;
+      margin-bottom: 8px;
+      border-bottom: 1px solid var(--line)
+    }
+
+    .pop-title {
+      font-weight: 700;
+      font-size: 1rem
+    }
+
+    .pop-owner {
+      color: var(--muted);
+      font-size: .8rem;
+      text-align: right
+    }
+
+    .pop-role {
+      margin-bottom: 10px;
+      line-height: 1.45
+    }
+
+    .pop-status {
+      padding: 6px 10px;
+      margin-bottom: 10px;
+      border-left: 2px solid var(--blue);
+      background: #e8eef0;
+      font-size: .8rem;
+      border-radius: 0 4px 4px 0
+    }
+
+    .pop-commit {
+      padding: 10px 12px;
+      margin-bottom: 12px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      font-size: .78rem
+    }
+
+    .pop-commit .r {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 4px
+    }
+
+    .pop-commit .m {
+      line-height: 1.4
+    }
+
+    .pop-commit .d {
+      color: var(--muted);
+      margin-top: 4px;
+      font-size: .74rem
+    }
+
+    .pop-btn {
+      display: block;
+      text-align: center;
+      background: var(--ink);
+      color: var(--paper);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: .82rem;
+      padding: 9px;
+      border-radius: 6px
+    }
+
+    .pop-btn:hover {
+      background: var(--blue)
+    }
+
+    @media(prefers-reduced-motion:reduce) {
+
+      .edge.dash,
+      .live i {
+        animation: none
+      }
     }
   </style>
 </head>
 
 <body>
-
-  <div class="container">
-
-    <!-- Başlık -->
-    <header class="header">
-      <div class="header-title">
+  <div class="wrap">
+    <header>
+      <div>
         <h1>DEUDEOS Sistem ve Ağ Mimarisi</h1>
-        <p>DEOS Firmware, Git Alt Modülleri ve Araç İçi Donanım Topolojisi</p>
-        <div id="latestEcosystemCommit" class="header-status-pill" style="display:none;"
-          title="Ekosistemdeki en son commit aktivitesi">
-          <span class="pulse-dot"></span>
-          <span id="latestCommitText">Son commit kontrol ediliyor...</span>
-        </div>
+        <p>DEOS firmware'i, Git alt modülleri ve araç içi donanım topolojisi.</p>
+        <div id="latest" class="live" style="display:none" tabindex="0" role="button"><i></i><span
+            id="latestText"></span></div>
       </div>
-      <div class="header-links">
-        <a href="https://github.com/DEUDEOS-Team/deos-ground-station" target="_blank" class="btn">
-          deos-ground-station ↗
-        </a>
-        <a href="https://github.com/DEUDEOS-Team/deos-firmware" target="_blank" class="btn">
-          deos-firmware ↗
-        </a>
+      <div class="links">
+        <a class="btn" href="https://github.com/DEUDEOS-Team/deos-ground-station" target="_blank"
+          rel="noopener">deos-ground-station</a>
+        <a class="btn" href="https://github.com/DEUDEOS-Team/deos-firmware" target="_blank"
+          rel="noopener">deos-firmware</a>
       </div>
     </header>
 
-    <!-- 1. ŞEMA: Yazılım ve Git Alt Modül Mimarisi -->
-    <div class="section-panel">
-      <div class="section-header">
-        <div class="section-title">1. Yazılım ve Git Alt Modül Mimarisi</div>
-        <div class="section-desc">Kutuların üzerine gelerek sorumlu kişiyi, GitHub'dan dinamik çekilen son commit
-          bilgisini ve mesajını görebilirsiniz.</div>
+    <section>
+      <div class="sec-head">
+        <h2>Yazılım ve Git alt modül mimarisi</h2>
+        <p>Kutuların üzerine gelince sorumlu kişi ve GitHub'dan çekilen son commit görünür.</p>
       </div>
-      <div class="diagram-stage">
-        <div class="mermaid" id="diagram-repos">
-          graph TD
-          classDef root fill:#1f6feb,stroke:#388bfd,stroke-width:2px,color:#ffffff;
-          classDef sub fill:#238636,stroke:#2ea043,stroke-width:1.5px,color:#ffffff;
-          classDef ext fill:#d29922,stroke:#bb8009,stroke-width:1.5px,color:#ffffff;
-
-          FW["deos-firmware<br />(Ana Depo)"]:::root
-
-          FW --> CORE["deos-core<br />(Router)"]:::sub
-          FW --> PROTO["deos-protocol<br />(Protokol & Codec)"]:::sub
-          FW --> CAN["deos-transport-can<br />(CAN-FD Sürücüsü)"]:::sub
-          FW --> DOCS["deos-docs<br />(ICD & Belgeler)"]:::sub
-
-          PROTO -.->|"C/C++ Bağı"| ROS["deos-ros2-bridge<br />(ROS 2 Köprüsü)"]:::ext
-          PROTO -.->|"Python Bindings"| GCS["deos-ground-station<br />(Yer İstasyonu)"]:::ext
-        </div>
+      <div class="stage"><svg id="d1" viewBox="0 0 1100 390" role="img" aria-label="Yazılım ve alt modül şeması"></svg>
       </div>
-      <div class="panel-footer">
-        <span>Kutuların üzerine gelin. Repoyu açmak için açılan karttaki butonu kullanın.</span>
+      <div class="legend">
+        <span><b style="background:var(--blue)"></b>Ana depo</span>
+        <span><b style="background:var(--green)"></b>Alt modül</span>
+        <span><b style="background:var(--rust)"></b>Harici tüketici</span>
       </div>
-    </div>
+    </section>
 
-    <!-- 2. ŞEMA: Araç İçi Donanım ve Haberleşme Şematiği -->
-    <div class="section-panel">
-      <div class="section-header">
-        <div class="section-title">2. Araç İçi Donanım ve Haberleşme Topolojisi</div>
-        <div class="section-desc">Raspberry Pi, ROS 2 Köprüsü, Main STM32 Router ve CAN-FD omurgası</div>
+    <section>
+      <div class="sec-head">
+        <h2>Araç içi donanım ve haberleşme</h2>
+        <p>Raspberry Pi, ROS 2 köprüsü, Main STM32 yönlendirici ve CAN-FD omurgası.</p>
       </div>
-      <div class="diagram-stage">
-        <div class="mermaid" id="diagram-hardware">
-          graph TD
-          classDef mcu fill:#1f6feb,stroke:#388bfd,stroke-width:2.5px,color:#ffffff;
-          classDef host fill:#21262d,stroke:#6e7681,stroke-width:1.5px,color:#f0f6fc;
-          classDef bridge fill:#d29922,stroke:#bb8009,stroke-width:1.5px,color:#ffffff;
-          classDef rf fill:#793ed4,stroke:#a371f7,stroke-width:1.5px,color:#ffffff;
-          classDef can fill:#238636,stroke:#3fb950,stroke-width:1.5px,color:#ffffff;
-          classDef bms fill:#161b22,stroke:#484f58,stroke-width:1.5px,color:#c9d1d9;
-          classDef bus fill:#0969da,stroke:#54aeff,stroke-width:3.5px,color:#ffffff;
-
-          RPI["Raspberry Pi<br />(ROS 2)"]:::host
-          BRIDGE["deos-ros2-bridge<br />(Köprü)"]:::bridge
-          MAIN["Main STM32<br />(Router)"]:::mcu
-
-          LORA["LoRa Modülü<br />(Ebyte E220)"]:::rf
-          GCS["Ground Control<br />(deos-ground-station)"]:::host
-
-          BT["Bluetooth Modülü"]:::rf
-          GAMEPAD["Gamepad"]:::host
-
-          RPI <-->|"ROS 2 Topics"| BRIDGE
-            BRIDGE <-->|"Ethernet"| MAIN
-
-              MAIN <-->|"UART"| LORA
-                LORA -.->|"RF"| GCS
-
-                MAIN <-->|"UART"| BT
-                  BT -.->|"Wireless"| GAMEPAD
-
-                  CAN_BUS["CAN-FD Backbone"]:::bus
-                  TRACTION["Traction<br />(Motor / İnvertör)"]:::can
-                  BRAKE["Brake<br />(Fren)"]:::can
-                  STEERING["Steering<br />(Direksiyon)"]:::can
-                  BMS_GW["BMS Gateway"]:::can
-                  BMS1["BMS 1"]:::bms
-                  BMS2["BMS 2"]:::bms
-
-                  MAIN <-->|"CAN-FD"| CAN_BUS
-                    CAN_BUS <--> TRACTION
-                      CAN_BUS <--> BRAKE
-                        CAN_BUS <--> STEERING
-                          CAN_BUS <--> BMS_GW
-                            BMS_GW <--> BMS1
-                              BMS_GW <--> BMS2
-        </div>
+      <div class="stage"><svg id="d2" viewBox="0 0 1100 540" role="img" aria-label="Donanım topolojisi"></svg></div>
+      <div class="legend">
+        <span><b style="background:var(--blue)"></b>Yönlendirici / MCU</span>
+        <span><b style="background:var(--green)"></b>CAN düğümü</span>
+        <span><b style="background:var(--plum)"></b>Kablosuz modül</span>
+        <span><b style="background:var(--slate)"></b>Bilgisayar / harici</span>
       </div>
-      <div class="panel-footer">
-        <span>Request / Response mesajlaşması CAN-FD, Ethernet ve UART hatları üzerinden iletilir.</span>
-      </div>
-    </div>
+    </section>
 
-    <!-- 3. Ekosistem Depo Tablosu -->
-    <div class="section-panel">
-      <div class="section-header">
-        <div class="section-title">Ekosistem Bileşenleri ve Sorumluluk Tablosu</div>
+    <section>
+      <div class="sec-head">
+        <h2>Ekosistem bileşenleri ve sorumluluklar</h2>
       </div>
-      <table class="repo-table">
-        <thead>
-          <tr>
-            <th>Bileşen / Depo / Dosya</th>
-            <th>Konum / Rol</th>
-            <th>Sorumlu</th>
-            <th>Son Commit (Gerçek Git Verisi)</th>
-            <th>Açıklama</th>
-          </tr>
-        </thead>
-        <tbody id="repoTableBody">
-          <tr>
-            <td><a href="https://github.com/DEUDEOS-Team/deos-firmware" target="_blank">deos-firmware</a></td>
-            <td><span class="badge">Ana Depo</span></td>
-            <td>Emir Arkalı</td>
-            <td id="commit-FW">
-              <span class="badge">#24693e7</span> <span
-                style="color:#58a6ff; font-weight:600; font-size:12px;">emirarkali</span>
-              <div style="color:#8b949e; font-size:12px; margin-top:2px;">docs: remove unassigned bluetooth connections
-              </div>
-            </td>
-            <td>Zephyr RTOS uygulamaları ve alt modül manifestosu.</td>
-          </tr>
-          <tr>
-            <td><a href="https://github.com/DEUDEOS-Team/deos-core" target="_blank">deos-core</a></td>
-            <td><span class="badge">Submodule (lib/deos_core)</span></td>
-            <td>Emir Arkalı</td>
-            <td id="commit-CORE">
-              <span class="badge">#a413705</span> <span
-                style="color:#58a6ff; font-weight:600; font-size:12px;">emirarkali</span>
-              <div style="color:#8b949e; font-size:12px; margin-top:2px;">feat(core): implement standardized
-                GET_NODE_INFO payload</div>
-            </td>
-            <td>Split-Horizon Router motoru, telemetri abonelikleri ve mandallanan arıza tablosu.</td>
-          </tr>
-          <tr>
-            <td><a href="https://github.com/DEUDEOS-Team/deos-protocol" target="_blank">deos-protocol</a></td>
-            <td><span class="badge">Submodule (lib/deos_protocol)</span></td>
-            <td>Emir Arkalı</td>
-            <td id="commit-PROTO">
-              <span class="badge">#fc3ac4e</span> <span
-                style="color:#58a6ff; font-weight:600; font-size:12px;">emirarkali</span>
-              <div style="color:#8b949e; font-size:12px; margin-top:2px;">chore: add .gitignore for python cache and
-                build artifacts</div>
-            </td>
-            <td>ANSI C99 Universal Frame (9-bayt), taşınabilir codec ve Python C-Bindings.</td>
-          </tr>
-          <tr>
-            <td><a href="https://github.com/DEUDEOS-Team/deos-transport-can" target="_blank">deos-transport-can</a></td>
-            <td><span class="badge">Submodule (lib/deos_transport_can)</span></td>
-            <td>Emir Arkalı</td>
-            <td id="commit-CAN">
-              <span class="badge">#56ef31e</span> <span
-                style="color:#58a6ff; font-weight:600; font-size:12px;">emirarkali</span>
-              <div style="color:#8b949e; font-size:12px; margin-top:2px;">docs: move 29-bit CAN ID spec from deos_core
-                to deos_transport_can</div>
-            </td>
-            <td>STM32 FDCAN çevre birimi sürücüsü ve 29-bit CAN ID maskeleme motoru.</td>
-          </tr>
-          <tr>
-            <td><a href="https://github.com/DEUDEOS-Team/deos-ground-station" target="_blank">deos-ground-station</a>
-            </td>
-            <td><span class="badge">Yer Kontrol İstasyonu</span></td>
-            <td>Alper Bora</td>
-            <td id="commit-GCS">
-              <span class="badge">#109b912</span> <span style="color:#58a6ff; font-weight:600; font-size:12px;">Adın
-                Soyadın</span>
-              <div style="color:#8b949e; font-size:12px; margin-top:2px;">feat(ui): add target node selector for state
-                and mode switching</div>
-            </td>
-            <td>PyQt tabanlı telemetri izleme ve araç komuta kontrol masaüstü yazılımı.</td>
-          </tr>
-          <tr>
-            <td><a href="https://github.com/DEUDEOS-Team/deos-ros2-bridge" target="_blank">deos-ros2-bridge</a></td>
-            <td><span class="badge">Otonomi Köprüsü</span></td>
-            <td>Sepehr Jafarzadeh</td>
-            <td id="commit-ROS">
-              <span class="badge">#861f608</span> <span
-                style="color:#58a6ff; font-weight:600; font-size:12px;">SepiJzadeh</span>
-              <div style="color:#8b949e; font-size:12px; margin-top:2px;">docs: add comprehensive README, gitignore, and
-                benchmark suite</div>
-            </td>
-            <td>Raspberry Pi üzerinde koşan ROS 2 Humble ile araç içi CAN-FD veri köprüsü.</td>
-          </tr>
-          <tr>
-            <td>Raspberry Pi (ROS 2)</td>
-            <td><span class="badge">Otonomi Bilgisayarı</span></td>
-            <td>Arda Efe Yılmaz</td>
-            <td><span class="badge">ROS 2 Humble</span> Arda Efe Yılmaz</td>
-            <td>Otonom sürüş algoritmaları, sensör füzyonu ve ROS 2 paketleri.</td>
-          </tr>
-          <tr>
-            <td>apps/traction</td>
-            <td><span class="badge">CAN Düğümü (0x10)</span></td>
-            <td>Alper Altındaş</td>
-            <td id="commit-TRACTION">
-              <span class="badge">#ba2df01</span> <span
-                style="color:#58a6ff; font-weight:600; font-size:12px;">emirarkali</span>
-              <div style="color:#8b949e; font-size:12px; margin-top:2px;">feat(protocol): decouple portable
-                deos_protocol layer</div>
-            </td>
-            <td>Çekiş / İnvertör kontrolü, tork ve hız taleplerinin yönetimi.</td>
-          </tr>
-          <tr>
-            <td>apps/brake</td>
-            <td><span class="badge">CAN Düğümü (0x12)</span></td>
-            <td>Alper Altındaş</td>
-            <td id="commit-BRAKE">
-              <span class="badge">#1fed144</span> <span
-                style="color:#58a6ff; font-weight:600; font-size:12px;">emirarkali</span>
-              <div style="color:#8b949e; font-size:12px; margin-top:2px;">refactor: apply standardized overlay
-                architecture to all apps</div>
-            </td>
-            <td>Fren aktüatörü kontrolü, hidrolik basınç ve güvenlik mandalı.</td>
-          </tr>
-          <tr>
-            <td>apps/steering</td>
-            <td><span class="badge">CAN Düğümü (0x11)</span></td>
-            <td>Alper Altındaş</td>
-            <td id="commit-STEERING">
-              <span class="badge">#1fed144</span> <span
-                style="color:#58a6ff; font-weight:600; font-size:12px;">emirarkali</span>
-              <div style="color:#8b949e; font-size:12px; margin-top:2px;">refactor: apply standardized overlay
-                architecture to all apps</div>
-            </td>
-            <td>Steer-by-Wire direksiyon açı kontrolü ve enkoder takibi.</td>
-          </tr>
-          <tr>
-            <td>apps/bms_gateway</td>
-            <td><span class="badge">CAN Düğümü (0x30)</span></td>
-            <td>Ayşe Ceren Akdamar</td>
-            <td id="commit-BMS_GW">
-              <span class="badge">#ba2df01</span> <span
-                style="color:#58a6ff; font-weight:600; font-size:12px;">emirarkali</span>
-              <div style="color:#8b949e; font-size:12px; margin-top:2px;">feat(protocol): decouple portable
-                deos_protocol layer</div>
-            </td>
-            <td>Batarya yönetim sistemi ağ geçidi, hücre voltaj ve sıcaklık takibi.</td>
-          </tr>
-          <tr>
-            <td>apps/main_node</td>
-            <td><span class="badge">CAN Düğümü (0x03)</span></td>
-            <td>Emir Arkalı</td>
-            <td id="commit-MAIN">
-              <span class="badge">#49aa9d5</span> <span
-                style="color:#58a6ff; font-weight:600; font-size:12px;">emirarkali</span>
-              <div style="color:#8b949e; font-size:12px; margin-top:2px;">refactor(protocol): rename deos_dispatcher to
-                deos_registry</div>
-            </td>
-            <td>Araç içi merkezi ağ geçidi ve yönlendirici (Nucleo-H563ZI).</td>
-          </tr>
-          <tr>
-            <td>apps/main_node/.../uart_lora.cpp</td>
-            <td><span class="badge">LoRa Sürücüsü</span></td>
-            <td>Alper Bora</td>
-            <td id="commit-LORA">
-              <span class="badge">#91f235a</span> <span
-                style="color:#58a6ff; font-weight:600; font-size:12px;">emirarkali</span>
-              <div style="color:#8b949e; font-size:12px; margin-top:2px;">feat(fault): expand fault registry into
-                specific subsystem categories</div>
-            </td>
-            <td>Ebyte E220 UART LoRa modülü sürücüsü ve paket yönlendirme.</td>
-          </tr>
-          <tr>
-            <td><a href="https://github.com/DEUDEOS-Team/deos-docs" target="_blank">deos-docs</a></td>
-            <td><span class="badge">Submodule (docs)</span></td>
-            <td>Emir Arkalı</td>
-            <td id="commit-DOCS">
-              <span class="badge">#590f922</span> <span
-                style="color:#58a6ff; font-weight:600; font-size:12px;">emirarkali</span>
-              <div style="color:#8b949e; font-size:12px; margin-top:2px;">docs(icd): synchronize hardware types with
-                deos_types.h</div>
-            </td>
-            <td>Resmi LaTeX ICD şartnameleri ve ağ mimarisi kuralları.</td>
-          </tr>
-          <tr>
-            <td><a href="https://github.com/DEUDEOS-Team/deos-software-development-page"
-                target="_blank">deos-software-development-page</a></td>
-            <td><span class="badge">Web Portalı</span></td>
-            <td>DEUDEOS Ekibi</td>
-            <td id="commit-PORTAL">
-              <span class="badge" style="color:var(--primary); font-weight:700;">#main</span> <span
-                style="color:#58a6ff; font-weight:600; font-size:12px;">Aktif</span>
-              <div style="color:#8b949e; font-size:12px; margin-top:2px;">DEOS canlı yazılım mimarisi ve geliştirme
-                portalı</div>
-            </td>
-            <td>Canlı mimari şeması, alt modül haritası ve commit takip web sitesi.</td>
-          </tr>
-          <tr>
-            <td>Bluetooth Modülü</td>
-            <td><span class="badge">Donanım (UART)</span></td>
-            <td>Atanmadı</td>
-            <td id="commit-BT">
-              <span class="badge" style="background:rgba(139,148,158,0.2); color:#8b949e;">Bağlı repo yok</span>
-              <div style="color:#8b949e; font-size:12px; margin-top:2px;">Bu donanım modülü için henüz bir kod deposu
-                bulunmuyor.</div>
-            </td>
-            <td>Gamepad kablosuz sürüş kontrolü için Bluetooth modülü.</td>
-          </tr>
-          <tr>
-            <td>Gamepad</td>
-            <td><span class="badge">Harici Donanım</span></td>
-            <td>Operatör</td>
-            <td id="commit-GAMEPAD">
-              <span class="badge" style="background:rgba(139,148,158,0.2); color:#8b949e;">Harici Donanım</span>
-              <div style="color:#8b949e; font-size:12px; margin-top:2px;">Kablosuz sürüş ve test kumandası.</div>
-            </td>
-            <td>Bluetooth üzerinden araç sürüş komutları ileten kablosuz gamepad kumandası.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+      <div class="tbl">
+        <table>
+          <thead>
+            <tr>
+              <th>Bileşen</th>
+              <th>Rol</th>
+              <th>Sorumlu</th>
+              <th>Son commit</th>
+              <th>Açıklama</th>
+            </tr>
+          </thead>
+          <tbody id="rows">
+            <tr>
+              <td colspan="5" style="color:var(--muted)">Veri yükleniyor…</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
 
-    <!-- Alt Bilgi -->
-    <footer class="footer">
-      <div>DEUDEOS &copy; 2026.</div>
-      <div style="font-family:'JetBrains Mono', monospace; font-size:0.75rem;">DEOS ARCHITECTURE</div>
+    <footer>
+      <div>DEUDEOS &copy; 2026</div>
+      <div>DEOS mimarisi</div>
     </footer>
-
   </div>
 
-  <!-- Dinamik Hover Popover Kartı -->
-  <div id="nodePopover" class="node-popover">
-    <div class="popover-header">
-      <div id="popTitle" class="popover-title">Düğüm Adı</div>
-      <div id="popOwner" class="popover-owner-badge">Sorumlu: İsim</div>
+  <div id="pop" class="pop" role="tooltip">
+    <div class="pop-top">
+      <div id="pTitle" class="pop-title"></div>
+      <div id="pOwner" class="pop-owner"></div>
     </div>
-    <div id="popRole" class="popover-role">Açıklama</div>
-    <div id="popStatusContainer" class="popover-status-box" style="display:none;">
-      <div class="popover-status-label">Mevcut Durum</div>
-      <div id="popStatus" class="popover-status-text"></div>
+    <div id="pRole" class="pop-role"></div>
+    <div id="pStatusBox" class="pop-status" style="display:none"></div>
+    <div id="pCommit" class="pop-commit" style="display:none">
+      <div class="r"><span id="pHash" class="hash"></span><span id="pAuthor"></span></div>
+      <div id="pMsg" class="m"></div>
+      <div id="pDate" class="d"></div>
     </div>
-    <div id="popCommitContainer" class="popover-commit" style="display:none;">
-      <div class="popover-commit-meta">
-        <div><span id="popCommitHash" class="popover-commit-hash">#---</span></div>
-        <div id="popCommitAuthor" class="popover-commit-author"></div>
-      </div>
-      <div id="popCommitMsg" class="popover-commit-msg"></div>
-      <div id="popCommitDate" class="popover-commit-date"></div>
-    </div>
-    <a id="popBtn" href="#" target="_blank" class="popover-link-btn">Depoyu Aç ↗</a>
+    <a id="pBtn" class="pop-btn" href="#" target="_blank" rel="noopener">Depoyu aç</a>
   </div>
 
-  <!-- Mermaid.js -->
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <script>
-    mermaid.initialize({
-      startOnLoad: true,
-      securityLevel: 'loose',
-      theme: 'dark',
-      themeVariables: {
-        darkMode: true,
-        background: 'transparent',
-        primaryColor: '#1f6feb',
-        primaryTextColor: '#ffffff',
-        primaryBorderColor: '#388bfd',
-        lineColor: '#58a6ff',
-        secondaryColor: '#238636',
-        tertiaryColor: '#161b22',
-        fontSize: '13px'
-      },
-      flowchart: {
-        curve: 'basis',
-        htmlLabels: true,
-        padding: 18,
-        nodeSpacing: 50,
-        rankSpacing: 48,
-        useMaxWidth: false
-      }
-    });
+    /* ---------- Şema verisi ---------- */
+    const COL = { root: '#1d4e6b', sub: '#2f6f58', ext: '#a8571f', rf: '#7a4a73', can: '#2f6f58', host: '#4a5559', mcu: '#1d4e6b' };
+    const N1 = [
+      { id: 'FW', x: 440, y: 20, w: 220, h: 60, t: 'deos-firmware', s: 'Ana depo', k: 'root' },
+      { id: 'CORE', x: 40, y: 150, w: 230, h: 64, t: 'deos-core', s: 'Router', k: 'sub' },
+      { id: 'PROTO', x: 300, y: 150, w: 230, h: 64, t: 'deos-protocol', s: 'Protokol ve codec', k: 'sub' },
+      { id: 'CAN', x: 560, y: 150, w: 230, h: 64, t: 'deos-transport-can', s: 'CAN-FD sürücüsü', k: 'sub' },
+      { id: 'DOCS', x: 820, y: 150, w: 230, h: 64, t: 'deos-docs', s: 'ICD ve belgeler', k: 'sub' },
+      { id: 'ROS', x: 170, y: 300, w: 230, h: 64, t: 'deos-ros2-bridge', s: 'ROS 2 köprüsü', k: 'ext' },
+      { id: 'GCS', x: 440, y: 300, w: 230, h: 64, t: 'deos-ground-station', s: 'Yer istasyonu', k: 'ext' }
+    ];
+    const E1 = [
+      ['M550 80V115H155V150'], ['M550 115H415V150'], ['M550 115H675V150'], ['M550 115H935V150'],
+      ['M415 214V257H285V300', 'dash'], ['M415 257H555V300', 'dash'],
+      ['LBL', 'C/C++ bağı', 350, 250], ['LBL', 'Python binding', 490, 250]
+    ];
+    const N2 = [
+      { id: 'GCS', x: 20, y: 100, w: 170, h: 56, t: 'Ground Control', s: 'deos-ground-station', k: 'host' },
+      { id: 'GAMEPAD', x: 20, y: 190, w: 170, h: 56, t: 'Gamepad', s: 'Kablosuz kumanda', k: 'host' },
+      { id: 'LORA', x: 250, y: 100, w: 170, h: 56, t: 'LoRa modülü', s: 'Ebyte E220', k: 'rf' },
+      { id: 'BT', x: 250, y: 190, w: 170, h: 56, t: 'Bluetooth modülü', s: 'UART', k: 'rf' },
+      { id: 'MAIN', x: 500, y: 100, w: 190, h: 130, t: 'Main STM32', s: 'Router · Nucleo-H563ZI', k: 'mcu' },
+      { id: 'ROS', x: 500, y: 10, w: 190, h: 56, t: 'deos-ros2-bridge', s: 'Köprü', k: 'host' },
+      { id: 'RPI', x: 790, y: 10, w: 190, h: 56, t: 'Raspberry Pi', s: 'ROS 2 Humble', k: 'host' },
+      { id: 'TRACTION', x: 40, y: 360, w: 210, h: 56, t: 'Traction', s: 'Motor / invertör', k: 'can' },
+      { id: 'BRAKE', x: 270, y: 360, w: 210, h: 56, t: 'Brake', s: 'Fren', k: 'can' },
+      { id: 'STEERING', x: 500, y: 360, w: 210, h: 56, t: 'Steering', s: 'Direksiyon', k: 'can' },
+      { id: 'BMS_GW', x: 730, y: 360, w: 210, h: 56, t: 'BMS Gateway', s: 'Batarya ağ geçidi', k: 'can' },
+      { id: 'BMS1', x: 690, y: 470, w: 130, h: 50, t: 'BMS 1', s: '', k: 'can' },
+      { id: 'BMS2', x: 850, y: 470, w: 130, h: 50, t: 'BMS 2', s: '', k: 'can' }
+    ];
+    const E2 = [
+      ['M790 38H690'], ['M595 66V100'],
+      ['M420 128H500'], ['M420 218H500'],
+      ['M190 128H250', 'dash'], ['M190 218H250', 'dash'],
+      ['M595 230V300'],
+      ['M145 300H835', 'bus'], ['M145 300V360', 'stub'], ['M375 300V360', 'stub'], ['M605 300V360', 'stub'], ['M835 300V360', 'stub'],
+      ['M835 416V443H755V470', 'stub'], ['M835 443H915V470', 'stub'],
+      ['LBL', 'ROS 2 topic', 740, 30], ['LBL', 'Ethernet', 604, 88, 'start'],
+      ['LBL', 'UART', 460, 120], ['LBL', 'UART', 460, 210],
+      ['LBL', 'RF', 220, 120], ['LBL', 'kablosuz', 220, 210],
+      ['LBL', 'CAN-FD', 604, 268, 'start'], ['LBL', 'CAN-FD omurga', 852, 304, 'start']
+    ];
 
-    // Düğüm Veri Sözlüğü: responsibilities.json dosyasından dinamik olarak inşa edilir
+    function drawNode(n) {
+      const sub = n.s ? `<text class="ns" x="18" y="${n.h / 2 + 15}">${n.s}</text>` : '';
+      const ty = n.s ? n.h / 2 - 1 : n.h / 2 + 5;
+      return `<g class="node" data-key="${n.id}" transform="translate(${n.x},${n.y})" tabindex="-1">
+   <rect class="nb" width="${n.w}" height="${n.h}" rx="5"/>
+   <rect width="5" height="${n.h}" rx="2.5" fill="${COL[n.k]}"/>
+   <text class="nt" x="18" y="${ty}">${n.t}</text>${sub}</g>`;
+    }
+    function drawEdges(E, start, end) {
+      return E.map(e => {
+        if (e[0] === 'LBL') return `<text class="elabel" x="${e[2]}" y="${e[3]}" text-anchor="${e[4] || 'middle'}">${e[1]}</text>`;
+        const m = e[1] === 'bus' || e[1] === 'stub' ? '' : `marker-end="url(#ar)" marker-start="url(#ar)"`;
+        return `<path class="edge ${e[1] || ''}" d="${e[0]}" ${m}/>`;
+      }).join('');
+    }
+    const DEFS = `<defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="#1b2428" stroke-width="1.6"/></marker></defs>`;
+    function render(id, N, E) {
+      // one-way arrows for the software tree; both ends for hardware links
+      document.getElementById(id).innerHTML = DEFS + drawEdges(E) + N.map(drawNode).join('');
+    }
+    render('d1', N1, E1);
+    render('d2', N2, E2);
+    // yazılım şemasında ok sadece hedefte, uçlardaki başlangıç oku kaldırılır
+    document.querySelectorAll('#d1 .edge').forEach(p => p.removeAttribute('marker-start'));
+
+    /* ---------- Zaman yardımcıları ---------- */
     const nodeMetadata = {};
-
-    function parseDate(dateInput) {
-      if (!dateInput) return null;
-      if (dateInput instanceof Date) return isNaN(dateInput.getTime()) ? null : dateInput;
-      if (typeof dateInput === "string") {
-        const trimmed = dateInput.trim();
-        if (!trimmed) return null;
-        if (/^\d{2}\.\d{2}\.\d{4}$/.test(trimmed)) {
-          const p = trimmed.split(".");
-          return new Date(parseInt(p[2], 10), parseInt(p[1], 10) - 1, parseInt(p[0], 10));
-        }
-        const d = new Date(trimmed);
-        return isNaN(d.getTime()) ? null : d;
-      }
-      return null;
+    function parseDate(x) {
+      if (!x) return null; if (x instanceof Date) return isNaN(x) ? null : x;
+      const s = String(x).trim(); if (!s) return null;
+      if (/^\d{2}\.\d{2}\.\d{4}$/.test(s)) { const p = s.split('.'); return new Date(+p[2], +p[1] - 1, +p[0]); }
+      const d = new Date(s); return isNaN(d) ? null : d;
     }
-
-    function getRelativeTimeString(dateInput) {
-      const d = parseDate(dateInput);
-      if (!d) return dateInput || "";
-
-      const now = new Date();
-      const diffMs = now.getTime() - d.getTime();
-      const diffSec = Math.floor(diffMs / 1000);
-
-      if (diffSec < 45) return "az önce";
-      const diffMin = Math.floor(diffSec / 60);
-      if (diffMin < 60) return `${diffMin} dk önce`;
-      const diffHour = Math.floor(diffMin / 60);
-      if (diffHour < 24) return `${diffHour} sa önce`;
-      const diffDay = Math.floor(diffHour / 24);
-      if (diffDay === 1) return "dün";
-      if (diffDay < 30) return `${diffDay} gün önce`;
-      const diffMonth = Math.floor(diffDay / 30);
-      if (diffMonth < 12) return `${diffMonth} ay önce`;
-      const diffYear = Math.floor(diffDay / 365);
-      return `${diffYear} yıl önce`;
+    function rel(x) {
+      const d = parseDate(x); if (!d) return x || '';
+      const sec = Math.floor((Date.now() - d) / 1000); if (sec < 45) return 'az önce';
+      const mi = Math.floor(sec / 60); if (mi < 60) return mi + ' dk önce';
+      const h = Math.floor(mi / 60); if (h < 24) return h + ' sa önce';
+      const g = Math.floor(h / 24); if (g === 1) return 'dün'; if (g < 30) return g + ' gün önce';
+      const ay = Math.floor(g / 30); if (ay < 12) return ay + ' ay önce';
+      return Math.floor(g / 365) + ' yıl önce';
     }
-
-    function getFullDateTimeString(dateInput) {
-      const d = parseDate(dateInput);
-      if (!d) return dateInput || "";
-      return d.toLocaleString("tr-TR", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit"
+    const full = x => { const d = parseDate(x); return d ? d.toLocaleString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : (x || '') };
+    function clock(x) {
+      const d = parseDate(x); if (!d) return '';
+      if (typeof x === 'string' && !/[T:Z]/.test(x)) return '';
+      return d.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+    }
+    function timeTag(x) {
+      if (!x) return ''; const c = clock(x);
+      return `<span class="commit-time-tag" data-date="${x}" title="Son commit: ${full(x)}">${rel(x)}${c ? ` (${c})` : ''}</span>`;
+    }
+    function tickTimes() {
+      document.querySelectorAll('.commit-time-tag').forEach(el => {
+        const raw = el.dataset.date; if (!raw) return; const c = clock(raw);
+        el.textContent = rel(raw) + (c ? ` (${c})` : '');
       });
+      banner();
     }
-
-    function getTimeString(dateInput) {
-      const d = parseDate(dateInput);
-      if (!d) return "";
-      if (typeof dateInput === "string" && !dateInput.includes("T") && !dateInput.includes(":") && !dateInput.includes("Z")) {
-        return "";
-      }
-      return d.toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" });
-    }
-
-    function renderCommitTimeHtml(dateStr) {
-      if (!dateStr) return "";
-      const rel = getRelativeTimeString(dateStr);
-      const time = getTimeString(dateStr);
-      const full = getFullDateTimeString(dateStr);
-      const display = time ? `• ${rel} (${time})` : `• ${rel}`;
-      return `<span class="commit-time-tag" data-date="${dateStr}" title="Son commit tarihi: ${full}">${display}</span>`;
-    }
-
-    function updateAllRelativeTimestamps() {
-      document.querySelectorAll(".commit-time-tag").forEach(el => {
-        const raw = el.getAttribute("data-date");
-        if (raw) {
-          const rel = getRelativeTimeString(raw);
-          const time = getTimeString(raw);
-          el.textContent = time ? `• ${rel} (${time})` : `• ${rel}`;
-        }
+    function banner() {
+      const box = document.getElementById('latest'), txt = document.getElementById('latestText');
+      let best = null, t = 0;
+      Object.values(nodeMetadata).forEach(i => {
+        if (!i.date || !i.hash || i.hash === '—' || i.hash === 'Bağlı repo yok') return;
+        if (i.id === 'PORTAL' || (i.repo && i.repo.includes('deos-software-development-page'))) return;
+        if (i.author && (i.author.includes('[bot]') || i.author.toLowerCase().includes('actions'))) return;
+        const d = parseDate(i.date); if (d && d.getTime() > t) { t = d.getTime(); best = i; }
       });
-      updateLatestCommitBanner();
+      if (!best) return;
+      const c = clock(best.date);
+      box.title = `${best.title}: ${best.msg} (${full(best.date)})`;
+      txt.innerHTML = `Son commit <strong>${rel(best.date)}${c ? ` (${c})` : ''}</strong> · ${best.title} #${best.hash}, ${best.author}`;
+      box.style.display = 'inline-flex';
+      const go = () => {
+        const r = document.getElementById('commit-' + best.id); if (!r) return;
+        r.scrollIntoView({ behavior: 'smooth', block: 'center' }); r.style.transition = 'background .3s'; r.style.background = '#dbe6e8'; setTimeout(() => r.style.background = '', 1800);
+      };
+      box.onclick = go; box.onkeydown = e => { if (e.key === 'Enter') go(); };
     }
+    const cacheGet = k => { try { return JSON.parse(sessionStorage.getItem('deos_commit_' + k)) } catch (e) { return null } };
+    const cacheSet = (k, v) => { try { sessionStorage.setItem('deos_commit_' + k, JSON.stringify(v)) } catch (e) { } };
+    let hoverKey = null;
 
-    function updateLatestCommitBanner() {
-      const bannerEl = document.getElementById("latestEcosystemCommit");
-      const textEl = document.getElementById("latestCommitText");
-      if (!bannerEl || !textEl) return;
-
-      let latestItem = null;
-      let latestTime = 0;
-
-      Object.values(nodeMetadata).forEach(item => {
-        if (!item.date || !item.hash || item.hash === "—" || item.hash === "Bağlı repo yok") return;
-
-        // Web portalının kendi reposunu ve otomatik bot commitlerini hariç tut;
-        // sadece geliştirilen ve takip edilen ekosistem repolarını (firmware, core, protocol, gcs vb.) dikkate al:
-        if (item.id === "PORTAL" || (item.repo && item.repo.includes("deos-software-development-page"))) return;
-        if (item.author && (item.author.includes("[bot]") || item.author.toLowerCase().includes("actions"))) return;
-
-        const d = parseDate(item.date);
-        if (d && d.getTime() > latestTime) {
-          latestTime = d.getTime();
-          latestItem = item;
+    /* ---------- Veri yükleme ---------- */
+    async function loadData() {
+      const [rr, cr] = await Promise.allSettled([fetch('responsibilities.json'), fetch('commits.json')]);
+      let cm = {};
+      if (cr.status === 'fulfilled' && cr.value.ok) { try { cm = (await cr.value.json()).commits || {} } catch (e) { } }
+      if (rr.status !== 'fulfilled' || !rr.value.ok) {
+        document.getElementById('rows').innerHTML = '<tr><td colspan="5" style="color:var(--muted)">responsibilities.json yüklenemedi. Dosyanın index.html ile aynı klasörde olduğunu kontrol edin.</td></tr>';
+        return;
+      }
+      const comps = (await rr.value.json()).components || [];
+      comps.forEach(c => {
+        let hash = '—', author = '', date = '', msg = c.role || '';
+        if (cm[c.id]) { const x = cm[c.id]; hash = x.hash || '—'; author = x.author || ''; date = x.date || ''; msg = x.msg || c.role || ''; }
+        else {
+          const ca = cacheGet(c.id);
+          if (ca) { ({ hash, author, date, msg } = ca); }
+          else if (c.repo) { hash = 'main'; msg = 'Canlı commit verisi çekiliyor…'; }
+          else { hash = (c.id === 'GAMEPAD' || c.id === 'RPI') ? 'Donanım' : 'Bağlı repo yok'; }
         }
+        let url = '', api = null;
+        if (c.repo) {
+          url = c.path ? `https://github.com/${c.repo}/tree/main/${c.path}` : `https://github.com/${c.repo}`;
+          api = c.path ? `https://api.github.com/repos/${c.repo}/commits?path=${c.path}&per_page=1` : `https://api.github.com/repos/${c.repo}/commits?per_page=1`;
+        }
+        nodeMetadata[c.id] = { id: c.id, title: c.title, owner: c.owner, role_type: c.role_type, role: c.role, status_note: c.status_note || '', repo: c.repo, path: c.path, url, api, hash, author, date, msg };
       });
-
-      if (latestItem) {
-        const rel = getRelativeTimeString(latestItem.date);
-        const time = getTimeString(latestItem.date);
-        const full = getFullDateTimeString(latestItem.date);
-        bannerEl.title = `Son ekosistem aktivitesi: ${latestItem.title} - ${latestItem.msg} (${full})\nTabloda görmek için tıklayın.`;
-        textEl.innerHTML = `Son Commit: <strong>${rel}${time ? ` (${time})` : ''}</strong> &nbsp;·&nbsp; <span style="opacity:0.85;">${latestItem.title} (#${latestItem.hash} - ${latestItem.author})</span>`;
-        bannerEl.style.display = "inline-flex";
-        bannerEl.style.cursor = "pointer";
-        bannerEl.onclick = () => {
-          const row = document.getElementById(`commit-${latestItem.id}`);
-          if (row) {
-            row.scrollIntoView({ behavior: "smooth", block: "center" });
-            row.style.transition = "background 0.3s";
-            row.style.background = "rgba(56, 139, 253, 0.25)";
-            setTimeout(() => { row.style.background = ""; }, 1800);
-          }
-        };
-      }
+      renderTable(comps);
     }
-
-    function getCommitCache(key) {
-      try {
-        const raw = sessionStorage.getItem("deos_commit_" + key);
-        return raw ? JSON.parse(raw) : null;
-      } catch (e) { return null; }
+    function commitCell(i) {
+      const meta = (i.author || i.date)
+        ? `<div class="cmeta"><span class="hash">#${i.hash}</span>${i.author ? `<strong>${i.author}</strong>` : ''}${timeTag(i.date)}</div>`
+        : `<div class="cmeta"><span class="hash">#${i.hash}</span></div>`;
+      return `${meta}<div class="cmsg" title="${i.msg}">${i.msg}</div>`;
     }
-    function setCommitCache(key, val) {
-      try {
-        sessionStorage.setItem("deos_commit_" + key, JSON.stringify(val));
-      } catch (e) { }
+    function renderTable(comps) {
+      document.getElementById('rows').innerHTML = comps.map(c => {
+        const i = nodeMetadata[c.id];
+        const name = i.url ? `<a href="${i.url}" target="_blank" rel="noopener">${i.title}</a>` : i.title;
+        const st = i.status_note ? `<div class="status"><strong>Mevcut durum:</strong> ${i.status_note}</div>` : '';
+        return `<tr><td>${name}</td><td><span class="tag">${i.role_type || ''}</span></td><td>${i.owner}</td>
+      <td id="commit-${i.id}">${commitCell(i)}</td><td>${i.role}${st}</td></tr>`;
+      }).join('');
+      banner();
     }
-
-    let currentHoveredKey = null;
-
-    async function loadResponsibilities() {
-      try {
-        const [respRes, commitsRes] = await Promise.allSettled([
-          fetch("responsibilities.json"),
-          fetch("commits.json")
-        ]);
-
-        let commitsMap = {};
-        if (commitsRes.status === "fulfilled" && commitsRes.value.ok) {
-          try {
-            const commitsData = await commitsRes.value.json();
-            commitsMap = commitsData.commits || {};
-          } catch (e) { }
-        }
-
-        if (respRes.status !== "fulfilled" || !respRes.value.ok) {
-          throw new Error("responsibilities.json yüklenemedi");
-        }
-        const data = await respRes.value.json();
-        const components = data.components || [];
-
-        components.forEach(comp => {
-          let url = "";
-          let apiEndpoint = null;
-          let hash = "—";
-          let author = "";
-          let date = "";
-          let msg = comp.role || "";
-
-          // 1. Önce commits.json (GitHub Actions tarafından saatlik güncellenen 0-rate-limit dosya)
-          if (commitsMap[comp.id]) {
-            const c = commitsMap[comp.id];
-            hash = c.hash || "—";
-            author = c.author || "";
-            date = c.date || "";
-            msg = c.msg || comp.role || "";
-          } else {
-            // 2. Yoksa oturum önbelleğinden
-            const cached = getCommitCache(comp.id);
-            if (cached) {
-              hash = cached.hash;
-              author = cached.author;
-              date = cached.date;
-              msg = cached.msg;
-            } else if (comp.repo) {
-              hash = "main";
-              msg = "Canlı commit verisi çekiliyor...";
-            } else {
-              hash = comp.id === "GAMEPAD" || comp.id === "RPI" ? "Donanım" : "Bağlı repo yok";
-              msg = comp.role || "";
-            }
-          }
-
-          if (comp.repo) {
-            if (comp.path) {
-              url = `https://github.com/${comp.repo}/tree/main/${comp.path}`;
-              apiEndpoint = `https://api.github.com/repos/${comp.repo}/commits?path=${comp.path}&per_page=1`;
-            } else {
-              url = `https://github.com/${comp.repo}`;
-              apiEndpoint = `https://api.github.com/repos/${comp.repo}/commits?per_page=1`;
-            }
-          }
-
-          nodeMetadata[comp.id] = {
-            id: comp.id,
-            title: comp.title,
-            owner: comp.owner,
-            role_type: comp.role_type,
-            role: comp.role,
-            status_note: comp.status_note || "",
-            repo: comp.repo,
-            path: comp.path,
-            url: url,
-            apiEndpoint: apiEndpoint,
-            hash: hash,
-            author: author,
-            date: date,
-            msg: msg
-          };
-        });
-
-        renderTable(components);
-      } catch (err) {
-        console.warn("responsibilities.json dinamik yüklenemedi, yerel fallback modunda:", err);
-      }
-    }
-
-    function renderTable(components) {
-      const tbody = document.getElementById("repoTableBody");
-      if (!tbody) return;
-      tbody.innerHTML = components.map(comp => {
-        const item = nodeMetadata[comp.id] || comp;
-        const link = item.url ? `<a href="${item.url}" target="_blank">${item.title}</a>` : item.title;
-        const statusBadge = item.status_note ? `
-          <div style="margin-top:6px; font-size:12px; line-height:1.4; color:#79c0ff; background:rgba(56,139,253,0.1); border-left:2px solid #388bfd; padding:4px 8px; border-radius:4px;">
-            <strong style="color:#58a6ff;">Mevcut Durum:</strong> ${item.status_note}
-          </div>` : "";
-        const metaLine = (item.author || item.date) ? `
-          <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-bottom:3px;">
-            <span class="badge" style="color:var(--primary); font-weight:700;">#${item.hash}</span>
-            ${item.author ? `<span style="color:#58a6ff; font-weight:600; font-size:12px;">${item.author}</span>` : ''}
-            ${renderCommitTimeHtml(item.date)}
-          </div>` : `
-          <span class="badge" style="color:var(--primary); font-weight:700;">#${item.hash}</span>`;
-        return `
-          <tr>
-            <td>${link}</td>
-            <td><span class="badge">${item.role_type || ''}</span></td>
-            <td>${item.owner}</td>
-            <td id="commit-${item.id}">
-              ${metaLine}
-              <div style="color:#8b949e; font-size:12px; margin-top:2px; max-width:340px; white-space:normal; line-height:1.35;" title="${item.msg}">${item.msg}</div>
-            </td>
-            <td>
-              <div>${item.role}</div>
-              ${statusBadge}
-            </td>
-          </tr>
-        `;
-      }).join("");
-      updateLatestCommitBanner();
-    }
-
-    // GitHub API ile Stale-While-Revalidate Canlı Doğrulama
-    // commits.json sayesinde sayfa 0. milisaniyede açılır; arka planda GitHub'dan son commitler canlı sorgulanır.
-    async function fetchLiveCommits() {
-      const keys = Object.keys(nodeMetadata).filter(k => nodeMetadata[k].apiEndpoint);
-
-      await Promise.allSettled(keys.map(async (key) => {
+    async function liveCommits() {
+      const keys = Object.keys(nodeMetadata).filter(k => nodeMetadata[k].api);
+      await Promise.allSettled(keys.map(async k => {
         try {
-          const item = nodeMetadata[key];
-          const res = await fetch(item.apiEndpoint);
-          if (!res.ok) return; // Kota aşımı veya network hatasında sessizce commits.json verisinde kal
-          const data = await res.json();
-          if (Array.isArray(data) && data.length > 0) {
-            const c = data[0];
-            const hash = c.sha.substring(0, 7);
-            const author = c.commit?.author?.name || c.author?.login || "Bilinmiyor";
-            const msg = (c.commit?.message || "").split("\n")[0];
-            const date = c.commit?.author?.date || "";
-
-            const isUpdated = item.hash !== hash || item.msg !== msg || item.date !== date;
-            item.hash = hash;
-            item.author = author;
-            item.msg = msg;
-            item.date = date;
-            setCommitCache(key, { hash, author, msg, date });
-
-            // Eğer yeni bir commit atılmışsa anında canlı güncelle
-            if (isUpdated) {
-              const cell = document.getElementById(`commit-${key}`);
-              if (cell) {
-                cell.innerHTML = `
-                  <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
-                    <span class="badge" style="color:var(--primary); font-weight:700;">#${hash}</span>
-                    <span style="color:#58a6ff; font-weight:600; font-size:12px;">${author}</span>
-                    ${renderCommitTimeHtml(date)}
-                  </div>
-                  <div style="color:#8b949e; font-size:12px; margin-top:2px; max-width:340px; white-space:normal; line-height:1.35;" title="${msg}">
-                    ${msg}
-                  </div>
-                `;
-              }
-
-              if (currentHoveredKey === key) {
-                const popCommitContainer = document.getElementById("popCommitContainer");
-                const popCommitHash = document.getElementById("popCommitHash");
-                const popCommitAuthor = document.getElementById("popCommitAuthor");
-                const popCommitMsg = document.getElementById("popCommitMsg");
-                const popCommitDate = document.getElementById("popCommitDate");
-
-                if (popCommitHash) popCommitHash.textContent = "#" + hash;
-                if (popCommitAuthor) popCommitAuthor.textContent = `Son commit: ${author}`;
-                if (popCommitMsg) popCommitMsg.textContent = msg;
-                if (popCommitDate) {
-                  popCommitDate.innerHTML = date ? `🕒 <strong>${getRelativeTimeString(date)}</strong> (${getFullDateTimeString(date)})` : "";
-                }
-                if (popCommitContainer) popCommitContainer.style.display = "block";
-              }
-              updateLatestCommitBanner();
-            }
-          }
-        } catch (e) {
-          // Hata durumunda commits.json verisi ekranda hazırdır
-        }
+          const i = nodeMetadata[k]; const r = await fetch(i.api); if (!r.ok) return;
+          const d = await r.json(); if (!Array.isArray(d) || !d.length) return;
+          const c = d[0], hash = c.sha.substring(0, 7), author = c.commit?.author?.name || c.author?.login || 'Bilinmiyor',
+            msg = (c.commit?.message || '').split('\n')[0], date = c.commit?.author?.date || '';
+          const changed = i.hash !== hash || i.msg !== msg || i.date !== date;
+          Object.assign(i, { hash, author, msg, date }); cacheSet(k, { hash, author, msg, date });
+          if (!changed) return;
+          const cell = document.getElementById('commit-' + k); if (cell) cell.innerHTML = commitCell(i);
+          if (hoverKey === k) fillCommit(i);
+          banner();
+        } catch (e) { }
       }));
     }
 
-    // Popover Etkileşim Kodları
-    document.addEventListener("DOMContentLoaded", async function () {
-      // 1. responsibilities.json yükle ve tabloyu inşa et
-      await loadResponsibilities();
-
-      // 2. Dinamik commitleri GitHub'dan çek
-      fetchLiveCommits();
-
-      // 3. Göreceli zaman damgalarını her 60 saniyede bir canlı güncelle (örn. "30 dk önce" -> "31 dk önce")
-      setInterval(updateAllRelativeTimestamps, 60000);
-
-      const popover = document.getElementById("nodePopover");
-      const popTitle = document.getElementById("popTitle");
-      const popOwner = document.getElementById("popOwner");
-      const popRole = document.getElementById("popRole");
-      const popStatusContainer = document.getElementById("popStatusContainer");
-      const popStatus = document.getElementById("popStatus");
-      const popCommitContainer = document.getElementById("popCommitContainer");
-      const popCommitHash = document.getElementById("popCommitHash");
-      const popCommitAuthor = document.getElementById("popCommitAuthor");
-      const popCommitMsg = document.getElementById("popCommitMsg");
-      const popCommitDate = document.getElementById("popCommitDate");
-      const popBtn = document.getElementById("popBtn");
-
-      let hideTimeout = null;
-
-      function bindNodeEvents() {
-        const nodes = document.querySelectorAll(".mermaid .node");
-        nodes.forEach(node => {
-          const idAttr = node.id || "";
-          const textContent = (node.textContent || "").trim();
-
-          // BMS 1 ve BMS 2 için kutucuk AÇILMAYACAK
-          if (idAttr.includes("-BMS1-") || idAttr.endsWith("-BMS1") ||
-            idAttr.includes("-BMS2-") || idAttr.endsWith("-BMS2") ||
-            textContent.startsWith("BMS 1") || textContent.startsWith("BMS 2")) {
-            return;
-          }
-
-          let key = "";
-          for (let k of Object.keys(nodeMetadata)) {
-            if (idAttr.includes("-" + k + "-") || idAttr.endsWith("-" + k)) {
-              key = k;
-              break;
-            }
-          }
-
-          if (!key) {
-            for (let k of Object.keys(nodeMetadata)) {
-              if (textContent.includes(nodeMetadata[k].title) || textContent.includes(k)) {
-                key = k;
-                break;
-              }
-            }
-          }
-
-          if (!key || !nodeMetadata[key]) return;
-
-          const data = nodeMetadata[key];
-          node.classList.add("has-popover");
-
-          node.addEventListener("mouseenter", function (e) {
-            clearTimeout(hideTimeout);
-            currentHoveredKey = key;
-            popTitle.textContent = data.title;
-            popOwner.textContent = "Sorumlu: " + data.owner;
-            popRole.textContent = data.role;
-
-            if (data.status_note) {
-              popStatus.textContent = data.status_note;
-              popStatusContainer.style.display = "block";
-            } else {
-              popStatusContainer.style.display = "none";
-            }
-
-            if (data.author) {
-              popCommitHash.textContent = "#" + data.hash;
-              popCommitAuthor.textContent = `Son commit: ${data.author}`;
-              popCommitMsg.textContent = data.msg;
-              if (data.date) {
-                popCommitDate.innerHTML = `🕒 <strong>${getRelativeTimeString(data.date)}</strong> (${getFullDateTimeString(data.date)})`;
-              } else {
-                popCommitDate.textContent = "";
-              }
-              if (popCommitContainer) popCommitContainer.style.display = "block";
-            } else if (data.repo) {
-              popCommitHash.textContent = "#" + (data.hash || "main");
-              popCommitAuthor.textContent = "GitHub canlı sorgu...";
-              popCommitMsg.textContent = data.msg || "Canlı commit verisi çekiliyor...";
-              popCommitDate.textContent = "";
-              if (popCommitContainer) popCommitContainer.style.display = "block";
-            } else {
-              if (popCommitContainer) popCommitContainer.style.display = "none";
-            }
-
-            if (data.url) {
-              popBtn.href = data.url;
-              popBtn.textContent = "Depoyu Aç ↗";
-              popBtn.style.display = "inline-flex";
-              popBtn.style.opacity = "1";
-              popBtn.style.pointerEvents = "auto";
-            } else {
-              popBtn.removeAttribute("href");
-              popBtn.textContent = "Bağlı Repo Yok";
-              popBtn.style.display = "inline-flex";
-              popBtn.style.opacity = "0.5";
-              popBtn.style.pointerEvents = "none";
-            }
-
-            const rect = node.getBoundingClientRect();
-            let top = rect.bottom + 10;
-            let left = rect.left + (rect.width / 2) - 185;
-
-            if (left < 10) left = 10;
-            if (left + 380 > window.innerWidth) left = window.innerWidth - 390;
-            if (top + 320 > window.innerHeight) {
-              top = Math.max(10, rect.top - 310);
-            }
-
-            popover.style.top = top + "px";
-            popover.style.left = left + "px";
-            popover.classList.add("active");
-          });
-
-          node.addEventListener("mouseleave", function () {
-            currentHoveredKey = null;
-            hideTimeout = setTimeout(() => {
-              popover.classList.remove("active");
-            }, 300);
-          });
-
-          // Düğüme doğrudan tıklama yönlendirmesi KALDIRILDI.
-          // Sadece popover içindeki "Depoyu Aç" butonuna basılınca gidilecek.
-        });
-      }
-
-      popover.addEventListener("mouseenter", () => clearTimeout(hideTimeout));
-      popover.addEventListener("mouseleave", () => {
-        hideTimeout = setTimeout(() => {
-          popover.classList.remove("active");
-        }, 200);
+    /* ---------- Açılır kart ---------- */
+    const pop = document.getElementById('pop');
+    const $ = id => document.getElementById(id);
+    function fillCommit(d) {
+      const box = $('pCommit');
+      if (d.author) {
+        $('pHash').textContent = '#' + d.hash; $('pAuthor').textContent = d.author; $('pMsg').textContent = d.msg;
+        $('pDate').textContent = d.date ? `${rel(d.date)} · ${full(d.date)}` : ''; box.style.display = 'block';
+      } else if (d.repo) {
+        $('pHash').textContent = '#' + (d.hash || 'main'); $('pAuthor').textContent = 'GitHub sorgulanıyor';
+        $('pMsg').textContent = d.msg || ''; $('pDate').textContent = ''; box.style.display = 'block';
+      } else box.style.display = 'none';
+    }
+    let hideT = null;
+    function bindNodes() {
+      document.querySelectorAll('.node').forEach(node => {
+        const key = node.dataset.key, d = nodeMetadata[key];
+        if (!d) return;
+        node.classList.add('has-pop'); node.setAttribute('tabindex', '0');
+        const show = () => {
+          clearTimeout(hideT); hoverKey = key;
+          $('pTitle').textContent = d.title; $('pOwner').textContent = 'Sorumlu: ' + d.owner; $('pRole').textContent = d.role;
+          const sb = $('pStatusBox');
+          if (d.status_note) { sb.textContent = d.status_note; sb.style.display = 'block'; } else sb.style.display = 'none';
+          fillCommit(d);
+          const b = $('pBtn');
+          if (d.url) { b.href = d.url; b.textContent = 'Depoyu aç'; b.style.opacity = 1; b.style.pointerEvents = 'auto'; }
+          else { b.removeAttribute('href'); b.textContent = 'Bağlı repo yok'; b.style.opacity = .45; b.style.pointerEvents = 'none'; }
+          const r = node.getBoundingClientRect();
+          let top = r.bottom + 10, left = r.left + r.width / 2 - 180;
+          left = Math.max(10, Math.min(left, innerWidth - 370));
+          if (top + 320 > innerHeight) top = Math.max(10, r.top - 310);
+          pop.style.top = top + 'px'; pop.style.left = left + 'px'; pop.classList.add('on');
+        };
+        const hide = () => { hoverKey = null; hideT = setTimeout(() => pop.classList.remove('on'), 250); };
+        node.addEventListener('mouseenter', show); node.addEventListener('focus', show);
+        node.addEventListener('mouseleave', hide); node.addEventListener('blur', hide);
       });
+    }
+    pop.addEventListener('mouseenter', () => clearTimeout(hideT));
+    pop.addEventListener('mouseleave', () => { hideT = setTimeout(() => pop.classList.remove('on'), 200) });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') pop.classList.remove('on') });
 
-      // Mermaid render sonrası event bağlama
-      setTimeout(bindNodeEvents, 700);
-    });
+    (async () => {
+      await loadData();
+      bindNodes();
+      liveCommits();
+      setInterval(tickTimes, 60000);
+    })();
   </script>
 </body>
 
