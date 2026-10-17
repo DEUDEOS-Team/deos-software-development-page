@@ -559,13 +559,13 @@
     /* ---------- Şema verisi ---------- */
     const COL = { root: '#1d4e6b', sub: '#2f6f58', ext: '#a8571f', rf: '#7a4a73', can: '#2f6f58', host: '#4a5559', mcu: '#1d4e6b' };
     const N1 = [
-      { id: 'FW', x: 440, y: 20, w: 220, h: 60, t: 'deos-firmware', s: 'Ana depo', k: 'root' },
-      { id: 'CORE', x: 40, y: 150, w: 230, h: 64, t: 'deos-core', s: 'Router', k: 'sub' },
-      { id: 'PROTO', x: 300, y: 150, w: 230, h: 64, t: 'deos-protocol', s: 'Protokol ve codec', k: 'sub' },
-      { id: 'CAN', x: 560, y: 150, w: 230, h: 64, t: 'deos-transport-can', s: 'CAN-FD sürücüsü', k: 'sub' },
-      { id: 'DOCS', x: 820, y: 150, w: 230, h: 64, t: 'deos-docs', s: 'ICD ve belgeler', k: 'sub' },
-      { id: 'ROS', x: 170, y: 300, w: 230, h: 64, t: 'deos-ros2-bridge', s: 'ROS 2 köprüsü', k: 'ext' },
-      { id: 'GCS', x: 440, y: 300, w: 230, h: 64, t: 'deos-ground-station', s: 'Yer istasyonu', k: 'ext' }
+      { id: 'FW', x: 440, y: 20, w: 220, h: 60, k: 'root' },
+      { id: 'CORE', x: 40, y: 150, w: 230, h: 64, k: 'sub' },
+      { id: 'PROTO', x: 300, y: 150, w: 230, h: 64, k: 'sub' },
+      { id: 'CAN', x: 560, y: 150, w: 230, h: 64, k: 'sub' },
+      { id: 'DOCS', x: 820, y: 150, w: 230, h: 64, k: 'sub' },
+      { id: 'ROS', x: 170, y: 300, w: 230, h: 64, k: 'ext' },
+      { id: 'GCS', x: 440, y: 300, w: 230, h: 64, k: 'ext' }
     ];
     const E1 = [
       ['M550 80V115H155V150'], ['M550 115H415V150'], ['M550 115H675V150'], ['M550 115H935V150'],
@@ -573,19 +573,19 @@
       ['LBL', 'C/C++ bağı', 350, 250], ['LBL', 'Python binding', 490, 250]
     ];
     const N2 = [
-      { id: 'GCS', x: 20, y: 100, w: 170, h: 56, t: 'Ground Control', s: 'deos-ground-station', k: 'host' },
-      { id: 'GAMEPAD', x: 20, y: 190, w: 170, h: 56, t: 'Gamepad', s: 'Kablosuz kumanda', k: 'host' },
-      { id: 'LORA', x: 250, y: 100, w: 170, h: 56, t: 'LoRa modülü', s: 'Ebyte E220', k: 'rf' },
-      { id: 'BT', x: 250, y: 190, w: 170, h: 56, t: 'Bluetooth modülü', s: 'UART', k: 'rf' },
-      { id: 'MAIN', x: 500, y: 100, w: 190, h: 130, t: 'Main STM32', s: 'Router · Nucleo-H563ZI', k: 'mcu' },
-      { id: 'ROS', x: 500, y: 10, w: 190, h: 56, t: 'deos-ros2-bridge', s: 'Köprü', k: 'host' },
-      { id: 'RPI', x: 790, y: 10, w: 190, h: 56, t: 'Raspberry Pi', s: '', k: 'host' },
-      { id: 'TRACTION', x: 40, y: 360, w: 210, h: 56, t: 'Traction', s: 'Motor / invertör', k: 'can' },
-      { id: 'BRAKE', x: 270, y: 360, w: 210, h: 56, t: 'Brake', s: 'Fren', k: 'can' },
-      { id: 'STEERING', x: 500, y: 360, w: 210, h: 56, t: 'Steering', s: 'Direksiyon', k: 'can' },
-      { id: 'BMS_GW', x: 730, y: 360, w: 210, h: 56, t: 'BMS Gateway', s: 'Batarya ağ geçidi', k: 'can' },
-      { id: 'BMS1', x: 690, y: 470, w: 130, h: 50, t: 'BMS 1', s: '', k: 'can' },
-      { id: 'BMS2', x: 850, y: 470, w: 130, h: 50, t: 'BMS 2', s: '', k: 'can' }
+      { id: 'GCS', x: 20, y: 100, w: 170, h: 56, k: 'host' },
+      { id: 'GAMEPAD', x: 20, y: 190, w: 170, h: 56, k: 'host' },
+      { id: 'LORA', x: 250, y: 100, w: 170, h: 56, k: 'rf' },
+      { id: 'BT', x: 250, y: 190, w: 170, h: 56, k: 'rf' },
+      { id: 'MAIN', x: 500, y: 100, w: 190, h: 130, k: 'mcu' },
+      { id: 'ROS', x: 500, y: 10, w: 190, h: 56, k: 'host' },
+      { id: 'RPI', x: 790, y: 10, w: 190, h: 56, k: 'host' },
+      { id: 'TRACTION', x: 40, y: 360, w: 210, h: 56, k: 'can' },
+      { id: 'BRAKE', x: 270, y: 360, w: 210, h: 56, k: 'can' },
+      { id: 'STEERING', x: 500, y: 360, w: 210, h: 56, k: 'can' },
+      { id: 'BMS_GW', x: 730, y: 360, w: 210, h: 56, k: 'can' },
+      { id: 'BMS1', x: 690, y: 470, w: 130, h: 50, k: 'can' },
+      { id: 'BMS2', x: 850, y: 470, w: 130, h: 50, k: 'can' }
     ];
     const E2 = [
       ['M790 38H690'], ['M595 66V100'],
@@ -606,7 +606,7 @@
       return `<g class="node" data-key="${n.id}" transform="translate(${n.x},${n.y})" tabindex="-1">
    <rect class="nb" width="${n.w}" height="${n.h}" rx="5"/>
    <rect width="5" height="${n.h}" rx="2.5" fill="${COL[n.k]}"/>
-   <text class="nt" x="18" y="${ty}">${n.t}</text>${sub}</g>`;
+   <text class="nt" x="18" y="${ty}">${n.t || n.id}</text>${sub}</g>`;
     }
     function drawEdges(E, start, end) {
       return E.map(e => {
@@ -620,10 +620,6 @@
       // one-way arrows for the software tree; both ends for hardware links
       document.getElementById(id).innerHTML = DEFS + drawEdges(E) + N.map(drawNode).join('');
     }
-    render('d1', N1, E1);
-    render('d2', N2, E2);
-    // yazılım şemasında ok sadece hedefte, uçlardaki başlangıç oku kaldırılır
-    document.querySelectorAll('#d1 .edge').forEach(p => p.removeAttribute('marker-start'));
 
     /* ---------- Zaman yardımcıları ---------- */
     const nodeMetadata = {};
@@ -694,13 +690,15 @@
       }
       const comps = (await rr.value.json()).components || [];
       comps.forEach(c => {
-        // Şema kutucuklarının alt metin ve başlıklarını responsibilities.json üzerinden dinamik olarak güncelle:
-        [N1, N2].forEach(nodes => {
-          nodes.filter(n => n.id === c.id).forEach(n => {
-            if (c.subtitle !== undefined) n.s = c.subtitle;
-            else if (c.diagram_sub !== undefined) n.s = c.diagram_sub;
-            if (c.short_title !== undefined) n.t = c.short_title;
-          });
+        // Şema kutucuklarının başlık ve alt metinlerini responsibilities.json üzerinden dinamik olarak güncelle:
+        N1.filter(n => n.id === c.id).forEach(n => {
+          n.t = c.diagram_title || c.short_title || c.title || n.id;
+          n.s = c.subtitle !== undefined ? c.subtitle : (c.role_type || '');
+        });
+
+        N2.filter(n => n.id === c.id).forEach(n => {
+          n.t = c.hw_title || c.diagram_title || c.short_title || c.title || n.id;
+          n.s = c.hw_subtitle !== undefined ? c.hw_subtitle : (c.subtitle !== undefined ? c.subtitle : (c.role_type || ''));
         });
 
         let hash = '—', author = '', date = '', msg = c.role || '';

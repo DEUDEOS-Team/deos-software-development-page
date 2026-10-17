@@ -1,11 +1,13 @@
 {
   "system": "DEOS Autonomous Vehicle Ecosystem",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "DEOS yazılım mimarisi, alt modül sorumlulukları ve donanım düğümleri haritası",
   "components": [
     {
       "id": "FW",
       "title": "deos-firmware",
+      "diagram_title": "deos-firmware",
+      "subtitle": "Ana Depo",
       "role_type": "Ana Depo",
       "owner": "Emir Arkalı",
       "repo": "DEUDEOS-Team/deos-firmware",
@@ -16,6 +18,8 @@
     {
       "id": "CORE",
       "title": "deos-core",
+      "diagram_title": "deos-core",
+      "subtitle": "Router",
       "role_type": "Submodule (lib/deos_core)",
       "owner": "Emir Arkalı",
       "repo": "DEUDEOS-Team/deos-core",
@@ -26,6 +30,8 @@
     {
       "id": "PROTO",
       "title": "deos-protocol",
+      "diagram_title": "deos-protocol",
+      "subtitle": "Protokol ve Codec",
       "role_type": "Submodule (lib/deos_protocol)",
       "owner": "Emir Arkalı",
       "repo": "DEUDEOS-Team/deos-protocol",
@@ -36,6 +42,8 @@
     {
       "id": "CAN",
       "title": "deos-transport-can",
+      "diagram_title": "deos-transport-can",
+      "subtitle": "CAN-FD Sürücüsü",
       "role_type": "Submodule (lib/deos_transport_can)",
       "owner": "Emir Arkalı",
       "repo": "DEUDEOS-Team/deos-transport-can",
@@ -46,6 +54,8 @@
     {
       "id": "DOCS",
       "title": "deos-docs",
+      "diagram_title": "deos-docs",
+      "subtitle": "ICD ve Belgeler",
       "role_type": "Submodule (docs)",
       "owner": "Emir Arkalı",
       "repo": "DEUDEOS-Team/deos-docs",
@@ -56,6 +66,10 @@
     {
       "id": "GCS",
       "title": "deos-ground-station",
+      "diagram_title": "deos-ground-station",
+      "subtitle": "Yer İstasyonu",
+      "hw_title": "Ground Control",
+      "hw_subtitle": "deos-ground-station",
       "role_type": "Yer Kontrol İstasyonu",
       "owner": "Alper Bora",
       "repo": "DEUDEOS-Team/deos-ground-station",
@@ -66,6 +80,10 @@
     {
       "id": "ROS",
       "title": "deos-ros2-bridge",
+      "diagram_title": "deos-ros2-bridge",
+      "subtitle": "ROS 2 Köprüsü",
+      "hw_title": "deos-ros2-bridge",
+      "hw_subtitle": "Köprü",
       "role_type": "Otonomi Köprüsü",
       "owner": "Sepehr Jafarzadeh",
       "repo": "DEUDEOS-Team/deos-ros2-bridge",
@@ -76,6 +94,8 @@
     {
       "id": "BRIDGE",
       "title": "deos-ros2-bridge (Donanım)",
+      "diagram_title": "deos-ros2-bridge",
+      "subtitle": "Donanımsal Ethernet Köprüsü",
       "role_type": "Otonomi Köprüsü",
       "owner": "Sepehr Jafarzadeh",
       "repo": "DEUDEOS-Team/deos-ros2-bridge",
@@ -86,6 +106,8 @@
     {
       "id": "PORTAL",
       "title": "deos-software-development-page",
+      "diagram_title": "Web Portalı",
+      "subtitle": "Mimarî ve Commit Takip",
       "role_type": "Web Portalı",
       "owner": "DEUDEOS Ekibi",
       "repo": "DEUDEOS-Team/deos-software-development-page",
@@ -96,6 +118,7 @@
     {
       "id": "RPI",
       "title": "Raspberry Pi (ROS 2)",
+      "diagram_title": "Raspberry Pi",
       "subtitle": "ROS 2 Humble",
       "role_type": "Otonomi Bilgisayarı",
       "owner": "Arda Efe Yılmaz",
@@ -107,6 +130,8 @@
     {
       "id": "MAIN",
       "title": "Main STM32 (apps/main_node)",
+      "diagram_title": "Main STM32",
+      "subtitle": "Router · Nucleo-H563ZI",
       "role_type": "CAN Düğümü (0x03)",
       "owner": "Emir Arkalı",
       "repo": "DEUDEOS-Team/deos-firmware",
@@ -117,6 +142,8 @@
     {
       "id": "LORA",
       "title": "LoRa Modülü (Ebyte E220)",
+      "diagram_title": "LoRa Modülü",
+      "subtitle": "Ebyte E220",
       "role_type": "LoRa Sürücüsü",
       "owner": "Alper Bora",
       "repo": "DEUDEOS-Team/deos-firmware",
@@ -127,6 +154,8 @@
     {
       "id": "CAN_BUS",
       "title": "CAN-FD Backbone",
+      "diagram_title": "CAN-FD Omurga",
+      "subtitle": "5 Mbps Veri Yolu",
       "role_type": "CAN Omurgası",
       "owner": "Emir Arkalı",
       "repo": "DEUDEOS-Team/deos-transport-can",
@@ -137,6 +166,8 @@
     {
       "id": "TRACTION",
       "title": "Traction (apps/traction)",
+      "diagram_title": "Traction",
+      "subtitle": "Motor / İnvertör",
       "role_type": "CAN Düğümü (0x10)",
       "owner": "Alper Altındaş",
       "repo": "DEUDEOS-Team/deos-firmware",
@@ -147,6 +178,8 @@
     {
       "id": "BRAKE",
       "title": "Brake (apps/brake)",
+      "diagram_title": "Brake",
+      "subtitle": "Fren",
       "role_type": "CAN Düğümü (0x12)",
       "owner": "Alper Altındaş",
       "repo": "DEUDEOS-Team/deos-firmware",
@@ -157,6 +190,8 @@
     {
       "id": "STEERING",
       "title": "Steering (apps/steering)",
+      "diagram_title": "Steering",
+      "subtitle": "Direksiyon",
       "role_type": "CAN Düğümü (0x11)",
       "owner": "Alper Altındaş",
       "repo": "DEUDEOS-Team/deos-firmware",
@@ -167,6 +202,8 @@
     {
       "id": "BMS_GW",
       "title": "BMS Gateway (apps/bms_gateway)",
+      "diagram_title": "BMS Gateway",
+      "subtitle": "Batarya Ağ Geçidi",
       "role_type": "CAN Düğümü (0x30)",
       "owner": "Ayşe Ceren Akdamar",
       "repo": "DEUDEOS-Team/deos-firmware",
@@ -175,8 +212,34 @@
       "status_note": "Hücre voltaj okuma ve güvenlik eşikleri devrede, donanım testleri sürüyor."
     },
     {
+      "id": "BMS1",
+      "title": "BMS 1",
+      "diagram_title": "BMS 1",
+      "subtitle": "",
+      "role_type": "Batarya Modülü",
+      "owner": "Ayşe Ceren Akdamar",
+      "repo": null,
+      "path": null,
+      "role": "1. Batarya paketi hücre voltaj ve sıcaklık izleme ünitesi.",
+      "status_note": "Donanım testleri sürüyor."
+    },
+    {
+      "id": "BMS2",
+      "title": "BMS 2",
+      "diagram_title": "BMS 2",
+      "subtitle": "",
+      "role_type": "Batarya Modülü",
+      "owner": "Ayşe Ceren Akdamar",
+      "repo": null,
+      "path": null,
+      "role": "2. Batarya paketi hücre voltaj ve sıcaklık izleme ünitesi.",
+      "status_note": "Donanım testleri sürüyor."
+    },
+    {
       "id": "BT",
       "title": "Bluetooth Modülü",
+      "diagram_title": "Bluetooth Modülü",
+      "subtitle": "UART",
       "role_type": "Donanım (UART)",
       "owner": "Atanmadı",
       "repo": null,
@@ -187,6 +250,8 @@
     {
       "id": "GAMEPAD",
       "title": "Gamepad",
+      "diagram_title": "Gamepad",
+      "subtitle": "Kablosuz Kumanda",
       "role_type": "Harici Donanım",
       "owner": "Operatör",
       "repo": null,
