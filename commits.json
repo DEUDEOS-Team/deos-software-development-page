@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-17T19:52:08.748209+00:00",
+  "generated_at": "2026-10-17T20:35:46.767921+00:00",
   "commits": {
     "FW": {
       "hash": "c848d63",
@@ -50,10 +50,10 @@
       "date": "2026-10-14T16:36:04Z"
     },
     "PORTAL": {
-      "hash": "a3771bd",
-      "author": "emirarkali",
-      "msg": "chore(sync): sync responsibilities.json from deos-firmware and update commits",
-      "date": "2026-10-17T19:51:49Z"
+      "hash": "c7ed71f",
+      "author": "github-actions[bot]",
+      "msg": "chore(data): auto-sync responsibilities.json from deos-firmware and update commits [skip ci]",
+      "date": "2026-10-17T19:52:08Z"
     },
     "RPI": {
       "hash": "54c78b0",
