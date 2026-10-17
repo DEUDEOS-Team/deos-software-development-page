@@ -2,13 +2,15 @@ name: Update Ecosystem Commits
 
 on:
   schedule:
-    - cron: '0 * * * *' # Her saat başı otomatik çalışır
+    - cron: '*/15 * * * *' # Her 15 dakikada bir otomatik çalışır
   push:
     branches:
       - main
     paths:
       - 'responsibilities.json'
       - 'scripts/fetch_commits.py'
+  repository_dispatch:
+    types: [ecosystem_updated]
   workflow_dispatch: # Actions sekmesinden manuel tek tıkla çalıştırma
 
 permissions:

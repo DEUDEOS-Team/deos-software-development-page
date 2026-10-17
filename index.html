@@ -864,17 +864,16 @@ graph TD
       }).join("");
     }
 
-    // GitHub API ile Yalnızca Henüz Yüklenmemiş Düğümler İçin Canlı Commit Çekme
+    // GitHub API ile Stale-While-Revalidate Canlı Doğrulama
+    // commits.json sayesinde sayfa 0. milisaniyede açılır; arka planda GitHub'dan son commitler canlı sorgulanır.
     async function fetchLiveCommits() {
-      // Eğer commits.json ile tüm commitler zaten yüklendiyse tarayıcı kotasını hiç harcama
-      const keys = Object.keys(nodeMetadata).filter(k => nodeMetadata[k].apiEndpoint && !nodeMetadata[k].author);
-      if (keys.length === 0) return;
+      const keys = Object.keys(nodeMetadata).filter(k => nodeMetadata[k].apiEndpoint);
 
       await Promise.allSettled(keys.map(async (key) => {
         try {
           const item = nodeMetadata[key];
           const res = await fetch(item.apiEndpoint);
-          if (!res.ok) return;
+          if (!res.ok) return; // Kota aşımı veya network hatasında sessizce commits.json verisinde kal
           const data = await res.json();
           if (Array.isArray(data) && data.length > 0) {
             const c = data[0];
@@ -883,45 +882,46 @@ graph TD
             const msg = (c.commit?.message || "").split("\n")[0];
             const date = c.commit?.author?.date ? new Date(c.commit.author.date).toLocaleDateString("tr-TR") : "";
 
-            // Bellekteki ve oturumdaki veriyi güncelle
+            const isUpdated = item.hash !== hash || item.msg !== msg;
             item.hash = hash;
             item.author = author;
             item.msg = msg;
             item.date = date;
             setCommitCache(key, { hash, author, msg, date });
 
-            // Tablodaki ilgili hücreyi canlı güncelle
-            const cell = document.getElementById(`commit-${key}`);
-            if (cell) {
-              cell.innerHTML = `
-                <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
-                  <span class="badge" style="color:var(--primary); font-weight:700;">#${hash}</span>
-                  <span style="color:#58a6ff; font-weight:600; font-size:12px;">${author}</span>
-                  <span style="color:#8b949e; font-size:11px;">(${date})</span>
-                </div>
-                <div style="color:#8b949e; font-size:12px; margin-top:2px; max-width:340px; white-space:normal; line-height:1.35;" title="${msg}">
-                  ${msg}
-                </div>
-              `;
-            }
+            // Eğer yeni bir commit atılmışsa anında canlı güncelle
+            if (isUpdated) {
+              const cell = document.getElementById(`commit-${key}`);
+              if (cell) {
+                cell.innerHTML = `
+                  <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                    <span class="badge" style="color:var(--primary); font-weight:700;">#${hash}</span>
+                    <span style="color:#58a6ff; font-weight:600; font-size:12px;">${author}</span>
+                    <span style="color:#8b949e; font-size:11px;">(${date})</span>
+                  </div>
+                  <div style="color:#8b949e; font-size:12px; margin-top:2px; max-width:340px; white-space:normal; line-height:1.35;" title="${msg}">
+                    ${msg}
+                  </div>
+                `;
+              }
 
-            // Eğer popover o an bu düğümün üzerinde açıksa onu da anında canlı güncelle!
-            if (currentHoveredKey === key) {
-              const popCommitContainer = document.getElementById("popCommitContainer");
-              const popCommitHash = document.getElementById("popCommitHash");
-              const popCommitAuthor = document.getElementById("popCommitAuthor");
-              const popCommitMsg = document.getElementById("popCommitMsg");
-              const popCommitDate = document.getElementById("popCommitDate");
+              if (currentHoveredKey === key) {
+                const popCommitContainer = document.getElementById("popCommitContainer");
+                const popCommitHash = document.getElementById("popCommitHash");
+                const popCommitAuthor = document.getElementById("popCommitAuthor");
+                const popCommitMsg = document.getElementById("popCommitMsg");
+                const popCommitDate = document.getElementById("popCommitDate");
 
-              if (popCommitHash) popCommitHash.textContent = "#" + hash;
-              if (popCommitAuthor) popCommitAuthor.textContent = `Son commit: ${author}`;
-              if (popCommitMsg) popCommitMsg.textContent = msg;
-              if (popCommitDate) popCommitDate.textContent = `Tarih: ${date}`;
-              if (popCommitContainer) popCommitContainer.style.display = "block";
+                if (popCommitHash) popCommitHash.textContent = "#" + hash;
+                if (popCommitAuthor) popCommitAuthor.textContent = `Son commit: ${author}`;
+                if (popCommitMsg) popCommitMsg.textContent = msg;
+                if (popCommitDate) popCommitDate.textContent = `Tarih: ${date}`;
+                if (popCommitContainer) popCommitContainer.style.display = "block";
+              }
             }
           }
         } catch (e) {
-          console.warn("Commit yüklenemedi:", key, e);
+          // Hata durumunda commits.json verisi ekranda hazırdır
         }
       }));
     }
