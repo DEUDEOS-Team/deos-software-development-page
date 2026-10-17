@@ -38,5 +38,5 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add commits.json
-          git diff --staged --quiet || (git commit -m "chore(data): auto-update ecosystem commits.json [skip ci]" && git push)
+          git add responsibilities.json commits.json
+          git diff --staged --quiet || (git commit -m "chore(data): auto-sync responsibilities.json from deos-firmware and update commits [skip ci]" && git push)
