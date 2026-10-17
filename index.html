@@ -742,7 +742,9 @@
       banner();
     }
     async function liveCommits() {
-      const keys = Object.keys(nodeMetadata).filter(k => nodeMetadata[k].api);
+      // commits.json zaten güncel commitleri içeriyorsa GitHub API (60 istek/saat) limitini tüketmemek için istek atma
+      const keys = Object.keys(nodeMetadata).filter(k => nodeMetadata[k].api && (!nodeMetadata[k].hash || nodeMetadata[k].hash === '—' || nodeMetadata[k].hash === 'main'));
+      if (!keys.length) return;
       await Promise.allSettled(keys.map(async k => {
         try {
           const i = nodeMetadata[k]; const r = await fetch(i.api); if (!r.ok) return;
