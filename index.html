@@ -473,7 +473,7 @@ graph TD
             <th>Açıklama</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="repoTableBody">
           <tr>
             <td><a href="https://github.com/DEUDEOS-Team/deos-firmware" target="_blank">deos-firmware</a></td>
             <td><span class="badge">Ana Depo</span></td>
@@ -699,204 +699,79 @@ graph TD
       }
     });
 
-    // Düğüm Veri Sözlüğü: Sorumlu Kişi + Gerçek Git Commit Bilgileri (BMS 1/2 hariç)
-    const nodeMetadata = {
-      "FW": {
-        title: "deos-firmware",
-        owner: "Emir Arkalı",
-        author: "emirarkali",
-        date: "17.10.2026",
-        role: "Ana sistem deposu. Zephyr RTOS üzerinde koşan STM32 firmware uygulamaları ve manifestosu.",
-        hash: "24693e7",
-        msg: "docs: remove unassigned bluetooth connections and add path-level app responsibilities",
-        url: "https://github.com/DEUDEOS-Team/deos-firmware",
-        apiEndpoint: "https://api.github.com/repos/DEUDEOS-Team/deos-firmware/commits?per_page=1"
-      },
-      "CORE": {
-        title: "lib/deos_core",
-        owner: "Emir Arkalı",
-        author: "emirarkali",
-        date: "16.10.2026",
-        role: "STM32 icra motoru. Split-Horizon Router, telemetri abonelik motoru ve mandallanan arıza tablosu.",
-        hash: "a413705",
-        msg: "feat(core): implement standardized GET_NODE_INFO payload and auto-response (fixes #8)",
-        url: "https://github.com/DEUDEOS-Team/deos-core",
-        apiEndpoint: "https://api.github.com/repos/DEUDEOS-Team/deos-core/commits?per_page=1"
-      },
-      "PROTO": {
-        title: "lib/deos_protocol",
-        owner: "Emir Arkalı",
-        author: "emirarkali",
-        date: "17.10.2026",
-        role: "Sıfır bağımlılıklı ANSI C99 tel protokolü, 9-bayt Universal Frame codec ve Python C-Bindings.",
-        hash: "fc3ac4e",
-        msg: "chore: add .gitignore for python cache and build artifacts",
-        url: "https://github.com/DEUDEOS-Team/deos-protocol",
-        apiEndpoint: "https://api.github.com/repos/DEUDEOS-Team/deos-protocol/commits?per_page=1"
-      },
-      "CAN": {
-        title: "lib/deos_transport_can",
-        owner: "Emir Arkalı",
-        author: "emirarkali",
-        date: "16.10.2026",
-        role: "STM32 FDCAN çevre birimi sürücüsü, 29-bit CAN ID maskeleme ve non-blocking mesaj kuyrukları.",
-        hash: "56ef31e",
-        msg: "docs: move 29-bit CAN ID spec from deos_core to deos_transport_can",
-        url: "https://github.com/DEUDEOS-Team/deos-transport-can",
-        apiEndpoint: "https://api.github.com/repos/DEUDEOS-Team/deos-transport-can/commits?per_page=1"
-      },
-      "DOCS": {
-        title: "docs (deos-docs)",
-        owner: "Emir Arkalı",
-        author: "emirarkali",
-        date: "16.10.2026",
-        role: "Resmi LaTeX ICD şartnameleri, ağ mimarisi kuralları ve sistem şartname belgeleri.",
-        hash: "590f922",
-        msg: "docs(icd): synchronize hardware types with deos_types.h",
-        url: "https://github.com/DEUDEOS-Team/deos-docs",
-        apiEndpoint: "https://api.github.com/repos/DEUDEOS-Team/deos-docs/commits?per_page=1"
-      },
-      "ROS": {
-        title: "deos-ros2-bridge",
-        owner: "Sepehr Jafarzadeh",
-        author: "SepiJzadeh",
-        date: "14.10.2026",
-        role: "Raspberry Pi üzerinde koşan, ROS 2 Humble topicleri ile CAN-FD veriyolunu bağlayan köprü yazılımı.",
-        hash: "861f608",
-        msg: "docs: add comprehensive README, gitignore, and benchmark suite",
-        url: "https://github.com/DEUDEOS-Team/deos-ros2-bridge",
-        apiEndpoint: "https://api.github.com/repos/DEUDEOS-Team/deos-ros2-bridge/commits?per_page=1"
-      },
-      "BRIDGE": {
-        title: "deos-ros2-bridge",
-        owner: "Sepehr Jafarzadeh",
-        author: "SepiJzadeh",
-        date: "14.10.2026",
-        role: "Raspberry Pi üzerinde koşan ROS 2 Humble ile Main STM32 Router arasındaki Ethernet köprüsü.",
-        hash: "861f608",
-        msg: "docs: add comprehensive README, gitignore, and benchmark suite",
-        url: "https://github.com/DEUDEOS-Team/deos-ros2-bridge",
-        apiEndpoint: "https://api.github.com/repos/DEUDEOS-Team/deos-ros2-bridge/commits?per_page=1"
-      },
-      "GCS": {
-        title: "deos-ground-station",
-        owner: "Alper Bora",
-        author: "Adın Soyadın",
-        date: "15.10.2026",
-        role: "PyQt tabanlı masaüstü yer kontrol istasyonu. LoRa üzerinden telemetri izleme ve araç komuta kontrolü.",
-        hash: "109b912",
-        msg: "feat(ui): add target node selector for state and mode switching",
-        url: "https://github.com/DEUDEOS-Team/deos-ground-station",
-        apiEndpoint: "https://api.github.com/repos/DEUDEOS-Team/deos-ground-station/commits?per_page=1"
-      },
-      "RPI": {
-        title: "Raspberry Pi (ROS 2)",
-        owner: "Arda Efe Yılmaz",
-        author: "Arda Efe Yılmaz",
-        date: "Aktif",
-        role: "Otonom sürüş ve algılama ünitesi. ROS 2 topicleri üzerinden köprüye veri sağlar.",
-        hash: "ROS 2",
-        msg: "Otonom Sürüş Algoritmaları & Sensör Füzyonu",
-        url: "https://github.com/DEUDEOS-Team/deos-ros2-bridge"
-      },
-      "MAIN": {
-        title: "Main STM32 (apps/main_node)",
-        owner: "Emir Arkalı",
-        author: "emirarkali",
-        date: "17.10.2026",
-        role: "Araç içi merkezi ağ geçidi ve yönlendirici (Nucleo-H563ZI). CAN-FD, LoRa ve Ethernet arasında paket dağıtımı.",
-        hash: "49aa9d5",
-        msg: "refactor(protocol): rename deos_dispatcher to deos_registry for clearer separation of concerns",
-        url: "https://github.com/DEUDEOS-Team/deos-firmware/tree/main/apps/main_node",
-        apiEndpoint: "https://api.github.com/repos/DEUDEOS-Team/deos-firmware/commits?path=apps/main_node&per_page=1"
-      },
-      "LORA": {
-        title: "LoRa Modülü (apps/main_node/.../uart_lora.cpp)",
-        owner: "Alper Bora",
-        author: "emirarkali",
-        date: "17.10.2026",
-        role: "Ebyte E220 RF LoRa modülü sürücüsü. Main STM32 UART portu ile yer istasyonu arasındaki telemetri hattı.",
-        hash: "91f235a",
-        msg: "feat(fault): expand fault registry into specific subsystem categories (Router, CAN, LoRa, Ethernet, Dispatcher)",
-        url: "https://github.com/DEUDEOS-Team/deos-firmware/blob/main/apps/main_node/src/transport/uart_lora.cpp",
-        apiEndpoint: "https://api.github.com/repos/DEUDEOS-Team/deos-firmware/commits?path=apps/main_node/src/transport/uart_lora.cpp&per_page=1"
-      },
-      "CAN_BUS": {
-        title: "CAN-FD Backbone",
-        owner: "Emir Arkalı",
-        author: "emirarkali",
-        date: "16.10.2026",
-        role: "Araç içi 5 Mbps yüksek hızlı diferansiyel CAN-FD veri yolu omurgası.",
-        hash: "56ef31e",
-        msg: "docs: move 29-bit CAN ID spec from deos_core to deos_transport_can",
-        url: "https://github.com/DEUDEOS-Team/deos-transport-can",
-        apiEndpoint: "https://api.github.com/repos/DEUDEOS-Team/deos-transport-can/commits?per_page=1"
-      },
-      "TRACTION": {
-        title: "Traction (apps/traction)",
-        owner: "Alper Altındaş",
-        author: "emirarkali",
-        date: "17.10.2026",
-        role: "İnvertör ve çekiş motor sürücüsü. Tork ve hız taleplerinin yönetimi (CAN ID: 0x10).",
-        hash: "ba2df01",
-        msg: "feat(protocol): decouple portable deos_protocol layer with standalone dispatcher",
-        url: "https://github.com/DEUDEOS-Team/deos-firmware/tree/main/apps/traction",
-        apiEndpoint: "https://api.github.com/repos/DEUDEOS-Team/deos-firmware/commits?path=apps/traction&per_page=1"
-      },
-      "BRAKE": {
-        title: "Brake (apps/brake)",
-        owner: "Alper Altındaş",
-        author: "emirarkali",
-        date: "07.10.2026",
-        role: "Fren aktüatörü kontrolü, hidrolik basınç takibi ve güvenlik mandalı.",
-        hash: "1fed144",
-        msg: "refactor: apply standardized overlay architecture to all apps",
-        url: "https://github.com/DEUDEOS-Team/deos-firmware/tree/main/apps/brake",
-        apiEndpoint: "https://api.github.com/repos/DEUDEOS-Team/deos-firmware/commits?path=apps/brake&per_page=1"
-      },
-      "STEERING": {
-        title: "Steering (apps/steering)",
-        owner: "Alper Altındaş",
-        author: "emirarkali",
-        date: "07.10.2026",
-        role: "Steer-by-Wire direksiyon açı kontrolü, açı limitleri ve enkoder takibi (CAN ID: 0x11).",
-        hash: "1fed144",
-        msg: "refactor: apply standardized overlay architecture to all apps",
-        url: "https://github.com/DEUDEOS-Team/deos-firmware/tree/main/apps/steering",
-        apiEndpoint: "https://api.github.com/repos/DEUDEOS-Team/deos-firmware/commits?path=apps/steering&per_page=1"
-      },
-      "BMS_GW": {
-        title: "BMS Gateway (apps/bms_gateway)",
-        owner: "Ayşe Ceren Akdamar",
-        author: "emirarkali",
-        date: "17.10.2026",
-        role: "Batarya yönetim sistemi ağ geçidi. Hücre voltajları, sıcaklık ve aşırı akım güvenliği (CAN ID: 0x30).",
-        hash: "ba2df01",
-        msg: "feat(protocol): decouple portable deos_protocol layer with standalone dispatcher",
-        url: "https://github.com/DEUDEOS-Team/deos-firmware/tree/main/apps/bms_gateway",
-        apiEndpoint: "https://api.github.com/repos/DEUDEOS-Team/deos-firmware/commits?path=apps/bms_gateway&per_page=1"
-      },
-      "BT": {
-        title: "Bluetooth Modülü",
-        owner: "Atanmadı",
-        author: "",
-        date: "",
-        role: "Manuel test ve kumanda iletişimi için Bluetooth alıcı-verici donanımı (UART üzerinden Main STM32'ye bağlı).",
-        hash: "Bağlı repo yok",
-        msg: "Bu donanım modülü için henüz bir kod deposu veya sürücü yazılımı bulunmamaktadır.",
-        url: ""
-      },
-      "GAMEPAD": {
-        title: "Gamepad (Kablosuz Kumanda)",
-        owner: "Operatör",
-        author: "",
-        date: "",
-        role: "Bluetooth üzerinden araca yön, hız ve acil durdurma komutları ileten kablosuz joystick kumanda.",
-        hash: "Harici Donanım",
-        msg: "Manuel sürüş kontrol joystick kumandası (Harici çevre birimi)",
-        url: ""
+    // Düğüm Veri Sözlüğü: responsibilities.json dosyasından dinamik olarak inşa edilir
+    const nodeMetadata = {};
+
+    async function loadResponsibilities() {
+      try {
+        const res = await fetch("responsibilities.json");
+        if (!res.ok) throw new Error("responsibilities.json yüklenemedi: " + res.status);
+        const data = await res.json();
+        const components = data.components || [];
+
+        components.forEach(comp => {
+          let url = "";
+          let apiEndpoint = null;
+          let hash = "—";
+          let msg = comp.role || "";
+
+          if (comp.repo) {
+            if (comp.path) {
+              url = `https://github.com/${comp.repo}/tree/main/${comp.path}`;
+              apiEndpoint = `https://api.github.com/repos/${comp.repo}/commits?path=${comp.path}&per_page=1`;
+            } else {
+              url = `https://github.com/${comp.repo}`;
+              apiEndpoint = `https://api.github.com/repos/${comp.repo}/commits?per_page=1`;
+            }
+            hash = "Yükleniyor...";
+            msg = "Canlı commit verisi çekiliyor...";
+          } else {
+            hash = comp.id === "GAMEPAD" || comp.id === "RPI" ? "Harici Donanım" : "Bağlı repo yok";
+          }
+
+          nodeMetadata[comp.id] = {
+            id: comp.id,
+            title: comp.title,
+            owner: comp.owner,
+            role_type: comp.role_type,
+            role: comp.role,
+            repo: comp.repo,
+            path: comp.path,
+            url: url,
+            apiEndpoint: apiEndpoint,
+            hash: hash,
+            author: "",
+            date: "",
+            msg: msg
+          };
+        });
+
+        renderTable(components);
+      } catch (err) {
+        console.warn("responsibilities.json dinamik yüklenemedi, yerel fallback modunda:", err);
       }
-    };
+    }
+
+    function renderTable(components) {
+      const tbody = document.getElementById("repoTableBody");
+      if (!tbody) return;
+      tbody.innerHTML = components.map(comp => {
+        const item = nodeMetadata[comp.id] || comp;
+        const link = item.url ? `<a href="${item.url}" target="_blank">${item.title}</a>` : item.title;
+        return `
+          <tr>
+            <td>${link}</td>
+            <td><span class="badge">${item.role_type || ''}</span></td>
+            <td>${item.owner}</td>
+            <td id="commit-${item.id}">
+              <span class="badge" style="color:var(--primary); font-weight:700;">#${item.hash}</span>
+              <div style="color:#8b949e; font-size:12px; margin-top:2px;">${item.msg}</div>
+            </td>
+            <td>${item.role}</td>
+          </tr>
+        `;
+      }).join("");
+    }
 
     // GitHub API ile Her Uygulama ve Kütüphaneye Özel Gerçek Canlı Commit Verisini Çekme
     async function fetchLiveCommits() {
@@ -943,8 +818,11 @@ graph TD
     }
 
     // Popover Etkileşim Kodları
-    document.addEventListener("DOMContentLoaded", function() {
-      // Dinamik commitleri GitHub'dan çek
+    document.addEventListener("DOMContentLoaded", async function() {
+      // 1. responsibilities.json yükle ve tabloyu inşa et
+      await loadResponsibilities();
+
+      // 2. Dinamik commitleri GitHub'dan çek
       fetchLiveCommits();
 
       const popover = document.getElementById("nodePopover");
