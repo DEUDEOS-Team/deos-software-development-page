@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DEUDEOS Sistem ve Ağ Mimarisi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --card-header: #21262d;
+      --border: #30363d;
+      --text: #c9d1d9;
+      --text-bright: #f0f6fc;
+      --text-muted: #8b949e;
+      --primary: #58a6ff;
+      --green: #238636;
+      --yellow: #d29922;
+      --purple: #bc8cff;
+      --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-main);
+      padding: 30px 20px 80px 20px;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    /* Başlık */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .header-title h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text-bright);
+      letter-spacing: -0.01em;
+    }
+    .header-title p {
+      margin: 4px 0 0 0;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .header-links {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      color: var(--text-bright);
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .btn:hover {
+      background: #21262d;
+      border-color: #8b949e;
+    }
+
+    /* Şema Panelleri */
+    .section-panel {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 36px;
+      overflow: visible;
+    }
+
+    .section-header {
+      background: var(--card-header);
+      border-bottom: 1px solid var(--border);
+      border-radius: 12px 12px 0 0;
+      padding: 12px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .section-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text-bright);
+    }
+    .section-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .diagram-stage {
+      padding: 40px 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: auto;
+      overflow-y: visible;
+      background: #0d1117;
+      position: relative;
+    }
+
+    .mermaid {
+      display: flex;
+      justify-content: center;
+      overflow: visible !important;
+      width: 100%;
+    }
+    .mermaid svg {
+      max-width: 100% !important;
+      height: auto !important;
+      background: transparent !important;
+      overflow: visible !important;
+    }
+    .mermaid .node rect,
+    .mermaid .node polygon {
+      rx: 10px !important;
+      ry: 10px !important;
+      stroke-width: 1.5px !important;
+    }
+    .mermaid .node foreignObject {
+      overflow: visible !important;
+    }
+    .mermaid .node foreignObject div {
+      white-space: nowrap !important;
+      text-align: center !important;
+      padding: 4px 14px !important;
+      font-size: 13px !important;
+      line-height: 1.45 !important;
+      box-sizing: border-box !important;
+    }
+    .mermaid .nodeLabel {
+      white-space: nowrap !important;
+      text-align: center !important;
+    }
+
+    /* Düğümlere Hover Efekti (Tıklanabilir olanlar) */
+    .mermaid .node.has-popover {
+      cursor: pointer !important;
+      transition: filter 0.15s ease;
+    }
+    .mermaid .node.has-popover:hover {
+      filter: brightness(1.25) drop-shadow(0 0 8px rgba(88, 166, 255, 0.6)) !important;
+    }
+
+    .panel-footer {
+      background: var(--card-header);
+      border-top: 1px solid var(--border);
+      border-radius: 0 0 12px 12px;
+      padding: 10px 18px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    /* İnteraktif Popover (Hover Kartı - Saydam Glassmorphism & Ovalimsi) */
+    .node-popover {
+      position: fixed;
+      display: none;
+      z-index: 10000;
+      width: 370px;
+      background: rgba(22, 27, 34, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(88, 166, 255, 0.28);
+      border-radius: 12px;
+      box-shadow: 0 20px 42px rgba(0, 0, 0, 0.75), 0 0 1px rgba(255, 255, 255, 0.15);
+      padding: 16px 18px;
+      pointer-events: auto;
+      transition: opacity 0.15s ease;
+      font-size: 13px;
+    }
+    .node-popover.active {
+      display: block;
+    }
+    .popover-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+      border-bottom: 1px solid rgba(48, 54, 61, 0.8);
+      padding-bottom: 8px;
+    }
+    .popover-title {
+      font-weight: 700;
+      color: #fff;
+      font-size: 14px;
+    }
+    .popover-owner-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: rgba(188, 140, 255, 0.15);
+      border: 1px solid rgba(188, 140, 255, 0.35);
+      color: var(--purple);
+    }
+    .popover-role {
+      color: #c9d1d9;
+      margin-bottom: 12px;
+      line-height: 1.45;
+      font-size: 12.5px;
+    }
+    .popover-commit {
+      background: rgba(13, 17, 23, 0.78);
+      border: 1px solid rgba(48, 54, 61, 0.8);
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-bottom: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+    }
+    .popover-commit-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    .popover-commit-hash {
+      color: var(--primary);
+      font-weight: 700;
+    }
+    .popover-commit-author {
+      color: #58a6ff;
+      font-weight: 600;
+      font-size: 11px;
+    }
+    .popover-commit-msg {
+      color: #e6edf3;
+      margin-top: 5px;
+      white-space: normal !important;
+      word-break: break-word !important;
+      line-height: 1.4;
+      font-size: 11px;
+    }
+    .popover-commit-date {
+      color: #8b949e;
+      font-size: 10px;
+      margin-top: 4px;
+    }
+    .popover-link-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      background: #238636;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 12px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      transition: background 0.15s, transform 0.1s;
+    }
+    .popover-link-btn:hover {
+      background: #2ea043;
+      transform: translateY(-1px);
+    }
+
+    /* Depo Tablosu */
+    .repo-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+    .repo-table th, .repo-table td {
+      padding: 12px 18px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    .repo-table th {
+      background: var(--card-header);
+      color: var(--text-bright);
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .repo-table tr:last-child td {
+      border-bottom: none;
+    }
+    .repo-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .repo-table a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .repo-table a:hover {
+      text-decoration: underline;
+    }
+
+    .badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: rgba(110, 118, 129, 0.15);
+      border: 1px solid var(--border);
+      color: #8b949e;
+    }
+
+    /* Alt Bilgi */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- Başlık -->
+    <header class="header">
+      <div class="header-title">
+        <h1>DEUDEOS Sistem ve Ağ Mimarisi</h1>
+        <p>DEOS Firmware, Git Alt Modülleri ve Araç İçi Donanım Topolojisi</p>
+      </div>
+      <div class="header-links">
+        <a href="https://github.com/DEUDEOS-Team/deos-ground-station" target="_blank" class="btn">
+          deos-ground-station ↗
+        </a>
+        <a href="https://github.com/DEUDEOS-Team/deos-firmware" target="_blank" class="btn">
+          deos-firmware ↗
+        </a>
+      </div>
+    </header>
+
+    <!-- 1. ŞEMA: Yazılım ve Git Alt Modül Mimarisi -->
+    <div class="section-panel">
+      <div class="section-header">
+        <div class="section-title">1. Yazılım ve Git Alt Modül Mimarisi</div>
+        <div class="section-desc">Kutuların üzerine gelerek sorumlu kişiyi, GitHub'dan dinamik çekilen son commit bilgisini ve mesajını görebilirsiniz.</div>
+      </div>
+      <div class="diagram-stage">
+        <div class="mermaid" id="diagram-repos">
+graph TD
+    classDef root fill:#1f6feb,stroke:#388bfd,stroke-width:2px,color:#ffffff;
+    classDef sub fill:#238636,stroke:#2ea043,stroke-width:1.5px,color:#ffffff;
+    classDef ext fill:#d29922,stroke:#bb8009,stroke-width:1.5px,color:#ffffff;
+
+    FW["deos-firmware<br/>(Ana Depo)"]:::root
+
+    FW --> CORE["deos-core<br/>(Router)"]:::sub
+    FW --> PROTO["deos-protocol<br/>(Protokol & Codec)"]:::sub
+    FW --> CAN["deos-transport-can<br/>(CAN-FD Sürücüsü)"]:::sub
+    FW --> DOCS["deos-docs<br/>(ICD & Belgeler)"]:::sub
+
+    PROTO -.->|"C/C++ Bağı"| ROS["deos-ros2-bridge<br/>(ROS 2 Köprüsü)"]:::ext
+    PROTO -.->|"Python Bindings"| GCS["deos-ground-station<br/>(Yer İstasyonu)"]:::ext
+        </div>
+      </div>
+      <div class="panel-footer">
+        <span>Kutuların üzerine gelin. Repoyu açmak için açılan karttaki butonu kullanın.</span>
+      </div>
+    </div>
+
+    <!-- 2. ŞEMA: Araç İçi Donanım ve Haberleşme Şematiği -->
+    <div class="section-panel">
+      <div class="section-header">
+        <div class="section-title">2. Araç İçi Donanım ve Haberleşme Topolojisi</div>
+        <div class="section-desc">Raspberry Pi, ROS 2 Köprüsü, Main STM32 Router ve CAN-FD omurgası</div>
+      </div>
+      <div class="diagram-stage">
+        <div class="mermaid" id="diagram-hardware">
+graph TD
+    classDef mcu fill:#1f6feb,stroke:#388bfd,stroke-width:2.5px,color:#ffffff;
+    classDef host fill:#21262d,stroke:#6e7681,stroke-width:1.5px,color:#f0f6fc;
+    classDef bridge fill:#d29922,stroke:#bb8009,stroke-width:1.5px,color:#ffffff;
+    classDef rf fill:#793ed4,stroke:#a371f7,stroke-width:1.5px,color:#ffffff;
+    classDef can fill:#238636,stroke:#3fb950,stroke-width:1.5px,color:#ffffff;
+    classDef bms fill:#161b22,stroke:#484f58,stroke-width:1.5px,color:#c9d1d9;
+    classDef bus fill:#0969da,stroke:#54aeff,stroke-width:3.5px,color:#ffffff;
+
+    RPI["Raspberry Pi<br/>(ROS 2)"]:::host
+    BRIDGE["deos-ros2-bridge<br/>(Köprü)"]:::bridge
+    MAIN["Main STM32<br/>(Router)"]:::mcu
+
+    LORA["LoRa Modülü<br/>(Ebyte E220)"]:::rf
+    GCS["Ground Control<br/>(deos-ground-station)"]:::host
+
+    BT["Bluetooth Modülü"]:::rf
+    GAMEPAD["Gamepad"]:::host
+
+    RPI <-->|"ROS 2 Topics"| BRIDGE
+    BRIDGE <-->|"Ethernet"| MAIN
+
+    MAIN <-->|"UART"| LORA
+    LORA -.->|"RF"| GCS
+
+    MAIN <-->|"UART"| BT
+    BT -.->|"Wireless"| GAMEPAD
+
+    CAN_BUS["CAN-FD Backbone"]:::bus
+    TRACTION["Traction<br/>(Motor / İnvertör)"]:::can
+    BRAKE["Brake<br/>(Fren)"]:::can
+    STEERING["Steering<br/>(Direksiyon)"]:::can
+    BMS_GW["BMS Gateway"]:::can
+    BMS1["BMS 1"]:::bms
+    BMS2["BMS 2"]:::bms
+
+    MAIN <-->|"CAN-FD"| CAN_BUS
+    CAN_BUS <--> TRACTION
+    CAN_BUS <--> BRAKE
+    CAN_BUS <--> STEERING
+    CAN_BUS <--> BMS_GW
+    BMS_GW <--> BMS1
+    BMS_GW <--> BMS2
+        </div>
+      </div>
+      <div class="panel-footer">
+        <span>Request / Response mesajlaşması CAN-FD, Ethernet ve UART hatları üzerinden iletilir.</span>
+      </div>
+    </div>
+
+    <!-- 3. Ekosistem Depo Tablosu -->
+    <div class="section-panel">
+      <div class="section-header">
+        <div class="section-title">Ekosistem Bileşenleri ve Sorumluluk Tablosu</div>
+      </div>
+      <table class="repo-table">
+        <thead>
+          <tr>
+            <th>Bileşen / Depo / Dosya</th>
+            <th>Konum / Rol</th>
+            <th>Sorumlu</th>
+            <th>Son Commit (Gerçek Git Verisi)</th>
+            <th>Açıklama</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a href="https://github.com/DEUDEOS-Team/deos-firmware" target="_blank">deos-firmware</a></td>
+            <td><span class="badge">Ana Depo</span></td>
+            <td>Emir Arkalı</td>
+            <td id="commit-FW">
+              <span class="badge">#24693e7</span> <span style="color:#58a6ff; font-weight:600; font-size:12px;">emirarkali</span>
+              <div style="color:#8b949e; font-size:12px; margin-top:2px;">docs: remove unassigned bluetooth connections</div>
+            </td>
+            <td>Zephyr RTOS uygulamaları ve alt modül manifestosu.</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/DEUDEOS-Team/deos-core" target="_blank">deos-core</a></td>
+            <td><span class="badge">Submodule (lib/deos_core)</span></td>
+            <td>Emir Arkalı</td>
+            <td id="commit-CORE">
+              <span class="badge">#a413705</span> <span style="color:#58a6ff; font-weight:600; font-size:12px;">emirarkali</span>
+              <div style="color:#8b949e; font-size:12px; margin-top:2px;">feat(core): implement standardized GET_NODE_INFO payload</div>
+            </td>
+            <td>Split-Horizon Router motoru, telemetri abonelikleri ve mandallanan arıza tablosu.</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/DEUDEOS-Team/deos-protocol" target="_blank">deos-protocol</a></td>
+            <td><span class="badge">Submodule (lib/deos_protocol)</span></td>
+            <td>Emir Arkalı</td>
+            <td id="commit-PROTO">
+              <span class="badge">#fc3ac4e</span> <span style="color:#58a6ff; font-weight:600; font-size:12px;">emirarkali</span>
+              <div style="color:#8b949e; font-size:12px; margin-top:2px;">chore: add .gitignore for python cache and build artifacts</div>
+            </td>
+            <td>ANSI C99 Universal Frame (9-bayt), taşınabilir codec ve Python C-Bindings.</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/DEUDEOS-Team/deos-transport-can" target="_blank">deos-transport-can</a></td>
+            <td><span class="badge">Submodule (lib/deos_transport_can)</span></td>
+            <td>Emir Arkalı</td>
+            <td id="commit-CAN">
+              <span class="badge">#56ef31e</span> <span style="color:#58a6ff; font-weight:600; font-size:12px;">emirarkali</span>
+              <div style="color:#8b949e; font-size:12px; margin-top:2px;">docs: move 29-bit CAN ID spec from deos_core to deos_transport_can</div>
+            </td>
+            <td>STM32 FDCAN çevre birimi sürücüsü ve 29-bit CAN ID maskeleme motoru.</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/DEUDEOS-Team/deos-ground-station" target="_blank">deos-ground-station</a></td>
+            <td><span class="badge">Yer Kontrol İstasyonu</span></td>
+            <td>Alper Bora</td>
+            <td id="commit-GCS">
+              <span class="badge">#109b912</span> <span style="color:#58a6ff; font-weight:600; font-size:12px;">Adın Soyadın</span>
+              <div style="color:#8b949e; font-size:12px; margin-top:2px;">feat(ui): add target node selector for state and mode switching</div>
+            </td>
+            <td>PyQt tabanlı telemetri izleme ve araç komuta kontrol masaüstü yazılımı.</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/DEUDEOS-Team/deos-ros2-bridge" target="_blank">deos-ros2-bridge</a></td>
+            <td><span class="badge">Otonomi Köprüsü</span></td>
+            <td>Sepehr Jafarzadeh</td>
+            <td id="commit-ROS">
+              <span class="badge">#861f608</span> <span style="color:#58a6ff; font-weight:600; font-size:12px;">SepiJzadeh</span>
+              <div style="color:#8b949e; font-size:12px; margin-top:2px;">docs: add comprehensive README, gitignore, and benchmark suite</div>
+            </td>
+            <td>Raspberry Pi üzerinde koşan ROS 2 Humble ile araç içi CAN-FD veri köprüsü.</td>
+          </tr>
+          <tr>
+            <td>Raspberry Pi (ROS 2)</td>
+            <td><span class="badge">Otonomi Bilgisayarı</span></td>
+            <td>Arda Efe Yılmaz</td>
+            <td><span class="badge">ROS 2 Humble</span> Arda Efe Yılmaz</td>
+            <td>Otonom sürüş algoritmaları, sensör füzyonu ve ROS 2 paketleri.</td>
+          </tr>
+          <tr>
+            <td>apps/traction</td>
+            <td><span class="badge">CAN Düğümü (0x10)</span></td>
+            <td>Alper Altındaş</td>
+            <td id="commit-TRACTION">
+              <span class="badge">#ba2df01</span> <span style="color:#58a6ff; font-weight:600; font-size:12px;">emirarkali</span>
+              <div style="color:#8b949e; font-size:12px; margin-top:2px;">feat(protocol): decouple portable deos_protocol layer</div>
+            </td>
+            <td>Çekiş / İnvertör kontrolü, tork ve hız taleplerinin yönetimi.</td>
+          </tr>
+          <tr>
+            <td>apps/brake</td>
+            <td><span class="badge">CAN Düğümü (0x12)</span></td>
+            <td>Alper Altındaş</td>
+            <td id="commit-BRAKE">
+              <span class="badge">#1fed144</span> <span style="color:#58a6ff; font-weight:600; font-size:12px;">emirarkali</span>
+              <div style="color:#8b949e; font-size:12px; margin-top:2px;">refactor: apply standardized overlay architecture to all apps</div>
+            </td>
+            <td>Fren aktüatörü kontrolü, hidrolik basınç ve güvenlik mandalı.</td>
+          </tr>
+          <tr>
+            <td>apps/steering</td>
+            <td><span class="badge">CAN Düğümü (0x11)</span></td>
+            <td>Alper Altındaş</td>
+            <td id="commit-STEERING">
+              <span class="badge">#1fed144</span> <span style="color:#58a6ff; font-weight:600; font-size:12px;">emirarkali</span>
+              <div style="color:#8b949e; font-size:12px; margin-top:2px;">refactor: apply standardized overlay architecture to all apps</div>
+            </td>
+            <td>Steer-by-Wire direksiyon açı kontrolü ve enkoder takibi.</td>
+          </tr>
+          <tr>
+            <td>apps/bms_gateway</td>
+            <td><span class="badge">CAN Düğümü (0x30)</span></td>
+            <td>Ayşe Ceren Akdamar</td>
+            <td id="commit-BMS_GW">
+              <span class="badge">#ba2df01</span> <span style="color:#58a6ff; font-weight:600; font-size:12px;">emirarkali</span>
+              <div style="color:#8b949e; font-size:12px; margin-top:2px;">feat(protocol): decouple portable deos_protocol layer</div>
+            </td>
+            <td>Batarya yönetim sistemi ağ geçidi, hücre voltaj ve sıcaklık takibi.</td>
+          </tr>
+          <tr>
+            <td>apps/main_node</td>
+            <td><span class="badge">CAN Düğümü (0x03)</span></td>
+            <td>Emir Arkalı</td>
+            <td id="commit-MAIN">
+              <span class="badge">#49aa9d5</span> <span style="color:#58a6ff; font-weight:600; font-size:12px;">emirarkali</span>
+              <div style="color:#8b949e; font-size:12px; margin-top:2px;">refactor(protocol): rename deos_dispatcher to deos_registry</div>
+            </td>
+            <td>Araç içi merkezi ağ geçidi ve yönlendirici (Nucleo-H563ZI).</td>
+          </tr>
+          <tr>
+            <td>apps/main_node/.../uart_lora.cpp</td>
+            <td><span class="badge">LoRa Sürücüsü</span></td>
+            <td>Alper Bora</td>
+            <td id="commit-LORA">
+              <span class="badge">#91f235a</span> <span style="color:#58a6ff; font-weight:600; font-size:12px;">emirarkali</span>
+              <div style="color:#8b949e; font-size:12px; margin-top:2px;">feat(fault): expand fault registry into specific subsystem categories</div>
+            </td>
+            <td>Ebyte E220 UART LoRa modülü sürücüsü ve paket yönlendirme.</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/DEUDEOS-Team/deos-docs" target="_blank">deos-docs</a></td>
+            <td><span class="badge">Submodule (docs)</span></td>
+            <td>Emir Arkalı</td>
+            <td id="commit-DOCS">
+              <span class="badge">#590f922</span> <span style="color:#58a6ff; font-weight:600; font-size:12px;">emirarkali</span>
+              <div style="color:#8b949e; font-size:12px; margin-top:2px;">docs(icd): synchronize hardware types with deos_types.h</div>
+            </td>
+            <td>Resmi LaTeX ICD şartnameleri ve ağ mimarisi kuralları.</td>
+          </tr>
+          <tr>
+            <td>Bluetooth Modülü</td>
+            <td><span class="badge">Donanım (UART)</span></td>
+            <td>Atanmadı</td>
+            <td id="commit-BT">
+              <span class="badge" style="background:rgba(139,148,158,0.2); color:#8b949e;">Bağlı repo yok</span>
+              <div style="color:#8b949e; font-size:12px; margin-top:2px;">Bu donanım modülü için henüz bir kod deposu bulunmuyor.</div>
+            </td>
+            <td>Gamepad kablosuz sürüş kontrolü için Bluetooth modülü.</td>
+          </tr>
+          <tr>
+            <td>Gamepad</td>
+            <td><span class="badge">Harici Donanım</span></td>
+            <td>Operatör</td>
+            <td id="commit-GAMEPAD">
+              <span class="badge" style="background:rgba(139,148,158,0.2); color:#8b949e;">Harici Donanım</span>
+              <div style="color:#8b949e; font-size:12px; margin-top:2px;">Kablosuz sürüş ve test kumandası.</div>
+            </td>
+            <td>Bluetooth üzerinden araç sürüş komutları ileten kablosuz gamepad kumandası.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Alt Bilgi -->
+    <footer class="footer">
+      <div>DEUDEOS &copy; 2026.</div>
+      <div style="font-family:'JetBrains Mono', monospace; font-size:0.75rem;">DEOS ARCHITECTURE</div>
+    </footer>
+
+  </div>
+
+  <!-- Dinamik Hover Popover Kartı -->
+  <div id="nodePopover" class="node-popover">
+    <div class="popover-header">
+      <div id="popTitle" class="popover-title">Düğüm Adı</div>
+      <div id="popOwner" class="popover-owner-badge">Sorumlu: İsim</div>
+    </div>
+    <div id="popRole" class="popover-role">Açıklama</div>
+    <div class="popover-commit">
+      <div class="popover-commit-meta">
+        <div><span id="popCommitHash" class="popover-commit-hash">#---</span></div>
+        <div id="popCommitAuthor" class="popover-commit-author"></div>
+      </div>
+      <div id="popCommitMsg" class="popover-commit-msg">Yükleniyor...</div>
+      <div id="popCommitDate" class="popover-commit-date"></div>
+    </div>
+    <a id="popBtn" href="#" target="_blank" class="popover-link-btn">Depoyu Aç ↗</a>
+  </div>
+
+  <!-- Mermaid.js -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      securityLevel: 'loose',
+      theme: 'dark',
+      themeVariables: {
+        darkMode: true,
+        background: 'transparent',
+        primaryColor: '#1f6feb',
+        primaryTextColor: '#ffffff',
+        primaryBorderColor: '#388bfd',
+        lineColor: '#58a6ff',
+        secondaryColor: '#238636',
+        tertiaryColor: '#161b22',
+        fontSize: '13px'
+      },
+      flowchart: {
+        curve: 'basis',
+        htmlLabels: true,
+        padding: 18,
+        nodeSpacing: 50,
+        rankSpacing: 48,
+        useMaxWidth: false
+      }
+    });
+
+    // Düğüm Veri Sözlüğü: Sorumlu Kişi + Gerçek Git Commit Bilgileri (BMS 1/2 hariç)
+    const nodeMetadata = {
+      "FW": {
+        title: "deos-firmware",
+        owner: "Emir Arkalı",
+        author: "emirarkali",
+        date: "17.10.2026",
+        role: "Ana sistem deposu. Zephyr RTOS üzerinde koşan STM32 firmware uygulamaları ve manifestosu.",
+        hash: "24693e7",
+        msg: "docs: remove unassigned bluetooth connections and add path-level app responsibilities",
+        url: "https://github.com/DEUDEOS-Team/deos-firmware",
+        apiEndpoint: "https://api.github.com/repos/DEUDEOS-Team/deos-firmware/commits?per_page=1"
+      },
+      "CORE": {
+        title: "lib/deos_core",
+        owner: "Emir Arkalı",
+        author: "emirarkali",
+        date: "16.10.2026",
+        role: "STM32 icra motoru. Split-Horizon Router, telemetri abonelik motoru ve mandallanan arıza tablosu.",
+        hash: "a413705",
+        msg: "feat(core): implement standardized GET_NODE_INFO payload and auto-response (fixes #8)",
+        url: "https://github.com/DEUDEOS-Team/deos-core",
+        apiEndpoint: "https://api.github.com/repos/DEUDEOS-Team/deos-core/commits?per_page=1"
+      },
+      "PROTO": {
+        title: "lib/deos_protocol",
+        owner: "Emir Arkalı",
+        author: "emirarkali",
+        date: "17.10.2026",
+        role: "Sıfır bağımlılıklı ANSI C99 tel protokolü, 9-bayt Universal Frame codec ve Python C-Bindings.",
+        hash: "fc3ac4e",
+        msg: "chore: add .gitignore for python cache and build artifacts",
+        url: "https://github.com/DEUDEOS-Team/deos-protocol",
+        apiEndpoint: "https://api.github.com/repos/DEUDEOS-Team/deos-protocol/commits?per_page=1"
+      },
+      "CAN": {
+        title: "lib/deos_transport_can",
+        owner: "Emir Arkalı",
+        author: "emirarkali",
+        date: "16.10.2026",
+        role: "STM32 FDCAN çevre birimi sürücüsü, 29-bit CAN ID maskeleme ve non-blocking mesaj kuyrukları.",
+        hash: "56ef31e",
+        msg: "docs: move 29-bit CAN ID spec from deos_core to deos_transport_can",
+        url: "https://github.com/DEUDEOS-Team/deos-transport-can",
+        apiEndpoint: "https://api.github.com/repos/DEUDEOS-Team/deos-transport-can/commits?per_page=1"
+      },
+      "DOCS": {
+        title: "docs (deos-docs)",
+        owner: "Emir Arkalı",
+        author: "emirarkali",
+        date: "16.10.2026",
+        role: "Resmi LaTeX ICD şartnameleri, ağ mimarisi kuralları ve sistem şartname belgeleri.",
+        hash: "590f922",
+        msg: "docs(icd): synchronize hardware types with deos_types.h",
+        url: "https://github.com/DEUDEOS-Team/deos-docs",
+        apiEndpoint: "https://api.github.com/repos/DEUDEOS-Team/deos-docs/commits?per_page=1"
+      },
+      "ROS": {
+        title: "deos-ros2-bridge",
+        owner: "Sepehr Jafarzadeh",
+        author: "SepiJzadeh",
+        date: "14.10.2026",
+        role: "Raspberry Pi üzerinde koşan, ROS 2 Humble topicleri ile CAN-FD veriyolunu bağlayan köprü yazılımı.",
+        hash: "861f608",
+        msg: "docs: add comprehensive README, gitignore, and benchmark suite",
+        url: "https://github.com/DEUDEOS-Team/deos-ros2-bridge",
+        apiEndpoint: "https://api.github.com/repos/DEUDEOS-Team/deos-ros2-bridge/commits?per_page=1"
+      },
+      "BRIDGE": {
+        title: "deos-ros2-bridge",
+        owner: "Sepehr Jafarzadeh",
+        author: "SepiJzadeh",
+        date: "14.10.2026",
+        role: "Raspberry Pi üzerinde koşan ROS 2 Humble ile Main STM32 Router arasındaki Ethernet köprüsü.",
+        hash: "861f608",
+        msg: "docs: add comprehensive README, gitignore, and benchmark suite",
+        url: "https://github.com/DEUDEOS-Team/deos-ros2-bridge",
+        apiEndpoint: "https://api.github.com/repos/DEUDEOS-Team/deos-ros2-bridge/commits?per_page=1"
+      },
+      "GCS": {
+        title: "deos-ground-station",
+        owner: "Alper Bora",
+        author: "Adın Soyadın",
+        date: "15.10.2026",
+        role: "PyQt tabanlı masaüstü yer kontrol istasyonu. LoRa üzerinden telemetri izleme ve araç komuta kontrolü.",
+        hash: "109b912",
+        msg: "feat(ui): add target node selector for state and mode switching",
+        url: "https://github.com/DEUDEOS-Team/deos-ground-station",
+        apiEndpoint: "https://api.github.com/repos/DEUDEOS-Team/deos-ground-station/commits?per_page=1"
+      },
+      "RPI": {
+        title: "Raspberry Pi (ROS 2)",
+        owner: "Arda Efe Yılmaz",
+        author: "Arda Efe Yılmaz",
+        date: "Aktif",
+        role: "Otonom sürüş ve algılama ünitesi. ROS 2 topicleri üzerinden köprüye veri sağlar.",
+        hash: "ROS 2",
+        msg: "Otonom Sürüş Algoritmaları & Sensör Füzyonu",
+        url: "https://github.com/DEUDEOS-Team/deos-ros2-bridge"
+      },
+      "MAIN": {
+        title: "Main STM32 (apps/main_node)",
+        owner: "Emir Arkalı",
+        author: "emirarkali",
+        date: "17.10.2026",
+        role: "Araç içi merkezi ağ geçidi ve yönlendirici (Nucleo-H563ZI). CAN-FD, LoRa ve Ethernet arasında paket dağıtımı.",
+        hash: "49aa9d5",
+        msg: "refactor(protocol): rename deos_dispatcher to deos_registry for clearer separation of concerns",
+        url: "https://github.com/DEUDEOS-Team/deos-firmware/tree/main/apps/main_node",
+        apiEndpoint: "https://api.github.com/repos/DEUDEOS-Team/deos-firmware/commits?path=apps/main_node&per_page=1"
+      },
+      "LORA": {
+        title: "LoRa Modülü (apps/main_node/.../uart_lora.cpp)",
+        owner: "Alper Bora",
+        author: "emirarkali",
+        date: "17.10.2026",
+        role: "Ebyte E220 RF LoRa modülü sürücüsü. Main STM32 UART portu ile yer istasyonu arasındaki telemetri hattı.",
+        hash: "91f235a",
+        msg: "feat(fault): expand fault registry into specific subsystem categories (Router, CAN, LoRa, Ethernet, Dispatcher)",
+        url: "https://github.com/DEUDEOS-Team/deos-firmware/blob/main/apps/main_node/src/transport/uart_lora.cpp",
+        apiEndpoint: "https://api.github.com/repos/DEUDEOS-Team/deos-firmware/commits?path=apps/main_node/src/transport/uart_lora.cpp&per_page=1"
+      },
+      "CAN_BUS": {
+        title: "CAN-FD Backbone",
+        owner: "Emir Arkalı",
+        author: "emirarkali",
+        date: "16.10.2026",
+        role: "Araç içi 5 Mbps yüksek hızlı diferansiyel CAN-FD veri yolu omurgası.",
+        hash: "56ef31e",
+        msg: "docs: move 29-bit CAN ID spec from deos_core to deos_transport_can",
+        url: "https://github.com/DEUDEOS-Team/deos-transport-can",
+        apiEndpoint: "https://api.github.com/repos/DEUDEOS-Team/deos-transport-can/commits?per_page=1"
+      },
+      "TRACTION": {
+        title: "Traction (apps/traction)",
+        owner: "Alper Altındaş",
+        author: "emirarkali",
+        date: "17.10.2026",
+        role: "İnvertör ve çekiş motor sürücüsü. Tork ve hız taleplerinin yönetimi (CAN ID: 0x10).",
+        hash: "ba2df01",
+        msg: "feat(protocol): decouple portable deos_protocol layer with standalone dispatcher",
+        url: "https://github.com/DEUDEOS-Team/deos-firmware/tree/main/apps/traction",
+        apiEndpoint: "https://api.github.com/repos/DEUDEOS-Team/deos-firmware/commits?path=apps/traction&per_page=1"
+      },
+      "BRAKE": {
+        title: "Brake (apps/brake)",
+        owner: "Alper Altındaş",
+        author: "emirarkali",
+        date: "07.10.2026",
+        role: "Fren aktüatörü kontrolü, hidrolik basınç takibi ve güvenlik mandalı.",
+        hash: "1fed144",
+        msg: "refactor: apply standardized overlay architecture to all apps",
+        url: "https://github.com/DEUDEOS-Team/deos-firmware/tree/main/apps/brake",
+        apiEndpoint: "https://api.github.com/repos/DEUDEOS-Team/deos-firmware/commits?path=apps/brake&per_page=1"
+      },
+      "STEERING": {
+        title: "Steering (apps/steering)",
+        owner: "Alper Altındaş",
+        author: "emirarkali",
+        date: "07.10.2026",
+        role: "Steer-by-Wire direksiyon açı kontrolü, açı limitleri ve enkoder takibi (CAN ID: 0x11).",
+        hash: "1fed144",
+        msg: "refactor: apply standardized overlay architecture to all apps",
+        url: "https://github.com/DEUDEOS-Team/deos-firmware/tree/main/apps/steering",
+        apiEndpoint: "https://api.github.com/repos/DEUDEOS-Team/deos-firmware/commits?path=apps/steering&per_page=1"
+      },
+      "BMS_GW": {
+        title: "BMS Gateway (apps/bms_gateway)",
+        owner: "Ayşe Ceren Akdamar",
+        author: "emirarkali",
+        date: "17.10.2026",
+        role: "Batarya yönetim sistemi ağ geçidi. Hücre voltajları, sıcaklık ve aşırı akım güvenliği (CAN ID: 0x30).",
+        hash: "ba2df01",
+        msg: "feat(protocol): decouple portable deos_protocol layer with standalone dispatcher",
+        url: "https://github.com/DEUDEOS-Team/deos-firmware/tree/main/apps/bms_gateway",
+        apiEndpoint: "https://api.github.com/repos/DEUDEOS-Team/deos-firmware/commits?path=apps/bms_gateway&per_page=1"
+      },
+      "BT": {
+        title: "Bluetooth Modülü",
+        owner: "Atanmadı",
+        author: "",
+        date: "",
+        role: "Manuel test ve kumanda iletişimi için Bluetooth alıcı-verici donanımı (UART üzerinden Main STM32'ye bağlı).",
+        hash: "Bağlı repo yok",
+        msg: "Bu donanım modülü için henüz bir kod deposu veya sürücü yazılımı bulunmamaktadır.",
+        url: ""
+      },
+      "GAMEPAD": {
+        title: "Gamepad (Kablosuz Kumanda)",
+        owner: "Operatör",
+        author: "",
+        date: "",
+        role: "Bluetooth üzerinden araca yön, hız ve acil durdurma komutları ileten kablosuz joystick kumanda.",
+        hash: "Harici Donanım",
+        msg: "Manuel sürüş kontrol joystick kumandası (Harici çevre birimi)",
+        url: ""
+      }
+    };
+
+    // GitHub API ile Her Uygulama ve Kütüphaneye Özel Gerçek Canlı Commit Verisini Çekme
+    async function fetchLiveCommits() {
+      const keys = Object.keys(nodeMetadata).filter(k => nodeMetadata[k].apiEndpoint);
+
+      await Promise.allSettled(keys.map(async (key) => {
+        try {
+          const item = nodeMetadata[key];
+          const res = await fetch(item.apiEndpoint);
+          if (!res.ok) return;
+          const data = await res.json();
+          if (Array.isArray(data) && data.length > 0) {
+            const c = data[0];
+            const hash = c.sha.substring(0, 7);
+            const author = c.commit?.author?.name || c.author?.login || "Bilinmiyor";
+            const msg = (c.commit?.message || "").split("\n")[0];
+            const date = c.commit?.author?.date ? new Date(c.commit.author.date).toLocaleDateString("tr-TR") : "";
+
+            // Bellekteki veriyi güncelle
+            item.hash = hash;
+            item.author = author;
+            item.msg = msg;
+            item.date = date;
+
+            // Tablodaki ilgili hücreyi canlı güncelle
+            const cell = document.getElementById(`commit-${key}`);
+            if (cell) {
+              cell.innerHTML = `
+                <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                  <span class="badge" style="color:var(--primary); font-weight:700;">#${hash}</span>
+                  <span style="color:#58a6ff; font-weight:600; font-size:12px;">${author}</span>
+                  <span style="color:#8b949e; font-size:11px;">(${date})</span>
+                </div>
+                <div style="color:#8b949e; font-size:12px; margin-top:2px; max-width:340px; white-space:normal; line-height:1.35;" title="${msg}">
+                  ${msg}
+                </div>
+              `;
+            }
+          }
+        } catch (e) {
+          console.warn("Commit yüklenemedi:", key, e);
+        }
+      }));
+    }
+
+    // Popover Etkileşim Kodları
+    document.addEventListener("DOMContentLoaded", function() {
+      // Dinamik commitleri GitHub'dan çek
+      fetchLiveCommits();
+
+      const popover = document.getElementById("nodePopover");
+      const popTitle = document.getElementById("popTitle");
+      const popOwner = document.getElementById("popOwner");
+      const popRole = document.getElementById("popRole");
+      const popCommitHash = document.getElementById("popCommitHash");
+      const popCommitAuthor = document.getElementById("popCommitAuthor");
+      const popCommitMsg = document.getElementById("popCommitMsg");
+      const popCommitDate = document.getElementById("popCommitDate");
+      const popBtn = document.getElementById("popBtn");
+
+      let hideTimeout = null;
+
+      function bindNodeEvents() {
+        const nodes = document.querySelectorAll(".mermaid .node");
+        nodes.forEach(node => {
+          const idAttr = node.id || "";
+          const textContent = (node.textContent || "").trim();
+
+          // BMS 1 ve BMS 2 için kutucuk AÇILMAYACAK
+          if (idAttr.includes("-BMS1-") || idAttr.endsWith("-BMS1") || 
+              idAttr.includes("-BMS2-") || idAttr.endsWith("-BMS2") ||
+              textContent.startsWith("BMS 1") || textContent.startsWith("BMS 2")) {
+            return;
+          }
+
+          let key = "";
+          for (let k of Object.keys(nodeMetadata)) {
+            if (idAttr.includes("-" + k + "-") || idAttr.endsWith("-" + k)) {
+              key = k;
+              break;
+            }
+          }
+
+          if (!key) {
+            for (let k of Object.keys(nodeMetadata)) {
+              if (textContent.includes(nodeMetadata[k].title) || textContent.includes(k)) {
+                key = k;
+                break;
+              }
+            }
+          }
+
+          if (!key || !nodeMetadata[key]) return;
+
+          const data = nodeMetadata[key];
+          node.classList.add("has-popover");
+
+          node.addEventListener("mouseenter", function(e) {
+            clearTimeout(hideTimeout);
+            popTitle.textContent = data.title;
+            popOwner.textContent = "Sorumlu: " + data.owner;
+            popRole.textContent = data.role;
+            if (data.hash && !data.hash.includes(" ") && data.hash !== "ROS 2" && data.hash !== "—") {
+              popCommitHash.textContent = "#" + data.hash;
+            } else {
+              popCommitHash.textContent = data.hash || "—";
+            }
+            popCommitAuthor.textContent = data.author ? `Son commit: ${data.author}` : "";
+            popCommitMsg.textContent = data.msg;
+            popCommitDate.textContent = data.date ? `Tarih: ${data.date}` : "";
+
+            if (data.url) {
+              popBtn.href = data.url;
+              popBtn.textContent = "Depoyu Aç ↗";
+              popBtn.style.display = "inline-flex";
+              popBtn.style.opacity = "1";
+              popBtn.style.pointerEvents = "auto";
+            } else {
+              popBtn.removeAttribute("href");
+              popBtn.textContent = "Bağlı Repo Yok";
+              popBtn.style.display = "inline-flex";
+              popBtn.style.opacity = "0.5";
+              popBtn.style.pointerEvents = "none";
+            }
+
+            const rect = node.getBoundingClientRect();
+            let top = rect.bottom + 10;
+            let left = rect.left + (rect.width / 2) - 185;
+
+            if (left < 10) left = 10;
+            if (left + 380 > window.innerWidth) left = window.innerWidth - 390;
+            if (top + 260 > window.innerHeight) {
+              top = rect.top - 250;
+            }
+
+            popover.style.top = top + "px";
+            popover.style.left = left + "px";
+            popover.classList.add("active");
+          });
+
+          node.addEventListener("mouseleave", function() {
+            hideTimeout = setTimeout(() => {
+              popover.classList.remove("active");
+            }, 300);
+          });
+
+          // Düğüme doğrudan tıklama yönlendirmesi KALDIRILDI.
+          // Sadece popover içindeki "Depoyu Aç" butonuna basılınca gidilecek.
+        });
+      }
+
+      popover.addEventListener("mouseenter", () => clearTimeout(hideTimeout));
+      popover.addEventListener("mouseleave", () => {
+        hideTimeout = setTimeout(() => {
+          popover.classList.remove("active");
+        }, 200);
+      });
+
+      // Mermaid render sonrası event bağlama
+      setTimeout(bindNodeEvents, 700);
+    });
+  </script>
+</body>
+</html>
