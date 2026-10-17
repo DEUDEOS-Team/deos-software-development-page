@@ -956,6 +956,12 @@
 
       Object.values(nodeMetadata).forEach(item => {
         if (!item.date || !item.hash || item.hash === "—" || item.hash === "Bağlı repo yok") return;
+
+        // Web portalının kendi reposunu ve otomatik bot commitlerini hariç tut;
+        // sadece geliştirilen ve takip edilen ekosistem repolarını (firmware, core, protocol, gcs vb.) dikkate al:
+        if (item.id === "PORTAL" || (item.repo && item.repo.includes("deos-software-development-page"))) return;
+        if (item.author && (item.author.includes("[bot]") || item.author.toLowerCase().includes("actions"))) return;
+
         const d = parseDate(item.date);
         if (d && d.getTime() > latestTime) {
           latestTime = d.getTime();
@@ -967,9 +973,19 @@
         const rel = getRelativeTimeString(latestItem.date);
         const time = getTimeString(latestItem.date);
         const full = getFullDateTimeString(latestItem.date);
-        bannerEl.title = `Son commit: ${latestItem.title} - ${latestItem.msg} (${full})`;
+        bannerEl.title = `Son ekosistem aktivitesi: ${latestItem.title} - ${latestItem.msg} (${full})\nTabloda görmek için tıklayın.`;
         textEl.innerHTML = `Son Commit: <strong>${rel}${time ? ` (${time})` : ''}</strong> &nbsp;·&nbsp; <span style="opacity:0.85;">${latestItem.title} (#${latestItem.hash} - ${latestItem.author})</span>`;
         bannerEl.style.display = "inline-flex";
+        bannerEl.style.cursor = "pointer";
+        bannerEl.onclick = () => {
+          const row = document.getElementById(`commit-${latestItem.id}`);
+          if (row) {
+            row.scrollIntoView({ behavior: "smooth", block: "center" });
+            row.style.transition = "background 0.3s";
+            row.style.background = "rgba(56, 139, 253, 0.25)";
+            setTimeout(() => { row.style.background = ""; }, 1800);
+          }
+        };
       }
     }
 
