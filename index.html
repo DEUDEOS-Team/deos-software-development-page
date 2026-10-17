@@ -580,6 +580,7 @@
       { id: 'MAIN', x: 500, y: 100, w: 190, h: 130, k: 'mcu' },
       { id: 'ROS', x: 500, y: 10, w: 190, h: 56, k: 'host' },
       { id: 'RPI', x: 790, y: 10, w: 190, h: 56, k: 'host' },
+      { id: 'FTXUI', x: 790, y: 100, w: 190, h: 56, k: 'host' },
       { id: 'TRACTION', x: 40, y: 360, w: 210, h: 56, k: 'can' },
       { id: 'BRAKE', x: 270, y: 360, w: 210, h: 56, k: 'can' },
       { id: 'STEERING', x: 500, y: 360, w: 210, h: 56, k: 'can' },
@@ -588,13 +589,14 @@
       { id: 'BMS2', x: 850, y: 470, w: 130, h: 50, k: 'can' }
     ];
     const E2 = [
-      ['M790 38H690'], ['M595 66V100'],
+      ['M790 38H690'], ['M595 66V100'], ['M885 66V100'],
       ['M420 128H500'], ['M420 218H500'],
       ['M190 128H250', 'dash'], ['M190 218H250', 'dash'],
       ['M595 230V300'],
       ['M145 300H835', 'bus'], ['M145 300V360', 'stub'], ['M375 300V360', 'stub'], ['M605 300V360', 'stub'], ['M835 300V360', 'stub'],
       ['M835 416V443H755V470', 'stub'], ['M835 443H915V470', 'stub'],
       ['LBL', 'ROS 2 topic', 740, 30], ['LBL', 'Ethernet', 604, 88, 'start'],
+      ['LBL', 'Terminal UI', 894, 84, 'start'],
       ['LBL', 'UART', 460, 120], ['LBL', 'UART', 460, 210],
       ['LBL', 'RF', 220, 120], ['LBL', 'kablosuz', 220, 210],
       ['LBL', 'CAN-FD', 604, 268, 'start'], ['LBL', 'CAN-FD omurga', 852, 304, 'start']
@@ -693,12 +695,13 @@
         // Şema kutucuklarının başlık ve alt metinlerini responsibilities.json üzerinden dinamik olarak güncelle:
         N1.filter(n => n.id === c.id).forEach(n => {
           n.t = c.diagram_title || c.short_title || c.title || n.id;
-          n.s = c.subtitle !== undefined ? c.subtitle : (c.role_type || '');
+          n.s = (c.subtitle !== null && c.subtitle !== undefined) ? c.subtitle : (c.role_type || '');
         });
 
         N2.filter(n => n.id === c.id).forEach(n => {
           n.t = c.hw_title || c.diagram_title || c.short_title || c.title || n.id;
-          n.s = c.hw_subtitle !== undefined ? c.hw_subtitle : (c.subtitle !== undefined ? c.subtitle : (c.role_type || ''));
+          const sub = (c.hw_subtitle !== null && c.hw_subtitle !== undefined) ? c.hw_subtitle : c.subtitle;
+          n.s = (sub !== null && sub !== undefined) ? sub : (c.role_type || '');
         });
 
         let hash = '—', author = '', date = '', msg = c.role || '';
