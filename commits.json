@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-10-17T19:36:15.976266+00:00",
+  "generated_at": "2026-10-17T19:37:16.484029+00:00",
   "commits": {
     "FW": {
-      "hash": "b7d90ae",
+      "hash": "df03642",
       "author": "emirarkali",
-      "msg": "Revert \"feat: embed latest_commit data into responsibilities.json to avoid client-side API rate limits\"",
-      "date": "2026-10-17T17:33:22Z"
+      "msg": "docs(arch): standardize ecosystem schema, bump to ROS 2 Jazzy and add FTXUI node",
+      "date": "2026-10-17T19:32:09Z"
     },
     "CORE": {
       "hash": "a40b4d2",
@@ -50,10 +50,10 @@
       "date": "2026-10-14T16:36:04Z"
     },
     "PORTAL": {
-      "hash": "d598734",
+      "hash": "4e0d90f",
       "author": "emirarkali",
-      "msg": "feat(arch): drive all diagram box titles and subtitles dynamically from responsibilities.json",
-      "date": "2026-10-17T19:03:01Z"
+      "msg": "feat(sync): establish deos-firmware as single source of truth for responsibilities.json",
+      "date": "2026-10-17T19:36:39Z"
     },
     "RPI": {
       "hash": "54c78b0",
