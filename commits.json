@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-22T10:25:09.010681+00:00",
+  "generated_at": "2026-10-22T15:28:12.004151+00:00",
   "commits": {
     "FW": {
       "hash": "c848d63",
@@ -32,28 +32,28 @@
       "date": "2026-10-16T23:27:27Z"
     },
     "GCS": {
-      "hash": "ffd83d4",
+      "hash": "6831490",
       "author": "Alper Bora",
-      "msg": "added live usb support: container detects when a usb is connected or disconnected without having to reboot the container",
-      "date": "2026-10-20T16:48:22Z"
+      "msg": "fix(web-ui,linker): deduplicate hardware connection logs to prevent trace flooding",
+      "date": "2026-10-22T15:27:18Z"
     },
     "ROS": {
-      "hash": "861f608",
-      "author": "SepiJzadeh",
-      "msg": "docs: add comprehensive README, gitignore, and benchmark suite",
-      "date": "2026-10-14T16:36:04Z"
+      "hash": "37b8c15",
+      "author": "emirarkali",
+      "msg": "docs: explain ROS 2 Jazzy bridge setup and startup",
+      "date": "2026-10-22T14:37:02Z"
     },
     "BRIDGE": {
-      "hash": "861f608",
-      "author": "SepiJzadeh",
-      "msg": "docs: add comprehensive README, gitignore, and benchmark suite",
-      "date": "2026-10-14T16:36:04Z"
+      "hash": "37b8c15",
+      "author": "emirarkali",
+      "msg": "docs: explain ROS 2 Jazzy bridge setup and startup",
+      "date": "2026-10-22T14:37:02Z"
     },
     "PORTAL": {
-      "hash": "68c2317",
+      "hash": "b9621d5",
       "author": "github-actions[bot]",
       "msg": "chore(data): auto-sync responsibilities.json from deos-firmware and update commits [skip ci]",
-      "date": "2026-10-22T05:23:37Z"
+      "date": "2026-10-22T10:25:09Z"
     },
     "RPI": {
       "hash": "54c78b0",
