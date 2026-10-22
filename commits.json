@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-22T05:23:37.678208+00:00",
+  "generated_at": "2026-10-22T10:25:09.010681+00:00",
   "commits": {
     "FW": {
       "hash": "c848d63",
@@ -50,10 +50,10 @@
       "date": "2026-10-14T16:36:04Z"
     },
     "PORTAL": {
-      "hash": "0fcb9b9",
+      "hash": "68c2317",
       "author": "github-actions[bot]",
       "msg": "chore(data): auto-sync responsibilities.json from deos-firmware and update commits [skip ci]",
-      "date": "2026-10-22T00:41:08Z"
+      "date": "2026-10-22T05:23:37Z"
     },
     "RPI": {
       "hash": "54c78b0",
