@@ -151,6 +151,20 @@
       font-size: .85rem
     }
 
+    .issue-tools { display:flex; flex-wrap:wrap; gap:12px; margin-bottom:16px }
+    .issue-tools label { display:flex; flex:1 1 220px; flex-direction:column; gap:5px; font-size:.8rem; color:var(--muted) }
+    .issue-tools input, .issue-tools select { width:100%; min-width:0; padding:10px 12px; border:1px solid var(--line); border-radius:6px; background:var(--panel); color:var(--ink); font:inherit }
+    .issue-tools button { align-self:flex-end; background:var(--panel); cursor:pointer; font-family:inherit }
+    .issue-list { border:1px solid var(--line); border-radius:10px; background:var(--panel); overflow:hidden; max-height:540px; overflow-y:auto }
+    .issue-card { padding:18px 20px; border-bottom:1px solid var(--line); overflow-wrap:anywhere }
+    .issue-card:last-child { border-bottom:0 }
+    .issue-title { font-size:.95rem; font-weight:600; text-decoration:none }
+    .issue-title:hover { text-decoration:underline; color:var(--blue) }
+    .issue-meta { display:flex; flex-wrap:wrap; gap:8px 14px; color:var(--muted); font-size:.75rem; margin-top:8px }
+    .issue-label { padding:1px 7px; border:1px solid var(--line); border-radius:4px; color:var(--green) }
+    .issue-status { color:var(--muted); font-size:.8rem; margin:10px 0 }
+    .issue-empty { padding:24px 20px; color:var(--muted); font-size:.9rem }
+
     .stage {
       background: var(--panel);
       border: 1px solid var(--line);
@@ -475,6 +489,7 @@
             id="latestText"></span></div>
       </div>
       <div class="links">
+        <a class="btn" href="#issues">Issues</a>
         <a class="btn" href="https://github.com/DEUDEOS-Team/deos-ground-station" target="_blank"
           rel="noopener">deos-ground-station</a>
         <a class="btn" href="https://github.com/DEUDEOS-Team/deos-firmware" target="_blank"
@@ -508,6 +523,21 @@
         <span><b style="background:var(--plum)"></b>Kablosuz modül</span>
         <span><b style="background:var(--slate)"></b>Bilgisayar / harici</span>
       </div>
+    </section>
+
+    <section id="issues" aria-labelledby="issues-heading">
+      <div class="sec-head">
+        <h2 id="issues-heading">Issues <span id="issue-count" class="tag">Açık işler</span></h2>
+        <p>Ekosistem depolarındaki açık işler · Pull request'ler dahil değildir.</p>
+      </div>
+      <div class="issue-tools">
+        <label>Issue ara<input id="issue-search" type="search" placeholder="Başlık, etiket veya sorumlu…"></label>
+        <label>Depo<select id="issue-repo"><option value="">Tüm depolar</option></select></label>
+        <button id="issue-refresh" class="btn" type="button">Yenile</button>
+        <a id="issue-new" class="btn" href="https://github.com/DEUDEOS-Team/deos-firmware/issues/new" target="_blank" rel="noopener" style="align-self:flex-end">GitHub'da issue aç ↗</a>
+      </div>
+      <p id="issue-status" class="issue-status" role="status">Issue verileri yükleniyor…</p>
+      <div id="issue-list" class="issue-list" aria-busy="true"></div>
     </section>
 
     <section>
@@ -724,6 +754,7 @@
       document.querySelectorAll('#d1 .edge').forEach(p => p.removeAttribute('marker-start'));
       bindNodes();
       renderTable(comps);
+      initIssues(comps);
     }
     function commitCell(i) {
       const meta = (i.author || i.date)
@@ -759,6 +790,71 @@
           banner();
         } catch (e) { }
       }));
+    }
+
+    /* ---------- Ekosistem issues ---------- */
+    let issueRepos = [], issueData = {}, issuesLoading = false;
+    const escapeIssue = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'}[c]));
+    function renderIssues() {
+      const repo = document.getElementById('issue-repo').value;
+      const query = document.getElementById('issue-search').value.trim().toLocaleLowerCase('tr-TR');
+      const all = Object.entries(issueData).flatMap(([repo, data]) => data.items.map(item => ({...item, repo})));
+      const filtered = all.filter(i => (!repo || i.repo === repo) &&
+        [i.title, i.number, i.repo, ...(i.labels || []).map(l => l.name), ...(i.assignees || []).map(a => a.login)].join(' ').toLocaleLowerCase('tr-TR').includes(query))
+        .sort((a,b) => new Date(b.updated_at) - new Date(a.updated_at));
+      document.getElementById('issue-count').textContent = all.length + ' açık iş';
+      document.getElementById('issue-list').innerHTML = filtered.map(i => {
+        const url = `https://github.com/${i.repo}/issues/${Number(i.number)}`;
+        return `<article class="issue-card"><a class="issue-title" href="${escapeIssue(url)}" target="_blank" rel="noopener">${escapeIssue(i.title)} ↗</a>
+          <div class="issue-meta"><span>${escapeIssue(i.repo.split('/')[1])} #${Number(i.number)}</span>
+          <span>${escapeIssue((i.assignees || []).map(a => a.login).join(', ') || 'Henüz atanmamış')}</span>
+          <span>Güncelleme: ${escapeIssue(rel(i.updated_at))}</span>
+          ${(i.labels || []).map(l => `<span class="issue-label">${escapeIssue(l.name)}</span>`).join('')}</div></article>`;
+      }).join('') || `<p class="issue-empty">${issuesLoading ? 'Açık işler yükleniyor…' : Object.keys(issueData).length ? (query || repo ? 'Bu filtrelere uygun açık issue bulunamadı.' : 'Taranan depolarda açık issue yok.') : 'Issue verilerine erişilemedi. Yenile düğmesiyle tekrar deneyebilirsiniz.'}</p>`;
+      document.getElementById('issue-new').href = `https://github.com/${repo || 'DEUDEOS-Team/deos-firmware'}/issues/new`;
+    }
+    async function loadIssues() {
+      if (issuesLoading) return;
+      issuesLoading = true;
+      const button = document.getElementById('issue-refresh');
+      button.disabled = true;
+      document.getElementById('issue-list').setAttribute('aria-busy', 'true');
+      document.getElementById('issue-status').textContent = 'GitHub üzerindeki açık işler kontrol ediliyor…';
+      let failed = 0;
+      await Promise.allSettled(issueRepos.map(async repo => {
+        try {
+          let items = [], page = 1;
+          while (true) {
+            const response = await fetch(`https://api.github.com/repos/${repo}/issues?state=open&sort=updated&direction=desc&per_page=100&page=${page}`, {signal: AbortSignal.timeout(15000)});
+            if (!response.ok) throw new Error('GitHub unavailable');
+            const batch = await response.json();
+            if (!Array.isArray(batch)) throw new Error('Invalid response');
+            items.push(...batch.filter(i => !i.pull_request));
+            if (batch.length < 100) break;
+            page++;
+          }
+          issueData[repo] = {items, updated_at: new Date().toISOString()};
+        } catch (e) { failed++; }
+      }));
+      issuesLoading = false;
+      try { sessionStorage.setItem('deos_issues', JSON.stringify(issueData)); } catch (e) {}
+      button.disabled = false;
+      document.getElementById('issue-list').setAttribute('aria-busy', 'false');
+      document.getElementById('issue-status').textContent = failed
+        ? `${failed} depo güncellenemedi (erişim veya GitHub API sınırı). Varsa önceki veriler gösteriliyor; liste eksik olabilir.`
+        : `${issueRepos.length} depo kontrol edildi · Son kontrol: ${new Date().toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit'})} · Son güncellenen işler önce gösterilir.`;
+      renderIssues();
+    }
+    function initIssues(comps) {
+      issueRepos = [...new Set(comps.map(c => c.repo).filter(r => /^[\w.-]+\/[\w.-]+$/.test(r || '')))];
+      const select = document.getElementById('issue-repo');
+      issueRepos.forEach(repo => { const option = document.createElement('option'); option.value = repo; option.textContent = repo.split('/')[1]; select.append(option); });
+      try { const cached = JSON.parse(sessionStorage.getItem('deos_issues') || '{}'); issueRepos.forEach(r => { if (Array.isArray(cached[r]?.items)) issueData[r] = cached[r]; }); } catch (e) {}
+      document.getElementById('issue-search').addEventListener('input', renderIssues);
+      select.addEventListener('change', renderIssues);
+      document.getElementById('issue-refresh').addEventListener('click', loadIssues);
+      renderIssues();
+      loadIssues();
     }
 
     /* ---------- Açılır kart ---------- */
