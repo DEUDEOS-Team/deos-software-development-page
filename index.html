@@ -762,8 +762,14 @@
         : `<div class="cmeta"><span class="hash">#${i.hash}</span></div>`;
       return `${meta}<div class="cmsg" title="${i.msg}">${i.msg}</div>`;
     }
+    function tableComponents(comps) {
+      // Firmware senkronizasyonu donanım takma adını geri getirse de köprüyü tabloda bir kez göster.
+      const ros = comps.find(c => c.id === 'ROS');
+      return comps.filter(c => !(c.id === 'BRIDGE' && ros?.repo && c.repo === ros.repo &&
+        (c.path || '') === (ros.path || '')));
+    }
     function renderTable(comps) {
-      document.getElementById('rows').innerHTML = comps.map(c => {
+      document.getElementById('rows').innerHTML = tableComponents(comps).map(c => {
         const i = nodeMetadata[c.id];
         const name = i.url ? `<a href="${i.url}" target="_blank" rel="noopener">${i.title}</a>` : i.title;
         const st = i.status_note ? `<div class="status"><strong>Mevcut durum:</strong> ${i.status_note}</div>` : '';
