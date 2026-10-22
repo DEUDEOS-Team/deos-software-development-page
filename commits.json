@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-10-22T15:28:12.004151+00:00",
+  "generated_at": "2026-10-22T19:22:42.203260+00:00",
   "commits": {
     "FW": {
-      "hash": "c848d63",
-      "author": "emirarkali",
-      "msg": "responsibilties update",
-      "date": "2026-10-17T19:48:17Z"
+      "hash": "670da61",
+      "author": "alper-bora",
+      "msg": "feat(traction): add CAN diagnostic monitoring and clean up test ping",
+      "date": "2026-10-22T17:16:01Z"
     },
     "CORE": {
-      "hash": "a40b4d2",
+      "hash": "617d7ff",
       "author": "emirarkali",
-      "msg": "Merge branch 'feature/protocol-decoupling' into main",
-      "date": "2026-10-17T17:12:00Z"
+      "msg": "fix(dispatch): route outbound frames to CAN-FD on endpoint nodes and expose deos_router_get_transport",
+      "date": "2026-10-22T15:57:56Z"
     },
     "PROTO": {
       "hash": "fc3ac4e",
@@ -20,10 +20,10 @@
       "date": "2026-10-17T12:01:20Z"
     },
     "CAN": {
-      "hash": "56ef31e",
+      "hash": "8199e1a",
       "author": "emirarkali",
-      "msg": "docs: move 29-bit CAN ID spec from deos_core to deos_transport_can and keep core media-agnostic",
-      "date": "2026-10-16T22:51:58Z"
+      "msg": "feat(can): enable debug logging and print TX success and RX frame IDs",
+      "date": "2026-10-22T16:45:20Z"
     },
     "DOCS": {
       "hash": "590f922",
@@ -32,10 +32,10 @@
       "date": "2026-10-16T23:27:27Z"
     },
     "GCS": {
-      "hash": "6831490",
+      "hash": "596ef34",
       "author": "Alper Bora",
-      "msg": "fix(web-ui,linker): deduplicate hardware connection logs to prevent trace flooding",
-      "date": "2026-10-22T15:27:18Z"
+      "msg": "fix(core,linker,web-ui): fix command class inference, log tx frames and update fault registry",
+      "date": "2026-10-22T16:01:16Z"
     },
     "ROS": {
       "hash": "37b8c15",
@@ -50,10 +50,10 @@
       "date": "2026-10-22T14:37:02Z"
     },
     "PORTAL": {
-      "hash": "b9621d5",
+      "hash": "5a99736",
       "author": "github-actions[bot]",
       "msg": "chore(data): auto-sync responsibilities.json from deos-firmware and update commits [skip ci]",
-      "date": "2026-10-22T10:25:09Z"
+      "date": "2026-10-22T15:28:12Z"
     },
     "RPI": {
       "hash": "54c78b0",
@@ -62,28 +62,28 @@
       "date": "2026-07-14T22:27:59Z"
     },
     "MAIN": {
-      "hash": "49aa9d5",
+      "hash": "7c07fee",
       "author": "emirarkali",
-      "msg": "refactor(protocol): rename deos_dispatcher to deos_registry for clearer separation of concerns",
-      "date": "2026-10-17T00:25:17Z"
+      "msg": "feat(main_node): enable CAN driver debug logs and update submodule ref",
+      "date": "2026-10-22T16:46:32Z"
     },
     "LORA": {
-      "hash": "91f235a",
+      "hash": "88504d9",
       "author": "emirarkali",
-      "msg": "feat(fault): expand fault registry into specific subsystem categories (Router, CAN, LoRa, Ethernet, Dispatcher) with human-readable string mapping",
-      "date": "2026-10-16T22:20:45Z"
+      "msg": "fix(main_node): fix stack overflow in lora rx, add get_state handler, and bump core/can submodules",
+      "date": "2026-10-22T16:00:57Z"
     },
     "CAN_BUS": {
-      "hash": "56ef31e",
+      "hash": "8199e1a",
       "author": "emirarkali",
-      "msg": "docs: move 29-bit CAN ID spec from deos_core to deos_transport_can and keep core media-agnostic",
-      "date": "2026-10-16T22:51:58Z"
+      "msg": "feat(can): enable debug logging and print TX success and RX frame IDs",
+      "date": "2026-10-22T16:45:20Z"
     },
     "TRACTION": {
-      "hash": "ba2df01",
-      "author": "emirarkali",
-      "msg": "feat(protocol): decouple portable deos_protocol layer with standalone dispatcher",
-      "date": "2026-10-17T00:06:10Z"
+      "hash": "670da61",
+      "author": "alper-bora",
+      "msg": "feat(traction): add CAN diagnostic monitoring and clean up test ping",
+      "date": "2026-10-22T17:16:01Z"
     },
     "BRAKE": {
       "hash": "1fed144",
