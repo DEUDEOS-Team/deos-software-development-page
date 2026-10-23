@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-22T22:36:05.147225+00:00",
+  "generated_at": "2026-10-23T00:57:36.011795+00:00",
   "commits": {
     "FW": {
       "hash": "5cb57e7",
@@ -50,10 +50,10 @@
       "date": "2026-10-22T14:37:02Z"
     },
     "PORTAL": {
-      "hash": "31fbe06",
-      "author": "emirarkali",
-      "msg": "fix(ui): hide duplicate ROS bridge table entry",
-      "date": "2026-10-22T20:10:50Z"
+      "hash": "fedf622",
+      "author": "github-actions[bot]",
+      "msg": "chore(data): auto-sync responsibilities.json from deos-firmware and update commits [skip ci]",
+      "date": "2026-10-22T22:36:05Z"
     },
     "RPI": {
       "hash": "54c78b0",
