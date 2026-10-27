@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-27T12:32:23.086468+00:00",
+  "generated_at": "2026-10-27T18:17:08.867866+00:00",
   "commits": {
     "FW": {
       "hash": "5cb57e7",
@@ -32,10 +32,10 @@
       "date": "2026-10-16T23:27:27Z"
     },
     "GCS": {
-      "hash": "596ef34",
+      "hash": "0fd1c6d",
       "author": "Alper Bora",
-      "msg": "fix(core,linker,web-ui): fix command class inference, log tx frames and update fault registry",
-      "date": "2026-10-22T16:01:16Z"
+      "msg": "updated readme.md",
+      "date": "2026-10-27T15:37:31Z"
     },
     "ROS": {
       "hash": "37b8c15",
@@ -50,10 +50,10 @@
       "date": "2026-10-22T14:37:02Z"
     },
     "PORTAL": {
-      "hash": "f9551df",
+      "hash": "71b03ae",
       "author": "github-actions[bot]",
       "msg": "chore(data): auto-sync responsibilities.json from deos-firmware and update commits [skip ci]",
-      "date": "2026-10-27T06:15:46Z"
+      "date": "2026-10-27T12:32:23Z"
     },
     "RPI": {
       "hash": "54c78b0",
