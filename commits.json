@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-17T08:16:54.819401+00:00",
+  "generated_at": "2026-11-17T17:44:41.466093+00:00",
   "commits": {
     "FW": {
       "hash": "5cb57e7",
@@ -38,22 +38,22 @@
       "date": "2026-10-27T15:37:31Z"
     },
     "ROS": {
-      "hash": "37b8c15",
+      "hash": "5177e5f",
       "author": "emirarkali",
-      "msg": "docs: explain ROS 2 Jazzy bridge setup and startup",
-      "date": "2026-10-22T14:37:02Z"
+      "msg": "docker file",
+      "date": "2026-11-17T14:29:55Z"
     },
     "BRIDGE": {
-      "hash": "37b8c15",
+      "hash": "5177e5f",
       "author": "emirarkali",
-      "msg": "docs: explain ROS 2 Jazzy bridge setup and startup",
-      "date": "2026-10-22T14:37:02Z"
+      "msg": "docker file",
+      "date": "2026-11-17T14:29:55Z"
     },
     "PORTAL": {
-      "hash": "a41a479",
+      "hash": "7bb115c",
       "author": "github-actions[bot]",
       "msg": "chore(data): auto-sync responsibilities.json from deos-firmware and update commits [skip ci]",
-      "date": "2026-11-17T00:22:59Z"
+      "date": "2026-11-17T08:16:54Z"
     },
     "RPI": {
       "hash": "54c78b0",
