@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-24T06:43:16.603741+00:00",
+  "generated_at": "2026-11-24T18:21:51.015068+00:00",
   "commits": {
     "FW": {
       "hash": "5cb57e7",
@@ -32,10 +32,10 @@
       "date": "2026-10-16T23:27:27Z"
     },
     "GCS": {
-      "hash": "0fd1c6d",
+      "hash": "5d53e71",
       "author": "Alper Bora",
-      "msg": "updated readme.md",
-      "date": "2026-10-27T15:37:31Z"
+      "msg": "feat(core): wire UniversalDeosFrame to C engine and add deos_types.h packed payloads",
+      "date": "2026-11-24T17:26:39Z"
     },
     "ROS": {
       "hash": "5177e5f",
@@ -50,10 +50,10 @@
       "date": "2026-11-17T14:29:55Z"
     },
     "PORTAL": {
-      "hash": "ba85337",
+      "hash": "71d28ec",
       "author": "github-actions[bot]",
       "msg": "chore(data): auto-sync responsibilities.json from deos-firmware and update commits [skip ci]",
-      "date": "2026-11-23T22:48:42Z"
+      "date": "2026-11-24T06:43:16Z"
     },
     "RPI": {
       "hash": "54c78b0",
