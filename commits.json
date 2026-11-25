@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-25T02:42:13.944304+00:00",
+  "generated_at": "2026-11-25T11:45:05.113280+00:00",
   "commits": {
     "FW": {
       "hash": "5cb57e7",
@@ -32,10 +32,10 @@
       "date": "2026-10-16T23:27:27Z"
     },
     "GCS": {
-      "hash": "5d53e71",
+      "hash": "b74345c",
       "author": "Alper Bora",
-      "msg": "feat(core): wire UniversalDeosFrame to C engine and add deos_types.h packed payloads",
-      "date": "2026-11-24T17:26:39Z"
+      "msg": "fix(core,web-ui): add ICD command name fallback for SENSORS/PARAM and expose IMU in subscription UI",
+      "date": "2026-11-25T11:13:00Z"
     },
     "ROS": {
       "hash": "5177e5f",
@@ -50,10 +50,10 @@
       "date": "2026-11-17T14:29:55Z"
     },
     "PORTAL": {
-      "hash": "2e82c7a",
+      "hash": "67c4023",
       "author": "github-actions[bot]",
       "msg": "chore(data): auto-sync responsibilities.json from deos-firmware and update commits [skip ci]",
-      "date": "2026-11-24T18:21:51Z"
+      "date": "2026-11-25T02:42:13Z"
     },
     "RPI": {
       "hash": "54c78b0",
