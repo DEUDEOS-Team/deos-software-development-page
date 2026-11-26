@@ -1,23 +1,23 @@
 {
-  "generated_at": "2026-11-25T20:41:37.145538+00:00",
+  "generated_at": "2026-11-26T03:09:37.104023+00:00",
   "commits": {
     "FW": {
-      "hash": "5cb57e7",
+      "hash": "b464179",
       "author": "emirarkali",
-      "msg": "docs(icd): synchronize fault management ICD, PDF and dummy_can with deos_fault.h",
-      "date": "2026-10-22T20:21:59Z"
+      "msg": "chore(firmware): sync lib/deos_protocol (DeosRegistry local_node & USAGE_GUIDE)",
+      "date": "2026-11-26T03:00:15Z"
     },
     "CORE": {
-      "hash": "617d7ff",
+      "hash": "bd11a6d",
       "author": "emirarkali",
-      "msg": "fix(dispatch): route outbound frames to CAN-FD on endpoint nodes and expose deos_router_get_transport",
-      "date": "2026-10-22T15:57:56Z"
+      "msg": "refactor(core): remove duplicate protocol headers/forwarders, align 5-byte SUBSCRIBE response and global fault SSOT",
+      "date": "2026-11-26T02:14:53Z"
     },
     "PROTO": {
-      "hash": "fc3ac4e",
+      "hash": "0ebda91",
       "author": "emirarkali",
-      "msg": "chore: add .gitignore for python cache and build artifacts",
-      "date": "2026-10-17T12:01:20Z"
+      "msg": "docs(protocol): add comprehensive USAGE_GUIDE.md for Python, C/C++, registry and global faults",
+      "date": "2026-11-26T02:56:38Z"
     },
     "CAN": {
       "hash": "8199e1a",
@@ -26,10 +26,10 @@
       "date": "2026-10-22T16:45:20Z"
     },
     "DOCS": {
-      "hash": "590f922",
+      "hash": "30ddf58",
       "author": "emirarkali",
-      "msg": "docs(icd): synchronize hardware types with deos_types.h",
-      "date": "2026-10-16T23:27:27Z"
+      "msg": "docs(icd): update all ICDs to v1.2 (0x12), global fault registry, SSOT architecture and rebuild PDFs",
+      "date": "2026-11-26T02:14:56Z"
     },
     "GCS": {
       "hash": "b74345c",
@@ -50,10 +50,10 @@
       "date": "2026-11-17T14:29:55Z"
     },
     "PORTAL": {
-      "hash": "1d4eb60",
+      "hash": "b370103",
       "author": "github-actions[bot]",
       "msg": "chore(data): auto-sync responsibilities.json from deos-firmware and update commits [skip ci]",
-      "date": "2026-11-25T11:45:05Z"
+      "date": "2026-11-25T20:41:37Z"
     },
     "RPI": {
       "hash": "54c78b0",
@@ -62,10 +62,10 @@
       "date": "2026-07-14T22:27:59Z"
     },
     "MAIN": {
-      "hash": "7c07fee",
+      "hash": "96b42a0",
       "author": "emirarkali",
-      "msg": "feat(main_node): enable CAN driver debug logs and update submodule ref",
-      "date": "2026-10-22T16:46:32Z"
+      "msg": "chore(firmware): sync v1.2 protocol/core/docs submodules, remove legacy forwarder paths and adopt global fault IDs",
+      "date": "2026-11-26T02:15:15Z"
     },
     "LORA": {
       "hash": "88504d9",
@@ -80,10 +80,10 @@
       "date": "2026-10-22T16:45:20Z"
     },
     "TRACTION": {
-      "hash": "670da61",
-      "author": "alper-bora",
-      "msg": "feat(traction): add CAN diagnostic monitoring and clean up test ping",
-      "date": "2026-10-22T17:16:01Z"
+      "hash": "96b42a0",
+      "author": "emirarkali",
+      "msg": "chore(firmware): sync v1.2 protocol/core/docs submodules, remove legacy forwarder paths and adopt global fault IDs",
+      "date": "2026-11-26T02:15:15Z"
     },
     "BRAKE": {
       "hash": "1fed144",
@@ -98,22 +98,22 @@
       "date": "2026-10-07T12:18:59Z"
     },
     "BMS_GW": {
-      "hash": "ba2df01",
+      "hash": "96b42a0",
       "author": "emirarkali",
-      "msg": "feat(protocol): decouple portable deos_protocol layer with standalone dispatcher",
-      "date": "2026-10-17T00:06:10Z"
+      "msg": "chore(firmware): sync v1.2 protocol/core/docs submodules, remove legacy forwarder paths and adopt global fault IDs",
+      "date": "2026-11-26T02:15:15Z"
     },
     "BMS1": {
-      "hash": "ba2df01",
+      "hash": "96b42a0",
       "author": "emirarkali",
-      "msg": "feat(protocol): decouple portable deos_protocol layer with standalone dispatcher",
-      "date": "2026-10-17T00:06:10Z"
+      "msg": "chore(firmware): sync v1.2 protocol/core/docs submodules, remove legacy forwarder paths and adopt global fault IDs",
+      "date": "2026-11-26T02:15:15Z"
     },
     "BMS2": {
-      "hash": "ba2df01",
+      "hash": "96b42a0",
       "author": "emirarkali",
-      "msg": "feat(protocol): decouple portable deos_protocol layer with standalone dispatcher",
-      "date": "2026-10-17T00:06:10Z"
+      "msg": "chore(firmware): sync v1.2 protocol/core/docs submodules, remove legacy forwarder paths and adopt global fault IDs",
+      "date": "2026-11-26T02:15:15Z"
     }
   }
 }
