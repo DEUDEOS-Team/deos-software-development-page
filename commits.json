@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-26T12:29:25.147322+00:00",
+  "generated_at": "2026-11-26T21:51:06.485102+00:00",
   "commits": {
     "FW": {
       "hash": "b464179",
@@ -32,34 +32,34 @@
       "date": "2026-11-26T02:14:56Z"
     },
     "GCS": {
-      "hash": "b74345c",
+      "hash": "eff430d",
       "author": "Alper Bora",
-      "msg": "fix(core,web-ui): add ICD command name fallback for SENSORS/PARAM and expose IMU in subscription UI",
-      "date": "2026-11-25T11:13:00Z"
+      "msg": "updated .gitignore",
+      "date": "2026-11-26T17:01:44Z"
     },
     "ROS": {
-      "hash": "5177e5f",
+      "hash": "e3524f2",
       "author": "emirarkali",
-      "msg": "docker file",
-      "date": "2026-11-17T14:29:55Z"
+      "msg": "Move Raspberry Pi bridge updater to opt",
+      "date": "2026-11-26T21:37:46Z"
     },
     "BRIDGE": {
-      "hash": "5177e5f",
+      "hash": "e3524f2",
       "author": "emirarkali",
-      "msg": "docker file",
-      "date": "2026-11-17T14:29:55Z"
+      "msg": "Move Raspberry Pi bridge updater to opt",
+      "date": "2026-11-26T21:37:46Z"
     },
     "PORTAL": {
-      "hash": "f3f089e",
+      "hash": "a50cccd",
       "author": "github-actions[bot]",
       "msg": "chore(data): auto-sync responsibilities.json from deos-firmware and update commits [skip ci]",
-      "date": "2026-11-26T03:09:37Z"
+      "date": "2026-11-26T12:29:25Z"
     },
     "RPI": {
-      "hash": "54c78b0",
-      "author": "BurakSahin00",
-      "msg": "README Added",
-      "date": "2026-07-14T22:27:59Z"
+      "hash": "2e6645f",
+      "author": "ardaefe378-jpg",
+      "msg": "Iceoryx,SHM, CycloneDDS, C++",
+      "date": "2026-11-26T16:44:42Z"
     },
     "MAIN": {
       "hash": "96b42a0",
