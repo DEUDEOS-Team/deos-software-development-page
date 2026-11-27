@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-11-26T21:51:06.485102+00:00",
+  "generated_at": "2026-11-27T03:55:44.670298+00:00",
   "commits": {
     "FW": {
-      "hash": "b464179",
+      "hash": "560c6a5",
       "author": "emirarkali",
-      "msg": "chore(firmware): sync lib/deos_protocol (DeosRegistry local_node & USAGE_GUIDE)",
-      "date": "2026-11-26T03:00:15Z"
+      "msg": "chore(core): bump deos_core for single-line router logging",
+      "date": "2026-11-26T22:57:52Z"
     },
     "CORE": {
-      "hash": "bd11a6d",
+      "hash": "c0051b7",
       "author": "emirarkali",
-      "msg": "refactor(core): remove duplicate protocol headers/forwarders, align 5-byte SUBSCRIBE response and global fault SSOT",
-      "date": "2026-11-26T02:14:53Z"
+      "msg": "fix(router): log each routed message once at dispatch/forward point",
+      "date": "2026-11-26T22:57:06Z"
     },
     "PROTO": {
       "hash": "0ebda91",
@@ -38,22 +38,22 @@
       "date": "2026-11-26T17:01:44Z"
     },
     "ROS": {
-      "hash": "e3524f2",
+      "hash": "f245324",
       "author": "emirarkali",
-      "msg": "Move Raspberry Pi bridge updater to opt",
-      "date": "2026-11-26T21:37:46Z"
+      "msg": "Pin STM32 UDP transport to Ethernet and avoid stale source addresses",
+      "date": "2026-11-26T22:45:48Z"
     },
     "BRIDGE": {
-      "hash": "e3524f2",
+      "hash": "f245324",
       "author": "emirarkali",
-      "msg": "Move Raspberry Pi bridge updater to opt",
-      "date": "2026-11-26T21:37:46Z"
+      "msg": "Pin STM32 UDP transport to Ethernet and avoid stale source addresses",
+      "date": "2026-11-26T22:45:48Z"
     },
     "PORTAL": {
-      "hash": "a50cccd",
+      "hash": "d1dec18",
       "author": "github-actions[bot]",
       "msg": "chore(data): auto-sync responsibilities.json from deos-firmware and update commits [skip ci]",
-      "date": "2026-11-26T12:29:25Z"
+      "date": "2026-11-26T21:51:06Z"
     },
     "RPI": {
       "hash": "2e6645f",
